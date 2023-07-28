@@ -486,15 +486,15 @@ include('variables.php');
                                         <div class="form-group sal-animate" style="display: flex; align-items: center;">
                                             <!-- <div class="row">
                                                 <div class="col-lg-8"> -->
-                                            <input id="video" name="video" type="text" placeholder="Paste YouTube Link Here (https://www.youtube.com/watch?v=QRy4JJNTAiA)" required>
+                                            <!-- <input id="video" name="video" type="text" placeholder="Paste YouTube Link Here (https://www.youtube.com/watch?v=QRy4JJNTAiA)" required> -->
                                             <!-- </div>
                                                 <div class="col-lg-4"> -->
-                                            <button type="submit" class="btn-default" style="margin-left: 10px; width:250px;">Make Clips <i class="feather-arrow-right"></i></button>
+                                            <button type="submit" class="btn-default" style="margin-left: 10px; width:250px;">Login to Get Started <i class="feather-arrow-right"></i></button>
                                             <!-- </div>
                                             </div> -->
                                         </div>
                                     </form>
-                                    <a class="btn-default btn-small btn-border" href="#" id="sample">Load Demo YouTube Link</a>
+                                    <!-- <a class="btn-default btn-small btn-border" href="#" id="sample">Load Demo YouTube Link</a> -->
                                 </div>
                                 <script>
                                     // Select the Sample YouTube button
