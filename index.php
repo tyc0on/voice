@@ -483,15 +483,8 @@ include('variables.php');
                                 <div class="col-lg-8">
                                     <div id="loadingThrobber"><span class="spinner-border text-primary" role="status"></span></div>
                                     <form id="videoForm" class="rainbow-newsletter mt_md--20 mt_sm--20" action="viralcuts.php">
-                                        <div class="form-group sal-animate" style="display: flex; align-items: center;">
-                                            <!-- <div class="row">
-                                                <div class="col-lg-8"> -->
-                                            <!-- <input id="video" name="video" type="text" placeholder="Paste YouTube Link Here (https://www.youtube.com/watch?v=QRy4JJNTAiA)" required> -->
-                                            <!-- </div>
-                                                <div class="col-lg-4"> -->
-                                            <button type="submit" class="btn-default" style="margin-left: 10px; width:250px;">Login to Get Started <i class="feather-arrow-right"></i></button>
-                                            <!-- </div>
-                                            </div> -->
+                                        <div class="form-group sal-animate" style="display: flex; align-items: center; justify-content: center;">
+                                            <button type="submit" class="btn-default" style="width:250px;">Login to Get Started <i class="feather-arrow-right"></i></button>
                                         </div>
                                     </form>
                                     <!-- <a class="btn-default btn-small btn-border" href="#" id="sample">Load Demo YouTube Link</a> -->
