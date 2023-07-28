@@ -1,7 +1,7 @@
 <?php
 ini_set('session.cookie_lifetime', 60 * 60 * 24 * 365);
 session_start();
-include('include-viralcuts.php');
+include('include.php');
 include('variables.php');
 // if (isset($_SESSION['loggedin'])) {
 //     if (isset($_SESSION['return_url'])) {
@@ -72,17 +72,17 @@ include('variables.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-style-mode" content="1"> <!-- 0 == light, 1 == dark -->
 
-    <title>Viral Cuts - Transform One Video into 10 Viral Clips</title>
+    <title>Easy AI Voice - Tailored AI Voices, Designed for Simplicity</title>
 
-    <meta name="description" content="Easy AI Studio offers cutting-edge AI solutions that empower businesses and individuals to achieve 10x productivity. From automation to data analysis, our easy-to-use AI tools and services help you to innovate and streamline your operations for maximum efficiency and success." />
-    <meta name="keywords" content="Easy Ai, Easy Ai Studio, AI, Artificial Intelligence, Productivity, Automation, Efficiency, Business Solutions, Easy-to-use, Data Analysis, Innovation, Streamline, Operations, Success" />
+    <meta name="description" content="Easy AI Voice offers cutting-edge Tailored AI Voices, Designed for Simplicity, One Click Away" />
+    <meta name="keywords" content="Easy Ai, Easy AI Voice, AI, Artificial Intelligence, Productivity, Automation, Efficiency, Business Solutions, Easy-to-use, Data Analysis, Innovation, Streamline, Operations, Success" />
 
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Viral Cuts - Unlock 10x Productivity with Easy AI solutions" />
-    <meta property="og:url" content="https://easyai.studio" />
-    <meta property="og:site_name" content="Viral Cuts" />
-    <link rel="canonical" href="https://easyai.studio" />
+    <meta property="og:title" content="Easy AI Voice - Tailored AI Voices, Designed for Simplicity" />
+    <meta property="og:url" content="https://easyaivoice.com" />
+    <meta property="og:site_name" content="Easy AI Voice" />
+    <link rel="canonical" href="https://easyaivoice.com" />
     <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
     <!-- CSS ============================================ -->
     <link rel="stylesheet" href="assets2/css/vendor/bootstrap.min.css">
@@ -224,7 +224,7 @@ include('variables.php');
                                         </ul>
                                     </li> -->
 
-                                    <!-- <li><a href="https://blog.easyai.studio/">Blog</a></li> -->
+                                    <!-- <li><a href="https://blog.easyaivoice.com/">Blog</a></li> -->
                                     <li><a href="#pricing">Pricing</a></li>
                                     <!-- <li><a href="#testimonial">Testimonial</a></li> -->
                                     <li><a href="https://blog.easyai.studio/contact/">Contact</a></li>
@@ -252,7 +252,7 @@ include('variables.php');
 
                             <!-- Start Header Btn  -->
                             <div class="header-btn">
-                                <a class="btn-default btn-small round" target="_blank" href="https://easyai.studio/sign-in">Sign In</a>
+                                <a class="btn-default btn-small round" target="_blank" href="https://easyaivoice.com/sign-in">Sign In</a>
                             </div>
                             <!-- End Header Btn  -->
 
@@ -422,7 +422,7 @@ include('variables.php');
                             <li><a href="portfolio-details.html">Portfolio Details</a></li>
                         </ul>
                     </li> -->
-                    <li><a href="https://blog.easyai.studio/">Blog</a></li>
+                    <li><a href="https://blog.easyaivoice.com/">Blog</a></li>
                     <li><a href="#pricing">Pricing</a></li>
                     <!-- <li><a href="#testimonial">Testimonial</a></li> -->
                     <li><a href="https://blog.easyai.studio/contact/">Contact</a></li>
@@ -752,7 +752,7 @@ include('variables.php');
                                         </div>
                                     </li>
                                 </ul>
-                                <div class="about-btn mt--20"><a class="btn-default" href="https://easyai.studio/sign-up" style="
+                                <div class="about-btn mt--20"><a class="btn-default" href="https://easyaivoice.com/sign-up" style="
                                     margin-left: 30px;" id="pricing">Explore Our Solutions</a></div>
                             </div>
                         </div>
@@ -929,7 +929,7 @@ include('variables.php');
                                     <div class="rating">
                                         <img src="assets2/images/icons/rating.png" alt="">
                                     </div>
-                                    <p class="description">I was able to quickly and easily build advanced AI models thanks to Easy AI Studio's intuitive design.</p>
+                                    <p class="description">I was able to quickly and easily build advanced AI models thanks to Easy AI Voice's intuitive design.</p>
                                     <h2 class="title">mindcycle001</h2>
                                     <h6 class="subtitle theme-gradient">Customer Support</h6>
                                      <div class="author-envato-image pb--10">
@@ -948,7 +948,7 @@ include('variables.php');
                                     <div class="rating">
                                         <img src="assets2/images/icons/rating.png" alt="">
                                     </div>
-                                    <p class="description">The user-friendly interface of Easy AI Studio made it easy for me to understand and utilize AI technology.</p>
+                                    <p class="description">The user-friendly interface of Easy AI Voice made it easy for me to understand and utilize AI technology.</p>
                                     <h2 class="title">The4</h2>
                                     <h6 class="subtitle theme-gradient">Design Quality</h6>
                                     <div class="author-envato-image pb--10">
@@ -967,7 +967,7 @@ include('variables.php');
                                     <div class="rating">
                                         <img src="assets2/images/icons/rating.png" alt="">
                                     </div>
-                                    <p class="description">Easy AI Studio helped me to create and implement AI solutions for my business, saving me time and money.</p>
+                                    <p class="description">Easy AI Voice helped me to create and implement AI solutions for my business, saving me time and money.</p>
                                     <h2 class="title">wimm-x</h2>
                                     <h6 class="subtitle theme-gradient">Design Quality</h6>
                                     <div class="author-envato-image pb--10">
@@ -986,7 +986,7 @@ include('variables.php');
                                     <div class="rating">
                                         <img src="assets2/images/icons/rating.png" alt="">
                                     </div>
-                                    <p class="description">Easy AI Studio made it simple for me to create and deploy my own AI models. Highly recommended!</p>
+                                    <p class="description">Easy AI Voice made it simple for me to create and deploy my own AI models. Highly recommended!</p>
                                     <h2 class="title">amarbv2002</h2>
                                     <h6 class="subtitle theme-gradient">Design Quality</h6>
                                      <div class="author-envato-image pb--10">
@@ -1047,13 +1047,13 @@ include('variables.php');
                                             <img class="logo-dark" src="assets2/images/logo/logo-dark.png" alt="Corporate Logo">
                                         </a>
                                     </div>
-                                    <h4 class="main-title">Start With Viral Cuts Today, Speed Up Development!</h4>
+                                    <h4 class="main-title">Start With Easy AI Voice Today, Speed Up Development!</h4>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4" data-sal="slide-up" data-sal-duration="400" data-sal-delay="150">
                             <div class="call-to-btn text-left mt_sm--20 text-lg-right">
-                                <a class="btn-default" href="https://easyai.studio/sign-up">Get Started Now
+                                <a class="btn-default" href="https://easyaivoice.com/sign-up">Get Started Now
                                     <i class="feather-arrow-right"></i>
                                 </a>
                             </div>
@@ -1195,7 +1195,7 @@ include('variables.php');
                     </div>
                     <div class="col-lg-6 col-md-4 col-sm-12 col-12">
                         <div class="copyright-right text-center text-lg-end">
-                            <p class="copyright-text">© Viral Cuts 2023</p>
+                            <p class="copyright-text">© Easy AI Voice 2023</p>
                         </div>
                     </div>
                 </div>
