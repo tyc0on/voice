@@ -124,7 +124,7 @@ echo '<a target="_blank" href="https://colab.research.google.com/github/Viral-Cu
             checkServerStatus(url)
                 .then(isConnected => updateUI(isConnected))
                 .catch(error => updateUI(false));
-        }, 60000);
+        }, 5000);
     </script>
 </head>
 
