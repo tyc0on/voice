@@ -1,0 +1,17 @@
+RewriteEngine On
+RewriteBase /
+
+# Redirect /file.php to /file
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^/]+)/?$ $1.php [L]
+
+# Redirect /file.php to /file when a trailing slash is present
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^/]+)/$ $1.php [L]
+
+# Redirect /file.php to /file when .php is not at the end of the URL
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)/$ /$1.php [L]

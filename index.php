@@ -1257,7 +1257,7 @@ include('variables.php');
                                                         echo $_SESSION['return_url'];
                                                         unset($_SESSION['return_url']);
                                                     } else {
-                                                        echo ($_SERVER['HTTP_HOST'] === 'localhost') ? '/dash.php' : '/dash';
+                                                        echo ($_SERVER['HTTP_HOST'] === 'localhost') ? '/app.php' : '/app';
                                                     }
                                                     ?>');
                     }

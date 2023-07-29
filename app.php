@@ -66,3 +66,6 @@ if (!isset($_SESSION['loggedin'])) {
 } else {
     $loggedin = "true";
 }
+
+
+print_r($_SESSION);
