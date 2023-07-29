@@ -48,3 +48,6 @@ Thumbs.db
 *.mov
 *.wmv
 
+/include.php
+/start.cmd
+logo.psd
