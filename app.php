@@ -69,3 +69,8 @@ if (!isset($_SESSION['loggedin'])) {
 
 
 print_r($_SESSION);
+
+// open in colab button
+echo '<a href="https://colab.research.google.com/github/Viral-Cuts/test/blob/main/app' . $_SESSION['colab'] . '.ipynb">
+<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>';
