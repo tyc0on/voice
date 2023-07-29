@@ -74,3 +74,66 @@ print_r($_SESSION);
 echo '<a target="_blank" href="https://colab.research.google.com/github/Viral-Cuts/test/blob/main/app' . $_SESSION['colab'] . '.ipynb">
 <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>';
+
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Colab Connection Monitor</title>
+    <script>
+        function checkServerStatus(url) {
+            return new Promise((resolve, reject) => {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+                fetch(url, {
+                        signal: controller.signal
+                    })
+                    .then(response => {
+                        clearTimeout(timeoutId);
+                        resolve(response.status === 200);
+                    })
+                    .catch(error => {
+                        clearTimeout(timeoutId);
+                        reject(error);
+                    });
+            });
+        }
+
+        function updateUI(isConnected) {
+            const statusIcon = document.getElementById('statusIcon');
+            const statusText = document.getElementById('statusText');
+            const reconnectLink = document.getElementById('reconnectLink');
+
+            if (isConnected) {
+                statusIcon.innerHTML = '&#x2705;'; // Check Mark for connected
+                statusIcon.style.color = 'green';
+                statusText.innerText = 'Connected';
+                reconnectLink.style.display = 'none';
+            } else {
+                statusIcon.innerHTML = '&#x2715;'; // X Mark for disconnected
+                statusIcon.style.color = 'red';
+                statusText.innerText = 'Disconnected';
+                reconnectLink.style.display = 'inline';
+            }
+        }
+
+        setInterval(() => {
+            const url = 'http://4b0e-34-66-187-77.ngrok.io';
+            checkServerStatus(url)
+                .then(isConnected => updateUI(isConnected))
+                .catch(error => updateUI(false));
+        }, 60000);
+    </script>
+</head>
+
+<body>
+    <div>
+        <span id="statusIcon" style="color:red;">&#x2715;</span>
+        <span id="statusText">Disconnected</span>
+        <a id="reconnectLink" href="#" style="display:none;">Reconnect</a>
+    </div>
+</body>
+
+</html>

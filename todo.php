@@ -18,13 +18,12 @@ Connect to colab
         - if not then
             - creates a new inst with user_id = $_SESSION['id']
             - updates $_SESSION['colab'] to inst.id
-    - when called updates inst.user_id to the user_id of the user that called it
 
 
 Colab connected indicator
-- use JavaScript to ping ngrok url every minute for status
+- use JavaScript to ping ngrok url (eg. 4b0e-34-66-187-77.ngrok.io) every minute for status contained in JSON response status = running
 - if status is 200 then show connected via green icon
-- if status is 404 then show disconnected via red icon with button to "Open in Colab" link
+- if timesout in 5 seconds then show disconnected via red icon with link to reconnect
 
 
 */
