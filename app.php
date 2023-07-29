@@ -120,7 +120,7 @@ echo '<a target="_blank" href="https://colab.research.google.com/github/Viral-Cu
         }
 
         setInterval(() => {
-            const url = 'http://4b0e-34-66-187-77.ngrok.io';
+            const url = 'https://4b0e-34-66-187-77.ngrok.io';
             checkServerStatus(url)
                 .then(isConnected => updateUI(isConnected))
                 .catch(error => updateUI(false));
