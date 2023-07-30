@@ -209,7 +209,7 @@ echo '';
 							<div class="mt-9">
 								<span id="statusIcon" style="color:red;">&#x2715;</span>
 								<span id="statusText">Disconnected</span>
-								<a id="reconnectLink" style="display:none;" target="_blank" href="https://colab.research.google.com/github/Viral-Cuts/test/blob/main/app' . $_SESSION['colab'] . '.ipynb">
+								<a id="reconnectLink" style="display:none;" target="_blank" href="https://colab.research.google.com/github/Viral-Cuts/test/blob/main/app<?php echo $_SESSION['colab']; ?>.ipynb">
 									<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" />
 								</a>
 							</div>
