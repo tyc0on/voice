@@ -628,7 +628,7 @@ echo '';
 										<!--begin::Input group-->
 										<div class="fv-row">
 											<!--begin::Dropzone-->
-											<div class="dropzone" id="kt_dropzonejs_example_1">
+											<div class="dropzone" id="kt_dropzonejs_example_1" style="border: 1px dashed #9b00ff; background-color: #000000;">
 												<!--begin::Message-->
 												<div class="dz-message needsclick">
 													<i class="ki-duotone ki-file-up fs-3x text-primary"><span class="path1"></span><span class="path2"></span></i>
