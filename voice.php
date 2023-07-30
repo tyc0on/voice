@@ -627,6 +627,26 @@ echo '';
 					<!--end::Footer-->
 				</div>
 				<!--end::Sidebar-->
+				<style>
+					#inline-image {
+						border-radius: 50%;
+						width: 40px;
+						height: 40px;
+						margin-right: 15px;
+					}
+
+					.btn-space {
+						margin-bottom: 10px;
+						cursor: pointer;
+					}
+
+					.container {
+						margin: 0;
+						padding: 0;
+						max-width: 100%;
+						width: 100%;
+					}
+				</style>
 				<!--begin::Main-->
 				<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
 					<!--begin::Content wrapper-->
@@ -636,399 +656,87 @@ echo '';
 						<!--end::Toolbar-->
 						<!--begin::Content-->
 						<div id="kt_app_content" class="app-content flex-column-fluid">
-							<!--begin::Content container-->
-							<div id="kt_app_content_container" class="app-container container-xxl">
-								<!--begin::Row-->
-								<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-									<!--begin::Form-->
-									<div style="text-align:center; margin-top:100px;">
-										<h1 style="font-size:60px;">Upload your voice file</h1>
-										<h2>MP3 or WAV</h2>
-									</div>
-									<form class="form" action="#" method="post">
-										<!--begin::Input group-->
-										<div class="fv-row">
-											<!--begin::Dropzone-->
-											<div class="dropzone pt-10 pb-10" id="kt_dropzonejs_example_1" style="border: 1px dashed #9b00ff; background-color: #000000;">
-												<!--begin::Message-->
-												<div class="dz-message needsclick">
-													<i class="ki-duotone ki-file-up fs-3x text-primary"><span class="path1"></span><span class="path2"></span></i>
-
-													<!--begin::Info-->
-													<div class="ms-4">
-														<h3 class="fs-3 fw-bold text-gray-900 mb-1">Drop files here or click to upload.</h3>
-														<span class="fs-7 fw-semibold text-gray-400">Upload your voice file here</span>
-													</div>
-													<!--end::Info-->
-												</div>
-											</div>
-											<!--end::Dropzone-->
-										</div>
-										<!--end::Input group-->
-									</form>
-									<!--end::Form-->
-
-								</div>
-								<script>
-									var myDropzone = new Dropzone("#kt_dropzonejs_example_1", {
-										url: "https://keenthemes.com/scripts/void.php", // Set the url for your upload script location
-										paramName: "file", // The name that will be used to transfer the file
-										maxFiles: 10,
-										maxFilesize: 10, // MB
-										addRemoveLinks: true,
-										accept: function(file, done) {
-											if (file.name == "wow.jpg") {
-												done("Naha, you don't.");
-											} else {
-												done();
-											}
-										}
-									});
-								</script>
-								<!--end::Row-->
-								<!--begin::Row-->
-								<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-									<!--begin::Col-->
-									<div class="col-xl-12">
-										<!--begin::Player widget 1-->
-										<div class="card card-flush h-xl-100">
-											<!--begin::Header-->
-											<div class="card-header pt-7">
-												<!--begin::Title-->
-												<h3 class="card-title align-items-start flex-column">
-													<span class="card-label fw-bold text-dark">Pick a voice</span>
-													<span class="text-gray-400 mt-1 fw-semibold fs-6">Updated 37 minutes ago</span>
-												</h3>
-												<!--end::Title-->
-												<!--begin::Toolbar-->
-												<div class="card-toolbar">
-													<!--begin::Filters-->
-													<div class="d-flex flex-stack flex-wrap gap-4">
-														<!--begin::Destination-->
-														<div class="d-flex align-items-center fw-bold">
-															<!--begin::Label-->
-															<div class="text-gray-400 fs-7 me-2">Gender</div>
-															<!--end::Label-->
-
-															<!--begin::Select-->
-															<select class="form-select form-select-transparent text-graY-800 fs-base lh-1 fw-bold py-0 ps-3 w-auto select2-hidden-accessible" data-control="select2" data-hide-search="true" data-dropdown-css-class="w-150px" data-placeholder="Select an option" data-select2-id="select2-data-7-my9g" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-																<option></option>
-																<option value="Show All" selected="" data-select2-id="select2-data-9-wkzs">Show All</option>
-																<option value="a">Category A</option>
-																<option value="b">Category A</option>
-															</select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-8-239u" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-transparent text-graY-800 fs-base lh-1 fw-bold py-0 ps-3 w-auto" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-cftg-container" aria-controls="select2-cftg-container"><span class="select2-selection__rendered" id="select2-cftg-container" role="textbox" aria-readonly="true" title="Show All">Show All</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-															<!--end::Select-->
-														</div>
-														<!--end::Destination-->
-
-														<!--begin::Status-->
-														<div class="d-flex align-items-center fw-bold">
-															<!--begin::Label-->
-															<div class="text-gray-400 fs-7 me-2">Age</div>
-															<!--end::Label-->
-
-															<!--begin::Select-->
-															<select class="form-select form-select-transparent text-dark fs-7 lh-1 fw-bold py-0 ps-3 w-auto select2-hidden-accessible" data-control="select2" data-hide-search="true" data-dropdown-css-class="w-150px" data-placeholder="Select an option" data-kt-table-widget-4="filter_status" data-select2-id="select2-data-10-4h2n" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-																<option></option>
-																<option value="Show All" selected="" data-select2-id="select2-data-12-5437">Show All</option>
-																<option value="Shipped">Shipped</option>
-																<option value="Confirmed">Confirmed</option>
-																<option value="Rejected">Rejected</option>
-																<option value="Pending">Pending</option>
-															</select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-11-c38b" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-transparent text-dark fs-7 lh-1 fw-bold py-0 ps-3 w-auto" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-7e7r-container" aria-controls="select2-7e7r-container"><span class="select2-selection__rendered" id="select2-7e7r-container" role="textbox" aria-readonly="true" title="Show All">Show All</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-															<!--end::Select-->
-														</div>
-														<!--end::Status-->
-
-
-														<div class="d-flex align-items-center fw-bold">
-															<!--begin::Label-->
-															<div class="text-gray-400 fs-7 me-2">Accent</div>
-															<!--end::Label-->
-
-															<!--begin::Select-->
-															<select class="form-select form-select-transparent text-dark fs-7 lh-1 fw-bold py-0 ps-3 w-auto select2-hidden-accessible" data-control="select2" data-hide-search="true" data-dropdown-css-class="w-150px" data-placeholder="Select an option" data-kt-table-widget-4="filter_status" data-select2-id="select2-data-10-4h2n" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-																<option></option>
-																<option value="Show All" selected="" data-select2-id="select2-data-12-5437">Show All</option>
-																<option value="Shipped">Shipped</option>
-																<option value="Confirmed">Confirmed</option>
-																<option value="Rejected">Rejected</option>
-																<option value="Pending">Pending</option>
-															</select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-11-c38b" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-transparent text-dark fs-7 lh-1 fw-bold py-0 ps-3 w-auto" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-7e7r-container" aria-controls="select2-7e7r-container"><span class="select2-selection__rendered" id="select2-7e7r-container" role="textbox" aria-readonly="true" title="Show All">Show All</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-															<!--end::Select-->
-														</div>
-
-
-
-														<!--begin::Search-->
-														<div class="position-relative my-1">
-															<i class="ki-duotone ki-magnifier fs-2 position-absolute top-50 translate-middle-y ms-4"><span class="path1"></span><span class="path2"></span></i> <input type="text" data-kt-table-widget-4="search" class="form-control w-150px fs-7 ps-12" placeholder="Search">
-														</div>
-														<!--end::Search-->
-													</div>
-													<!--begin::Filters-->
-												</div>
-												<!--end::Toolbar-->
-											</div>
-											<!--end::Header-->
-											<!--begin::Card body-->
-											<div class="card-body pt-7">
-												<!--begin::Row-->
-												<div class="row g-5 g-xl-9 mb-5 mb-xl-9">
-													<!--begin::Col-->
-													<div class="col-sm-3 mb-3 mb-sm-0">
-														<!--begin::Player card-->
-														<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-															<!--begin::User pic-->
-															<div class="card-rounded position-relative mb-5">
-																<!--begin::Img-->
-																<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/yupin.png')"></div>
-																<!--end::Img-->
-																<!--begin::Play-->
-																<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
-																	<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
-																	<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
-																</button>
-																<!--end::Play-->
-															</div>
-															<!--end::User pic-->
-															<!--begin::Info-->
-															<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-																<!--begin::Title-->
-																<a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">Yupin</a>
-																<!--end::Title-->
-																<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Private Voice Model</span>
-															</div>
-															<!--end::Info-->
-														</div>
-														<!--end::Player card-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-sm-3 mb-3 mb-sm-0">
-														<!--begin::Player card-->
-														<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-															<!--begin::User pic-->
-															<div class="card-rounded position-relative mb-5">
-																<!--begin::Img-->
-																<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/santa.jpeg')"></div>
-																<!--end::Img-->
-																<!--begin::Play-->
-																<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
-																	<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
-																	<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
-																</button>
-																<!--end::Play-->
-															</div>
-															<!--end::User pic-->
-															<!--begin::Info-->
-															<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-																<!--begin::Title-->
-																<a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">Santa</a>
-																<!--end::Title-->
-																<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Ho Ho Ho</span>
-															</div>
-															<!--end::Info-->
-														</div>
-														<!--end::Player card-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-sm-3 mb-3 mb-sm-0">
-														<!--begin::Player card-->
-														<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-															<!--begin::User pic-->
-															<div class="card-rounded position-relative mb-5">
-																<!--begin::Img-->
-																<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/img-63.jpg')"></div>
-																<!--end::Img-->
-																<!--begin::Play-->
-																<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
-																	<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
-																	<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
-																</button>
-																<!--end::Play-->
-															</div>
-															<!--end::User pic-->
-															<!--begin::Info-->
-															<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-																<!--begin::Title-->
-																<a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">Robert Fox</a>
-																<!--end::Title-->
-																<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Male Middle-aged American</span>
-															</div>
-															<!--end::Info-->
-														</div>
-														<!--end::Player card-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-sm-3 mb-3 mb-sm-0">
-														<!--begin::Player card-->
-														<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-															<!--begin::User pic-->
-															<div class="card-rounded position-relative mb-5">
-																<!--begin::Img-->
-																<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/img-61.jpg')"></div>
-																<!--end::Img-->
-																<!--begin::Play-->
-																<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
-																	<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
-																	<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
-																</button>
-																<!--end::Play-->
-															</div>
-															<!--end::User pic-->
-															<!--begin::Info-->
-															<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-																<!--begin::Title-->
-																<a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">Lisa Jones</a>
-																<!--end::Title-->
-																<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Female Young British</span>
-															</div>
-															<!--end::Info-->
-														</div>
-														<!--end::Player card-->
-													</div>
-													<!--end::Col-->
-												</div>
-												<!--end::Row-->
-												<!--begin::Row-->
-												<div class="row g-5 g-xl-9 mb-xl-3">
-													<!--begin::Col-->
-													<div class="col-sm-3 mb-3 mb-sm-0">
-														<!--begin::Player card-->
-														<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-															<!--begin::User pic-->
-															<div class="card-rounded position-relative mb-5">
-																<!--begin::Img-->
-																<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/img-57.jpg')"></div>
-																<!--end::Img-->
-																<!--begin::Play-->
-																<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
-																	<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
-																	<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
-																</button>
-																<!--end::Play-->
-															</div>
-															<!--end::User pic-->
-															<!--begin::Info-->
-															<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-																<!--begin::Title-->
-																<a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">It is what it is</a>
-																<!--end::Title-->
-																<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Jane Cooper</span>
-															</div>
-															<!--end::Info-->
-														</div>
-														<!--end::Player card-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-sm-3 mb-3 mb-sm-0">
-														<!--begin::Player card-->
-														<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-															<!--begin::User pic-->
-															<div class="card-rounded position-relative mb-5">
-																<!--begin::Img-->
-																<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/img-58.jpg')"></div>
-																<!--end::Img-->
-																<!--begin::Play-->
-																<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
-																	<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
-																	<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
-																</button>
-																<!--end::Play-->
-															</div>
-															<!--end::User pic-->
-															<!--begin::Info-->
-															<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-																<!--begin::Title-->
-																<a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">Broken Mirros</a>
-																<!--end::Title-->
-																<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Jenny Wilson</span>
-															</div>
-															<!--end::Info-->
-														</div>
-														<!--end::Player card-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-sm-3 mb-3 mb-sm-0">
-														<!--begin::Player card-->
-														<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-															<!--begin::User pic-->
-															<div class="card-rounded position-relative mb-5">
-																<!--begin::Img-->
-																<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/img-55.jpg')"></div>
-																<!--end::Img-->
-																<!--begin::Play-->
-																<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
-																	<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
-																	<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
-																</button>
-																<!--end::Play-->
-															</div>
-															<!--end::User pic-->
-															<!--begin::Info-->
-															<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-																<!--begin::Title-->
-																<a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">The Hood</a>
-																<!--end::Title-->
-																<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Albert Flores</span>
-															</div>
-															<!--end::Info-->
-														</div>
-														<!--end::Player card-->
-													</div>
-													<!--end::Col-->
-													<!--begin::Col-->
-													<div class="col-sm-3">
-														<!--begin::Player card-->
-														<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-															<!--begin::User pic-->
-															<div class="card-rounded position-relative mb-5">
-																<!--begin::Img-->
-																<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/img-64.jpg')"></div>
-																<!--end::Img-->
-																<!--begin::Play-->
-																<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
-																	<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
-																	<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
-																</button>
-																<!--end::Play-->
-															</div>
-															<!--end::User pic-->
-															<!--begin::Info-->
-															<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
-																<!--begin::Title-->
-																<a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">Cirle Lights</a>
-																<!--end::Title-->
-																<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Dianne Russell</span>
-															</div>
-															<!--end::Info-->
-														</div>
-														<!--end::Player card-->
-													</div>
-													<!--end::Col-->
-												</div>
-												<!--end::Row-->
-											</div>
-											<!--end::Card body-->
-										</div>
-										<!--end::Player widget 1-->
-									</div>
-									<!--end::Col-->
-									<!--begin::Col-->
-
-									<!--end::Col-->
-								</div>
-								<!--end::Row-->
-								<!--begin::Row-->
-
+							<div id="userContent" class="d-flex align-items-center" style="background-color:#000000; padding-left:85px; padding-top:15px; padding-bottom:15px;">
+								<img id="inline-image" class="mr-3" src="https://lh3.googleusercontent.com/a/AAcHTteAneghS5HbLvTGHh8fijGv-JhOAwNSDneN-I_n7XmwHQ54=s96-c">
+								<div class="fs-1">Transform yupin-test1.mp3 into Yupin</div>
 							</div>
-							<!--end::Content container-->
+							<div id="mainContent0" style="display: none;">
+								<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+									<div class="col-xl-12">
+										<div class="card card-flush h-xl-100">
+											<div class="card-body pt-7" style="padding-left:85px">
+												<div class="row g-5 g-xl-9">
+													<div class="col-sm-3 mb-3 mb-sm-0">
+														<div class="container">
+															<div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: block;">
+																<span class="visually-hidden">Loading...</span>
+															</div>
+
+															<div class="m-0">
+																<div class="card-rounded position-relative mb-5">
+																	<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/yupin.png')"></div>
+																	<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
+																		<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
+																		<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
+																	</button>
+																</div>
+																<div>
+																	<span class="badge badge-light-warning fs-4 btn-space" onclick="buttonClicked(this, 'Pitch ⬆️')">Pitch ⬆️</span>
+																	<span class="badge badge-light-warning fs-4 btn-space" onclick="buttonClicked(this, 'Pitch ⬇️')">Pitch ⬇️</span>
+																	<span class="badge badge-light-danger fs-4 btn-space" onclick="buttonClicked(this, 'Clean Distortion 🧹')">Clean Distortion 🧹</span>
+																	<span class="badge badge-light-success fs-4 btn-space" onclick="buttonClicked(this, 'Download ⏬')">Download ⏬</span>
+																</div>
+															</div>
+
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="kt_app_content_container" class="app-container container-xxl">
+							</div>
 						</div>
+
+						<script>
+							let index = 0;
+							window.onload = function() {
+								setTimeout(function() {
+									document.getElementById('loadingSpinner').style.display = 'none';
+									document.getElementById('mainContent' + index).style.display = 'block';
+								}, 500);
+							};
+
+							function buttonClicked(button, buttonText) {
+								let userContent = document.getElementById('userContent').cloneNode(true);
+								let mainContent = document.getElementById('mainContent' + index).cloneNode(true);
+								mainContent.id = "mainContent" + (++index);
+
+								userContent.getElementsByClassName('fs-1')[0].innerText = buttonText + ' ' + userContent.getElementsByClassName('fs-1')[0].innerText.split(' ')[1];
+
+								let loadingSpinner = document.createElement('div');
+								loadingSpinner.className = "spinner-border text-primary";
+								loadingSpinner.role = "status";
+								loadingSpinner.style.display = "block";
+								loadingSpinner.innerHTML = '<span class="visually-hidden">Loading...</span>';
+
+								let container = document.createElement('div');
+								container.className = 'container';
+								container.appendChild(loadingSpinner);
+								container.appendChild(mainContent);
+								document.getElementById('kt_app_content').appendChild(userContent);
+								document.getElementById('kt_app_content').appendChild(container);
+
+								setTimeout(function() {
+									loadingSpinner.style.display = 'none';
+									mainContent.style.display = 'block';
+								}, 500);
+							}
+						</script>
+
+
 						<!--end::Content-->
 					</div>
 					<!--end::Content wrapper-->
@@ -1065,6 +773,7 @@ echo '';
 		<!--end::Page-->
 	</div>
 	<!--end::App-->
+
 	<!--begin::Drawers-->
 	<!--begin::Activities drawer-->
 	<div id="kt_activities" class="bg-body" data-kt-drawer="true" data-kt-drawer-name="activities" data-kt-drawer-activate="true" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'300px', 'lg': '900px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_activities_toggle" data-kt-drawer-close="#kt_activities_close">
@@ -6221,8 +5930,6 @@ echo '';
 	<script src="assets/js/custom/utilities/modals/offer-a-deal/main.js"></script>
 	<script src="assets/js/custom/utilities/modals/users-search.js"></script>
 	<!--end::Custom Javascript-->
-
-	<script src="assets/js/custom/dropzone.js"></script>
 	<!--end::Javascript-->
 </body>
 <!--end::Body-->
