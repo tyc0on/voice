@@ -1,0 +1,392 @@
+Tycoon
+the worst thing to watch in order to fall asleep is something new. American Dad has too much RANDOM LOUD NOICES
+menhguin
+so yeah, the ideal implementation would be scraping the titles of discord threads in #voice-models and taking the links
+Tycoon
+That should be pretty simple
+menhguin
+or a "dumber solution" is just scraping this list: https://huggingface.co/QuickWick/Music-AI-Voices/tree/main
+
+and then listing links to other lists if ppl wanna search
+QuickWick/Music-AI-Voices at main
+QuickWick/Music-AI-Voices at main
+menhguin
+that's the best combination of UX and customisability i can think of
+Tycoon
+Or we just get it all and make an algorithm using all the data
+menhguin
+how so
+to be honest, the main reason the AI Hub team never got around to it was bc bsically no one there has dev experience
+Tycoon
+My past company was built scraping 100,000,000 Facebook ads. Know a thing or 2 about scraping 😁
+menhguin
+also, i forgot to ask
+
+a big obstacle i had combining rvc and 11labs was that i had to spend time matching the RVC voices with the closest elevenlabs voice
+did you ever figure out how to solve that
+tbh dumb least-code solution is to just have a passable default, and prompt users to adjust for themselves
+Tycoon
+Spoke to queer a lot about that, I don't think we have solved it. A lot of the best models went closed source
+menhguin
+i'll ... see if i can find a solution to that layer
+it seems most of the basic functionality is there?
+what would significantly help is if 11labs had a classification system for voices
+like lower, higher, faster etc
+Tycoon
+Queer talked about extracting the emotion out of the audio to text, which sounded pretty cool but could not find a model we could run in colab
+menhguin
+(this problem is likely solvable by using non 11labs but obv we have to use 11labs)
+Tycoon
+Showed me Synth V and awesome song and rap made with it
+https://www.youtube.com/watch?v=vrP11ESPnX4&ab_channel=Atlas
+YouTube
+Atlas
+【Ritchy】 Chun-Li (Nicki Minaj) 【Synth V Rap】
+Image
+menhguin
+i can also search for this after figuring out the layering problem
+Tycoon
+Rap was very impressive
+menhguin
+the thing is, bark TTS and uberduck both have RVC implementation
+so it's def possible
+Tycoon
+Yeah I had fun with uberduck
+And we will definately have a Bark option
+menhguin
+(inb4 the solution is to just replace 11labs in the 11labs hackathon)
+Tycoon
+Maybe not by the end of the hackathon but eventually
+menhguin
+hmmmmn so
+what are we actually doing for the first day of hackathon
+like what's the biggest unsolved problems
+to get it functional-ish
+menhguin
+i recall the ai hub dev team had an experimental solution that was basically SDXL but for RVC
+so
+this hackathon could have been more feasible if it was held a month later lol
+Tycoon
+It really hasn't changed much from the V2 design
+menhguin
+⁠No Access
+this was the layer
+it basically "upscales" the outputs to sound more like the dataset
+which would've been perfect for this problem
+Tycoon
+Today was lots of messing about getting ready but we have the core of the idea pretty well figured out
+Getting a no access message
+Image
+menhguin
+coolcool imma figure out:
+the TTS-RVC layer (making it sound more realistic without too much trial and error)
+easy and flexible chracter prompts
+possibly extracting emotion (there might be a chatgpt hack here)
+MANGONADA TECHNICAL DETAILS:
+
+RVC uses HiFiGAN, and the phasing information is discarded and roughly recreated later on, this causes strong sibilance artifacts on shhh sounds especially and some weirdness with 'grainy robotic sound' depending on context, despite the actual waveform / sound of the model being quite solid.
+
+The proposal? Train a new model for another AI tool named 'Mangonada', which is what Mangio is developing (and is almost done with). This tool uses a custom framework. The datasets are designed so that it compares:
+
+raw dataset (Ground truth)
+dataset inferred via RVC (Clone, made by inferring the dataset to get an exact equivalent )
+
+In Mangonada, phasing information isn't discarded, and instead is treated as another 'channel' in the neural network when training on the STFT waveforms. This helps it learn context of the phasing information to prevent noisy sound due to the roughly reconstructed RVC phasing, and also helps it adjust the waveform as needed to cleanly recreate the phase data if necessary.
+It accomplishes this through a cGAN instead of a purely generative network, so by design it doesn't 'generate from pure noise' like other speech generation as much as it 'fills and replaces what is necessary via generation' for upscaling.
+it's basically SDXL for RVC
+Tycoon
+Connectimg me with queer was really helpful
+Learned a lot chatting with him
+menhguin
+I know, at some point i just kept asking him about obscure audio stuff
+
+and i was like ... hey are you free later
+menhguin
+obsessed fandoms are great bc they're willing to test out so much random stuff to create realistic outputs
+that's why i advocated for a decentralised user-generated model approach
+because i know fans are willing to do 99% of the work for accurate model creation
+Tycoon
+Yes I guess my generation called that open source
+menhguin
+i mean it still is
+Tycoon
+Tapping into the hive mind
+menhguin
+ive realised full open source to actually build something isn't a good idea
+bc turns out, there's a reason you should pay devs to build stuff
+so idk what to call a hybrid
+basically the core team should be paid but it's heavily user-led creation
+Tycoon
+What happens over and over again is when you become #1 you go from open to closed source
+menhguin
+core team should be paid bc long run that's how shit gets done ._.
+volunteer devs are great for like 5 hours a week then they just ghost you if they don't love working on something 
+Tycoon
+That's all changing with LLMs removing the developer bottleneck
+menhguin
+hmmmmmn i think
+
+we should let users experiment more with the demo
+like, try to make the UI not shitty, but allow room for people to customise
+so choosing voice models, and im looking into character prompts
+menhguin
+the reasoning is this is a great time to get a lot of guinea pigs to find interesting features/usecases
+Tycoon
+Yes, that is what I am optimizing for. A platform that can run many experiments
+menhguin
+releasing a demo in a hackathon and letting devs tinker with creating characters
+
+hmmmmmmn
+menhguin
+so does this sound like a good agenda for me to focus on?
+1 is actually kind of important to make it sound reliably good
+HMMMMMMN
+menhguin
+if we can trigger the "im going to experiment with this" brain of the users
+super good
+Tycoon
+That sounds good. The core of the ideas is 1) make running RVC easy to use 2) easy to use, intuitive UI
+The UI will take longer to get right
+menhguin
+okie
+rn we're just calling the 11labs API right, not editing the code
+i guess we can get away with the excuse that we don't have code access and if we did we can do what bark and uberduck did
+Tycoon
+Yes, there is not that much to do with 11labs or gpt3.5 because they both have APIs already
+menhguin
+(my plan was also to apply to work with 11labs/openai to actually implement this)
+Tycoon
+It's the experimental stuff we are making easy, and simple to integrate with 11labs/gpt
+menhguin
+cool, ig that simplifies my search
+menhguin
+im thinking for the convo prompt, the dumbest solution is to just have the default prompt and a "by the way, you can edit the defult prompt for more accuracy if you want" 
+Tycoon
+In my experience it's only people like us that enjoy editing prompts 😄
+menhguin
+yeah but we're at a hackathon where half the teams are doing conversational AI 
+usually i'd say users are dumb, but in this case there's a nonzero chance people find something intereresting 
+Tycoon
+They won't score very highly on "originality" then will they 🤣 
+menhguin
+ive ntoiced the more stuff i do, the more easily i can come up with actual decent startup/product ideas
+like a few years ago i would've struggled thinking of anything, but now i can come up with a lot
+Tycoon
+There are levels, the highest level is people paying every month like for hosting
+menhguin
+although tbf, the reason i'm branching into voice+generative agents is because I've been surprised by how basic the field actually is
+i thought there'd be way more people trying to create accurate virtual clones
+beyond nsfw stuff
+Tycoon
+Me too actually
+menhguin
+oh btw, not sure if this has been mentioned
+
+one of my hacks for getting better RVC outputs is to literally just crank index search feature to max setting
+index search feature increases the accent
+Tycoon
+Even back with deep fakes, there is so much potential wasted on making twitch streamers nude 😄
+menhguin
+on the rvc colab, the default is 0.66
+
+for speaking, i usually do 0.8 to 1
+because for singing you want some of the original vocals to remain, whereas for speaking distinctiveness is better
+it also drowns out the awkwardness of TTS
+Tycoon
+We do something similar in 11labs, crank the stability way down to the point it hallucinates occasionally
+menhguin
+OK so if we don't figure out a better way, there are usually 2 quick hacks to make something sound more realistic than it is
+choose less aggressive outputs and use voice models that don't have a lot of inflection - squidward is good for this
+choose extremely aggressive outputs and use angry voice models - plankton
+as an example
+menhguin
+i did deepfake music videos
+
+the deepfake forums are ALL porn
+menhguin
+to be fair, it was my fault for choosing a belle delphine deepfake music video idea
+never got around to blending these
+Tycoon
+you are really good at those
+menhguin
+like >95% of the actual effort in conversational AI is just girlfriend stuff
+and im like
+
+guys, if yall just made more accurate character simulations and outsourced model creation to users, you'd capture wayyyyy more usecases 
+and STILL have the most accurate nsfw agents
+menhguin
+oh yeah im super into those, this was my first video i ever made (taken down at 30k views smh)
+Tycoon
+saw the same thing with stable diffusion, best fine tuning is done by users
+menhguin
+i could remaster this to be way better now tbh, just can't be bothered if ill get copyright striked again
+Tycoon
+copyright suuuuuucks
+menhguin
+last year i got annoyed at artists who said AI could never do art, so this year i set a personal goal to make incredibly good interactive 2-way AI art
+I think with current tools, it's possible to have 100% interactive multimedia art
+so a show just generates on a prompt, and it generates characters, dialogue, visuals all on the fly 
+Tycoon
+yeah I very much study the LLM side of that
+menhguin
+my day job is technically working on AI Safety, this is just my "ya'll are doing such boring stuff with AI, here let me show you"
+basically this expanded would allow for a 100% AI generated show, after that is just iterating the workflow/tools used
+https://fablestudio.github.io/showrunner-agents/
+SHOW-1 and Showrunner Agents in Multi-Agent Simulations
+South Park AI is an example of how to generate high-quality episodic content through the use of showrunner agents in the simulation. #AI #simulation #multi-agent
+Image
+Tycoon
+"when I joined as an AI Safety officer I was not expecting that being bored to death was a possibility"
+menhguin
+here's the tldr
+
+techbro AI sphere is "how can i use cutting edge AI for a derivative get rich quick scheme"
+AI Safety is "we're all going to die"
+
+both are uninspiring for different reason, hence my detour into making cool AI art tools
+menhguin
+i think if someone actually bothered to grind it, we could have actual production-quality AI shows in about 1 year 
+Tycoon
+YES, you keep running into people on both sides. The "get rich quick guru" and the "im rich and paranoid"
+menhguin
+and when i mentioned this people didn't quite appreciate how big of a deal this was, hence why im joining hackathons now
+i find whenever i have a really cool idea and no one's doing it
+
+i should prolly just do it
+menhguin
+you could literally make
+any narrative idea, 100% interactive, with any characters, in any style
+
+which is insane
+anw, so i joined the RVC discord and 11labs hackathon because I figured a lot of people were doing text and visuals, but audio was relatively neglected
+so if i establish myself with cutting edge audio work, i could eventually branch out to make The Coolest Thing Ever
+so the plan was:
+make really good audio tools that are state of the art
+integrate state of the art visual and text tools + collaborate with them
+iterate my way to 100% interactive virtual experience
+menhguin
+ANYWAY imma try to figure this out
+
+tbh i think the demo is already "impressive for a hackathon", but making it actually really good would be insane
+Tycoon
+my plan sounds so similar, take the cutting edge stuff out of the lab and put it in the hands of people by making it easy
+menhguin
+like, something people actually use bc it's really good
+menhguin
+(also bc im lazy and the most lucrative niches are ai girlfriends, tech support and kids entertainment all of which i'd rather have someone else do)
+like
+build the thing that lets other people build the usecases
+is an approach that seems promising
+Tycoon
+yes be the prefered infrastructure provider
+menhguin
+can you ask yupin if she knows any hacks for sorting/classifying elevenlabs voices?
+
+basically there's 2 approaches to increasing "realism"
+
+find a very similar 11labs voice to the RVC model used
+somehow integrate RVC into 11labs itself
+both have ... challenges to implement
+menhguin
+oh, speaking of, not sure if you've heard but roop deepfakes is really good
+https://colab.research.google.com/github/FurkanGozukara/Stable-Diffusion/blob/main/ColabNotebooks/1_click_deep_fake_for_free_by_SECourses.ipynb#scrollTo=_j18G_uPqc37
+Google Colaboratory
+Image
+Tycoon
+these are the settings we with Rachel, using short text with regenerations until we found one we liked
+Image
+menhguin
+i had this idea a few months ago where you could theoretically create realistic AI video
+Runway text2vid->stable diffusion -> deepfake
+Tycoon
+yeah I played a bit with roop in Automatic1111
+menhguin
+i think my conclusion was "imma work on audio stuff for now and wait a few months for the next exponential breakthrough in AI video"
+Tycoon
+what I tried was not very impressive, when you do enhancement sometimes the person no longer looks like the person anymore
+menhguin
+Animate Diff and SDXL just came out
+menhguin
+bc there's so much more ppl working on video than audio
+menhguin
+hmmmmmmmn
+yes, i guess i will tinker with the actual settings for a bit to see if the solution is jsut different settings
+Tycoon
+one of my tests with GFPGAN
+menhguin
+the fact that i had to think about which one is ai generated
+Tycoon
+got another test, just uploading it to google drive
+menhguin
+will report back (also have to deploy some updates for AI Hub for the next 1-2 hours)
+Tycoon
+https://drive.google.com/file/d/1xrvjmSVlyYCrLofpDf6KaHvMt_chNeV6/view?usp=sharing wav2lip vs wav2lip+GFPGAN
+Google Docs
+Sequence 01_4.mp4
+menhguin
+UGH wav2lip is such a pain to work with, i can't believe it's STILL state of the art
+Tycoon
+i know right, so much room for improvement
+menhguin
+it's from 2020 and has bsically had zero dev support
+which is unheard of in this AI environment
+Tycoon
+even a good upscaler that works well with wav2lip would be a massive improvement
+but just on the lips part
+menhguin
+also someone just pointed out
+
+people might start using text/audio input for NSFW
+that is a very good point
+uhhhh what's ur stance on that
+menhguin
+btw: update that turns out, just creating+using an 11Labs model works pretty well without the need for RVC
+
+The bad news is that this essentially renders integration for TTS redundant vs just creating an 11Labs model
+The good news is this means we can expand the usecases 
+Tycoon
+the problem here is the WHO is using it for NSFW and if its people under 18, which it most likely would be thats not good. My strategy would be to outsource age verification to Google who deal with these issues every day 
+menhguin
+hmmmmn im going to take a deeper look at Bark TTS and uberduck to understand why they integrate RVC
+
+so from what I know, Elevenlabs can do voices 70-80% well, RVC can push that up to 95% but only in certain circumstances. As a demo, it's not a straight upgrade all the time vs just making an 11labs model
+
+the other approach is to focus more on the LLM side, but lots of teams are doing LLM stuff as well so it's unlikely we'd stand out from that. 
+Tycoon
+Bark will lower the hosting cost, 11labs can get very expensive for longer stuff or if the server gets busy
+menhguin
+bark alr has RVC and is likely to get better so if we actually want to build something after this, that's not a bad option
+but for this hackathon i doubt it's a good choice lol
+Tycoon
+the competition at this hackathon is pretty insane, you almost have to make something custom for the judges to win. So that means its build 80% for after the hackathon and 20% for the hackathon
+menhguin
+rly? most of the entries i saw were just 1 person with a vague misspelled idea
+ig for top 5 yeah competition is insane
+bc it's basically people who are recycling their startup product ideas
+Tycoon
+yes, thats exactly it. It is better to build something we use, that way the prize is we have something we use 😄
+If we get the Santa voicemail working we already have a buyer, and it seems quite simple to build. GPT character Santa -> workable TTS -> RVC nice old man -> Done
+menhguin
+wait seriously?
+there's a very dumb workaround for that btw
+let me find rq, there's this league of legends champion who's a perfect old man voice
+https://www.youtube.com/watch?v=eXWfgkDK_80
+YouTube
+LeagueVoices
+Braum Voice - English - League of Legends
+Image
+Tycoon
+russian santa 😄
+menhguin
+yeah gimme a bit to find an english one
+if you relly think about, there's no english old man vocie
+Tycoon
+if we stick some jingle jingle music in the background people will think its santa 😄
+this was another idea, to put avatars on short clips
+Image
+menhguin
+i thought about this actually, the thing about visuals is that unless we make the visuals look consistently good, otherwise no point
+i mean, if yall wanna take a swing then by all means, it's just there's a reason I'm focusing on getting audio right before splitting my attention
+95% good audio is better than 70% good audio and 50% good video 
+Tycoon
+its far too complicated for hackathon I think, a use case from making it easy to do RVC is already a better idea
