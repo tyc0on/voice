@@ -105,8 +105,8 @@ include('variables.php');
                     <div class="col-lg-3 col-md-6 col-4">
                         <div class="logo">
                             <a href="/">
-                                <img class="logo-light" src="assets2/images/logo/logo.png" alt="Corporate Logo">
-                                <img class="logo-dark" src="assets2/images/logo/logo-dark.png" alt="Corporate Logo">
+                                <img class="logo-light" src="assets2/images/logo/logo-dark2.png" alt="Corporate Logo">
+                                <img class="logo-dark" src="assets2/images/logo/logo-dark2.png" alt="Corporate Logo">
                             </a>
                         </div>
                     </div>
@@ -292,8 +292,8 @@ include('variables.php');
                 <div class="header-top">
                     <div class="logo">
                         <a href="/">
-                            <img class="logo-light" src="assets2/images/logo/logo.png" alt="Corporate Logo">
-                            <img class="logo-dark" src="assets2/images/logo/logo-dark.png" alt="Corporate Logo">
+                            <img class="logo-light" src="assets2/images/logo/logo-dark2.png" alt="Corporate Logo">
+                            <img class="logo-dark" src="assets2/images/logo/logo-dark2.png" alt="Corporate Logo">
                         </a>
                     </div>
                     <div class="close-menu">
@@ -453,7 +453,22 @@ include('variables.php');
                         <div class="inner text-center">
                             <!-- <span class="subtitle theme-gradient">Hello! This is WebAgency</span> -->
                             <!-- <h1 class="title">Unlock <span class="theme-gradient">10x Productivity</span><br> with Easy AI Solutions.</h1> -->
-                            <h1 class="title">Create <span class="theme-gradient">AI Voice</span> Magic<br>at <span class="theme-gradient">Your</span> Fingertips</h1>
+                            <h1 class="title">Create <span class="theme-gradient">AI Voice</span> Magic<br>for
+                                <span class="header-caption">
+                                    <span class="cd-headline clip is-full-width">
+                                        <span class="cd-words-wrapper">
+                                            <b class="is-visible theme-gradient">Character Voices</b>
+                                            <b class="is-hidden theme-gradient">Customer Service</b>
+                                            <b class="is-hidden theme-gradient">Voiceovers</b>
+                                            <b class="is-hidden theme-gradient">Voice Acting</b>
+                                        </span>
+                                    </span>
+                                    <!-- <span class="theme-gradient">
+                                Your
+                            </span> 
+                            Fingertips -->
+
+                            </h1>
                             <p class="description">Tailored AI Voices, Designed for Simplicity, One Click Away</p>
 
                             <!-- <form class="contact-form-1 rainbow-dynamic-form" id="contact-form" method="POST" action="mail.php">
@@ -557,56 +572,56 @@ include('variables.php');
         <!-- End Slider Area  -->
 
         <!-- Start Main Counter up-5 Area  -->
-        <!-- <div class="rainbow-counterup-area"> -->
-        <!-- <div class="container"> -->
-        <!-- <div class="row">
+        <div class="rainbow-counterup-area">
+            <div class="container">
+                <div class="row">
                     <div class="col-lg-12">
                         <div class="thumbnail" onclick="location.href='/sign-up'"><img class="radius w-100" src="assets2/images/webpage.webp" alt="Images"></div>
                     </div>
-                </div> -->
+                </div>
 
 
-        <!-- <div class="row ptb--60">
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" data-sal="slide-up" data-sal-duration="700">
-                        <div class="count-box counter-style-4 text-center">
-                            <div>
-                                <div class="count-number"><span class="counter">199</span></div>
-                            </div>
-                            <h5 class="counter-title">Happy Clients.</h5>
-                        </div>
-                    </div>
+                <!-- <div class="row ptb--60">
+                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" data-sal="slide-up" data-sal-duration="700">
+                                        <div class="count-box counter-style-4 text-center">
+                                            <div>
+                                                <div class="count-number"><span class="counter">199</span></div>
+                                            </div>
+                                            <h5 class="counter-title">Happy Clients.</h5>
+                                        </div>
+                                    </div>
 
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" data-sal="slide-up" data-sal-duration="700" data-sal-delay="100">
-                        <div class="count-box counter-style-4 text-center">
-                            <div>
-                                <div class="count-number"><span class="counter">575</span></div>
-                            </div>
-                            <h5 class="counter-title">Employees</h5>
-                        </div>
-                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" data-sal="slide-up" data-sal-duration="700" data-sal-delay="100">
+                                        <div class="count-box counter-style-4 text-center">
+                                            <div>
+                                                <div class="count-number"><span class="counter">575</span></div>
+                                            </div>
+                                            <h5 class="counter-title">Employees</h5>
+                                        </div>
+                                    </div>
 
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" data-sal="slide-up" data-sal-duration="700" data-sal-delay="200">
-                        <div class="count-box counter-style-4 text-center">
-                            <div>
-                                <div class="count-number"><span class="counter">69</span></div>
-                            </div>
-                            <h5 class="counter-title">Useful Programs</h5>
-                        </div>
-                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" data-sal="slide-up" data-sal-duration="700" data-sal-delay="200">
+                                        <div class="count-box counter-style-4 text-center">
+                                            <div>
+                                                <div class="count-number"><span class="counter">69</span></div>
+                                            </div>
+                                            <h5 class="counter-title">Useful Programs</h5>
+                                        </div>
+                                    </div>
 
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" data-sal="slide-up" data-sal-duration="700" data-sal-delay="300">
-                        <div class="count-box counter-style-4 text-center">
-                            <div>
-                                <div class="count-number"><span class="counter">500</span></div>
-                            </div>
-                            <h5 class="counter-title">Useful Programs</h5>
-                        </div>
-                    </div>
-                </div> -->
+                                    <div class="col-lg-3 col-md-6 col-sm-6 col-12" data-sal="slide-up" data-sal-duration="700" data-sal-delay="300">
+                                        <div class="count-box counter-style-4 text-center">
+                                            <div>
+                                                <div class="count-number"><span class="counter">500</span></div>
+                                            </div>
+                                            <h5 class="counter-title">Useful Programs</h5>
+                                        </div>
+                                    </div>
+                                </div> -->
 
 
-        <!-- </div> -->
-        <!-- </div> -->
+            </div>
+        </div>
         <!-- End Main Counter up-5 Area  -->
 
 
@@ -642,8 +657,8 @@ include('variables.php');
 
 
         <!-- Start Service-5 Area  -->
-        <!-- <div class="rainbow-service-area rainbow-section-gapBottom"> -->
-        <!-- <div class="container">
+        <div class="rainbow-service-area rainbow-section-gapBottom">
+            <!-- <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title text-center" data-sal="slide-up" data-sal-duration="700" data-sal-delay="100">
@@ -695,7 +710,7 @@ include('variables.php');
                     </div>
                 </div>
             </div> -->
-        <!-- </div> -->
+        </div>
         <!-- Start Service-5 Area  -->
 
 
@@ -707,7 +722,7 @@ include('variables.php');
                         <div class="video-btn">
                             <div class="video-popup icon-center">
                                 <div class="overlay-content">
-                                    <div class="thumbnail"><img class="radius-small" src="assets2/images/shortVSq.webp" alt="Corporate Image"></div>
+                                    <div class="thumbnail"><img class="radius-small" src="assets2/images/voiceLoGo.webp" alt="Corporate Image"></div>
                                     <div class="video-icon">
                                         <a class="btn-default rounded-player popup-video" href="https://www.youtube.com/embed/tJzjFSKlYs4">
                                             <span><i class="feather-play"></i></span>
@@ -721,7 +736,7 @@ include('variables.php');
                     <div class="col-lg-6 mt_md--40 mt_sm--40">
                         <div class="content">
                             <div class="inner">
-                                <h3 class="title">Empowering Content <br>Creator with <span class="theme-gradient"><strong> AI Solutions.</strong></span>
+                                <h3 class="title">Your Voice, <span class="theme-gradient"><strong> Your Way.</strong></span>
                                 </h3>
                                 <ul class="feature-list">
                                     <li>
@@ -729,9 +744,9 @@ include('variables.php');
                                             <i class="feather-check"></i>
                                         </div>
                                         <div class="title-wrapper">
-                                            <h4 class="title">Skyrocket Your Reach with our Revolutionary Content Creation Tool!</h4>
-                                            <p class="text">🚀 Elevate Your Impact: Multiply your video's reach by 10, expanding your audience like never before.</p>
-                                            <p class="text">⏱️ Save Time & Effort: Create compelling short clips in record time, letting you focus on what matters most.</p>
+                                            <h4 class="title">Your Voice, Amplified</h4>
+                                            <p class="text">🎙️Seamless Creation and Use of Custom AI Voice Models.</p>
+                                            <p class="text">👥 Our platform prioritizes your needs, allowing you to create voice models that align with your personal or business requirements.</p>
                                         </div>
                                     </li>
                                     <li>
@@ -739,14 +754,24 @@ include('variables.php');
                                             <i class="feather-check"></i>
                                         </div>
                                         <div class="title-wrapper">
-                                            <h4 class="title">Boost Your Reach and Ignite Explosive Growth!</h4>
-                                            <p class="text">💥 Amplify Engagement: Captivate viewers with bite-sized, shareable content that sparks excitement.</p>
-                                            <p class="text">📈 Drive Explosive Growth: Harness the power of viral content to accelerate your success.</p>
+                                            <h4 class="title">Voice Power, Simplified</h4>
+                                            <p class="text">⚡User-Generated Voice Models in a Snap.</p>
+                                            <p class="text">💡We've eliminated the complexities usually associated with voice model training, ensuring you can create models quickly and without hassle.</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="icon">
+                                            <i class="feather-check"></i>
+                                        </div>
+                                        <div class="title-wrapper">
+                                            <h4 class="title">AI Voice Modeling, Demystified.</h4>
+                                            <p class="text">🎓Easily Train and Use Your Custom Voice Models.</p>
+                                            <p class="text">👶Even if you're a beginner, our intuitive platform makes it easy for anyone to train and use voice models.</p>
                                         </div>
                                     </li>
                                 </ul>
                                 <div class="about-btn mt--20"><a class="btn-default" href="https://easyaivoice.com/sign-up" style="
-                                    margin-left: 30px;" id="pricing">Explore Our Solutions</a></div>
+                                    margin-left: 30px;" id="pricing">Explore Voice Now <i class="feather-arrow-right"></i></a></div>
                             </div>
                         </div>
                     </div>
@@ -803,18 +828,16 @@ include('variables.php');
                                         <div class="pricing-header">
                                             <h4 class="title">Starter</h4>
                                             <div class="pricing">
-                                                <div class="price-wrapper"><span class="currency">$</span><span class="price" id="starter-price">19</span></div><span class="subtitle" id="starter-text">US Per
+                                                <div class="price-wrapper"><span class="currency">$</span><span class="price" id="starter-price">10</span></div><span class="subtitle" id="starter-text">US Per
                                                     Month</span>
                                             </div>
                                         </div>
                                         <div class="pricing-body" style="padding-left: 30px;">
                                             <ul class="list-style--1">
-                                                <li><i class="feather-check"></i> 150 minutes of video upload monthly</li>
-                                                <li><i class="feather-check"></i> 1080p HD rendering</li>
-                                                <li><i class="feather-check"></i> 50GB storage</li>
-                                                <li><i class="feather-check"></i> Cutmagic</li>
-                                                <li><i class="feather-check"></i> Brand Template Builder</li>
-                                                <li><i class="feather-check"></i> Custom Intros, Outros & Fonts</li>
+                                                <li><i class="feather-check"></i> Private projects</li>
+                                                <li><i class="feather-check"></i> 15GB storage</li>
+                                                <li><i class="feather-check"></i> Mid-range instances</li>
+                                                <li><i class="feather-check"></i> Faster free GPUs 🚀</li>
                                             </ul>
                                         </div>
                                         <div class="pricing-footer"><a class="btn-default btn-border" id="starter-link" href="https://buy.stripe.com/4gw5mb7My6DN2ju6op">Subscribe</a>
@@ -840,18 +863,17 @@ include('variables.php');
 
                                                 <h4 class="title" id="advanced-label">Advanced</h4>
                                                 <div class="pricing">
-                                                    <div class="price-wrapper"><span class="currency">$</span><span class="price" id="advanced-price">49</span></div><span class="subtitle" id="advanced-text">US Per
+                                                    <div class="price-wrapper"><span class="currency">$</span><span class="price" id="advanced-price">39</span></div><span class="subtitle" id="advanced-text">US Per
                                                         Month</span>
                                                 </div>
                                             </div>
                                             <div class="pricing-body" style="padding-left: 30px;">
                                                 <ul class="list-style--1">
-                                                    <li><i class="feather-check"></i> 500 video upload minutes monthly</li>
-                                                    <li><i class="feather-check"></i> 250 GB storage</li>
-                                                    <li><i class="feather-check"></i> Cutmagic</li>
+                                                    <li><i class="feather-check"></i> Private projects</li>
+                                                    <li><i class="feather-check"></i> 50GB storage</li>
+                                                    <li><i class="feather-check"></i> High-end instances</li>
                                                     <li><i class="feather-check"></i> Priority Support</li>
-                                                    <li><i class="feather-check"></i> Brand Template Builder</li>
-                                                    <li><i class="feather-check"></i> All other benefits of PRO and FREE</li>
+                                                    <li><i class="feather-check"></i> Expert Support</li>
                                                 </ul>
                                             </div>
                                             <div class="pricing-footer"><a class="btn-default" id="advanced-link" href="https://buy.stripe.com/9AQ29Z2seaU33nycMO">Subscribe</a>
@@ -1036,8 +1058,8 @@ include('variables.php');
                                 <div class="content text-left">
                                     <div class="logo">
                                         <a href="/">
-                                            <img class="logo-light" src="assets2/images/logo/logo.png" alt="Corporate Logo">
-                                            <img class="logo-dark" src="assets2/images/logo/logo-dark.png" alt="Corporate Logo">
+                                            <img class="logo-light" src="assets2/images/logo/logo-dark2.png" alt="Corporate Logo">
+                                            <img class="logo-dark" src="assets2/images/logo/logo-dark2.png" alt="Corporate Logo">
                                         </a>
                                     </div>
                                     <h4 class="main-title">Start With Easy AI Voice Today, Speed Up Development!</h4>
@@ -1279,13 +1301,13 @@ include('variables.php');
     <script>
         $(document).ready(function() {
             var monthlyPrices = {
-                'starter': 19,
-                'advanced': 49,
+                'starter': 10,
+                'advanced': 39,
                 // 'enterprise': 599
             }; // Set your monthly prices
             var yearlyPrices = {
-                'starter': 199,
-                'advanced': 499,
+                'starter': 100,
+                'advanced': 399,
                 // 'enterprise': "5,999"
             };
 

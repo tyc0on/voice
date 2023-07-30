@@ -8801,31 +8801,31 @@ body.sal-disabled [data-sal|=flip] {
   }
 }
 .cd-headline {
-  font-size: 3rem;
-  line-height: 1.2;
+  font-size: 70px;
+  line-height: 1.1;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) and (max-width: 991px)  {
   .cd-headline {
-    font-size: 4.4rem;
-    font-weight: 300;
+    font-size: 61.6px;
+    /* font-weight: 300; */
   }
 }
 @media only screen and (min-width: 1170px) {
   .cd-headline {
-    font-size: 48px;
+    font-size: 70px;
   }
 }
 @media only screen and (max-width: 768px) {
   .cd-headline {
-    font-size: 40px;
+    font-size: 46px;
   }
 }
-@media only screen and (max-width: 479px) {
+/* @media only screen and (max-width: 479px) {
   .cd-headline {
     font-size: 26px;
   }
-}
+} */
 .cd-words-wrapper {
   display: inline-block;
   position: relative;

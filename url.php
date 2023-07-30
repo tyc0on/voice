@@ -24,4 +24,4 @@ if ($result->num_rows > 0) {
     $ngrok_url = "";
 }
 
-echo $ngrok_url;
+echo "https://" . $ngrok_url;

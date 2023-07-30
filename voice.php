@@ -143,13 +143,29 @@ echo '';
 			}
 		}
 
+		function getURL() {
+			fetch('url.php')
+				.then(response => response.text())
+				.then(data => {
+					window.serverUrl = data;
+					checkServerStatus(window.serverUrl)
+						.then(isConnected => updateUI(isConnected))
+						.catch(error => updateUI(false));
+				})
+				.catch(error => console.error(error));
+		}
+
+		// Fetch the URL and check server status on page load
+		window.onload = getURL;
+
+		// Check server status at regular intervals
 		setInterval(() => {
-			const url = 'https://4b0e-34-66-187-77.ngrok.io';
-			checkServerStatus(url)
+			checkServerStatus(window.serverUrl)
 				.then(isConnected => updateUI(isConnected))
 				.catch(error => updateUI(false));
 		}, 5000);
 	</script>
+
 </head>
 <!--end::Head-->
 <!--begin::Body-->
