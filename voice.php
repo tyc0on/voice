@@ -708,7 +708,7 @@ echo '';
 																	<span class="badge badge-light-warning fs-4 btn-space" onclick="buttonClicked(this, 'Pitch ⬆️')">Pitch ⬆️</span>
 																	<span class="badge badge-light-warning fs-4 btn-space" onclick="buttonClicked(this, 'Pitch ⬇️')">Pitch ⬇️</span>
 																	<span class="badge badge-light-danger fs-4 btn-space" onclick="buttonClicked(this, 'Clean Distortion 🧹')">Clean Distortion 🧹</span>
-																	<span class="badge badge-light-success fs-4 btn-space" onclick="downloadAudio('audio-track-' + index)">Download ⏬</span>
+																	<span class="badge badge-light-success fs-4 btn-space" onclick="downloadAudio('audio-track-2')">Download ⏬</span>
 																</div>
 															</div>
 														</div>
