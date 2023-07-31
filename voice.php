@@ -171,6 +171,15 @@ echo '';
 <!--begin::Body-->
 
 <body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default dark-mode">
+	<audio data-kt-element="audio-track-0">
+		<source src="uploads/yupin-test1-voice.wav" type="audio/mpeg" />
+	</audio>
+	<audio data-kt-element="audio-track-1">
+		<source src="uploads/yupin-test1-pitchup.wav" type="audio/mpeg" />
+	</audio>
+	<audio data-kt-element="audio-track-2">
+		<source src="uploads/yupin-test1-pitchdown.wav" type="audio/mpeg" />
+	</audio>
 	<!--begin::Theme mode setup on page load-->
 	<script>
 		var defaultThemeMode = "light";
@@ -676,34 +685,32 @@ echo '';
 								<img id="inline-image" class="mr-3" src="https://lh3.googleusercontent.com/a/AAcHTteAneghS5HbLvTGHh8fijGv-JhOAwNSDneN-I_n7XmwHQ54=s96-c">
 								<div class="fs-1">Transform yupin-test1.mp3 into Yupin</div>
 							</div>
-							<div id="mainContent0" style="display: none;">
-								<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+							<div id="mainContent0">
+								<div class=" row g-5 g-xl-10 mb-5 mb-xl-10">
 									<div class="col-xl-12">
 										<div class="card card-flush h-xl-100">
 											<div class="card-body pt-7" style="padding-left:85px">
 												<div class="row g-5 g-xl-9">
 													<div class="col-sm-3 mb-3 mb-sm-0">
 														<div class="container">
-															<div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: block;">
+															<div id="loadingSpinner0" class="spinner-border text-primary" role="status" style="display: block;">
 																<span class="visually-hidden">Loading...</span>
 															</div>
-
-															<div class="m-0">
-																<div class="card-rounded position-relative mb-5">
+															<div class="m-0" id="mainSubContent0" style="display: none;">
+																<div class=" card-rounded position-relative mb-5">
 																	<div class="bgi-position-center bgi-no-repeat bgi-size-cover h-200px card-rounded" style="background-image:url('assets/media/stock/600x600/yupin.png')"></div>
-																	<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" data-kt-element="list-play-button">
-																		<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon"></i>
-																		<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon"></i>
+																	<button class="btn btn-icon h-auto w-auto p-0 ms-4 mb-4 position-absolute bottom-0 right-0" onclick="playAudio(this)" data-audio-id="audio-track-0">
+																		<i class="bi bi-play-fill text-white fs-2x" data-kt-element="list-play-icon-audio-track-0"></i>
+																		<i class="bi bi-pause-fill text-white fs-2x d-none" data-kt-element="list-pause-icon-audio-track-0"></i>
 																	</button>
 																</div>
 																<div>
 																	<span class="badge badge-light-warning fs-4 btn-space" onclick="buttonClicked(this, 'Pitch ⬆️')">Pitch ⬆️</span>
 																	<span class="badge badge-light-warning fs-4 btn-space" onclick="buttonClicked(this, 'Pitch ⬇️')">Pitch ⬇️</span>
 																	<span class="badge badge-light-danger fs-4 btn-space" onclick="buttonClicked(this, 'Clean Distortion 🧹')">Clean Distortion 🧹</span>
-																	<span class="badge badge-light-success fs-4 btn-space" onclick="buttonClicked(this, 'Download ⏬')">Download ⏬</span>
+																	<span class="badge badge-light-success fs-4 btn-space" onclick="downloadAudio('audio-track-' + index)">Download ⏬</span>
 																</div>
 															</div>
-
 														</div>
 													</div>
 												</div>
@@ -712,46 +719,96 @@ echo '';
 									</div>
 								</div>
 							</div>
-							<div id="kt_app_content_container" class="app-container container-xxl">
-							</div>
 						</div>
-
 						<script>
-							let index = 0;
 							window.onload = function() {
 								setTimeout(function() {
-									document.getElementById('loadingSpinner').style.display = 'none';
-									document.getElementById('mainContent' + index).style.display = 'block';
+									document.getElementById('loadingSpinner0').style.display = 'none';
+									document.getElementById('mainSubContent0').style.display = 'block';
 								}, 500);
 							};
 
+							let audioIdCounter = 1;
+
 							function buttonClicked(button, buttonText) {
 								let userContent = document.getElementById('userContent').cloneNode(true);
-								let mainContent = document.getElementById('mainContent' + index).cloneNode(true);
-								mainContent.id = "mainContent" + (++index);
-
+								let mainContent = document.getElementById('mainContent0').cloneNode(true);
 								userContent.getElementsByClassName('fs-1')[0].innerText = buttonText + ' ' + userContent.getElementsByClassName('fs-1')[0].innerText.split(' ')[1];
-
 								let loadingSpinner = document.createElement('div');
 								loadingSpinner.className = "spinner-border text-primary";
 								loadingSpinner.role = "status";
 								loadingSpinner.style.display = "block";
 								loadingSpinner.innerHTML = '<span class="visually-hidden">Loading...</span>';
-
 								let container = document.createElement('div');
 								container.className = 'container';
 								container.appendChild(loadingSpinner);
 								container.appendChild(mainContent);
+
+								let playButton = mainContent.querySelector('button[data-audio-id]');
+								let newAudioId = 'audio-track-' + audioIdCounter;
+								playButton.setAttribute('data-audio-id', newAudioId);
+
+								let playIcon = mainContent.querySelector('[data-kt-element^="list-play-icon"]');
+								let pauseIcon = mainContent.querySelector('[data-kt-element^="list-pause-icon"]');
+
+								playIcon.setAttribute('data-kt-element', 'list-play-icon-' + newAudioId);
+								pauseIcon.setAttribute('data-kt-element', 'list-pause-icon-' + newAudioId);
+
+
 								document.getElementById('kt_app_content').appendChild(userContent);
 								document.getElementById('kt_app_content').appendChild(container);
-
+								window.scrollTo(0, document.body.scrollHeight);
 								setTimeout(function() {
 									loadingSpinner.style.display = 'none';
 									mainContent.style.display = 'block';
-								}, 500);
+									window.scrollTo(0, document.body.scrollHeight);
+								}, 1500);
+
+								audioIdCounter++;
+							}
+
+							function playAudio(button) {
+								let id = button.getAttribute('data-audio-id');
+								let audio = document.querySelector(`audio[data-kt-element='${id}']`);
+								document.querySelectorAll('audio').forEach(function(aud) {
+									if (aud !== audio) {
+										aud.pause();
+									}
+								});
+								if (audio.paused) {
+									audio.play();
+								} else {
+									audio.pause();
+								}
+								togglePlayPauseIcon(audio, id);
+							}
+
+							function togglePlayPauseIcon(audio, id) {
+								let playIcon = document.querySelector(`[data-kt-element='list-play-icon-${id}']`);
+								let pauseIcon = document.querySelector(`[data-kt-element='list-pause-icon-${id}']`);
+								audio.onplaying = function() {
+									playIcon.classList.add('d-none');
+									pauseIcon.classList.remove('d-none');
+								};
+								audio.onpause = function() {
+									pauseIcon.classList.add('d-none');
+									playIcon.classList.remove('d-none');
+								};
 							}
 						</script>
 
+
+						<script>
+							function downloadAudio(audioSrc) {
+								let link = document.createElement('a');
+								audioSrc = 'audio-track-2';
+								link.href = audioSrc + '.mp3';
+								link.download = audioSrc + '.mp3';
+								document.body.appendChild(link);
+								link.click();
+								document.body.removeChild(link);
+							}
+						</script>
 
 						<!--end::Content-->
 					</div>
@@ -5910,6 +5967,10 @@ echo '';
 	<!--begin::Javascript-->
 	<script>
 		var hostUrl = "assets/";
+	</script>
+
+	<script>
+
 	</script>
 	<!--begin::Global Javascript Bundle(mandatory for all pages)-->
 	<script src="assets/plugins/global/plugins.bundle.js"></script>
