@@ -93,7 +93,7 @@ include('variables.php');
     <link rel="stylesheet" href="assets2/css/plugins/slick-theme.css">
     <link rel="stylesheet" href="assets2/css/plugins/lightbox.css">
     <link rel="stylesheet" href="assets2/css/style.css">
-
+    <?php include '_head.php'; ?>
 </head>
 
 <body>

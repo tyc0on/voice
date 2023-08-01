@@ -165,7 +165,7 @@ echo '';
 				.catch(error => updateUI(false));
 		}, 5000);
 	</script>
-
+	<?php include '_head.php'; ?>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
