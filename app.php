@@ -810,10 +810,18 @@ echo '';
 															<!--end::User pic-->
 															<!--begin::Info-->
 															<div class="m-0 cursor-pointer" onclick="window.location.href='/voice.php';">
+																<div class="row">
+																	<div class="col-8"><a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">Yupin</a>
+																		<!--end::Title-->
+																		<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Private Voice Model</span>
+																	</div>
+																	<div class="col-4">
+																		<a class="btn btn-primary">Select -></a>
+
+																	</div>
+																</div>
 																<!--begin::Title-->
-																<a href="#" class="text-gray-800 text-hover-primary fs-3 fw-bold d-block mb-2">Yupin</a>
-																<!--end::Title-->
-																<span class="fw-bold fs-6 text-gray-400 d-block lh-1">Private Voice Model</span>
+
 															</div>
 															<!--end::Info-->
 														</div>
