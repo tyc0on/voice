@@ -710,6 +710,14 @@ echo '';
 									});
 								</script>
 								<!--end::Row-->
+								<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
+									<!--begin::Title-->
+									<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+										Step 2:
+									</h1>
+									<!--end::Title-->
+
+								</div>
 								<!--begin::Row-->
 								<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
 									<!--begin::Col-->
