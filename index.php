@@ -497,7 +497,7 @@ include('variables.php');
                                 </div>
                                 <div class="col-lg-8">
                                     <div id="loadingThrobber"><span class="spinner-border text-primary" role="status"></span></div>
-                                    <form id="videoForm" class="rainbow-newsletter mt_md--20 mt_sm--20" action="viralcuts.php">
+                                    <form id="videoForm" class="rainbow-newsletter mt_md--20 mt_sm--20" action="/sign-up">
                                         <div class="form-group sal-animate" style="display: flex; align-items: center; justify-content: center;">
                                             <button type="submit" class="btn-default" style="width:250px;">Login to Get Started <i class="feather-arrow-right"></i></button>
                                         </div>
