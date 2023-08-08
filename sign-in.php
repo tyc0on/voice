@@ -297,7 +297,7 @@ if (isset($_SESSION['loggedin'])) {
                                                         echo $_SESSION['return_url'];
                                                         unset($_SESSION['return_url']);
                                                     } else {
-                                                        echo ($_SERVER['HTTP_HOST'] === 'localhost') ? '/' : '/';
+                                                        echo ($_SERVER['HTTP_HOST'] === 'localhost') ? $siteapplocal : $siteapp;
                                                     }
                                                     ?>');
                     }
