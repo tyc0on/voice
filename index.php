@@ -523,45 +523,7 @@ include('variables.php');
                                 <div class="col-lg-2">
                                 </div>
                             </div>
-                            <script>
-                                document
-                                    .getElementById("videoForm")
-                                    .addEventListener("submit", function(event) {
-                                        event.preventDefault();
-                                        const videoUrl = document.getElementById("video").value;
-                                        const formData = new FormData();
-                                        formData.append("video", videoUrl);
-                                        const loadingThrobber = document.getElementById("loadingThrobber");
-                                        loadingThrobber.style.display = "block";
-                                        fetch("viralcuts.php", {
-                                                method: "POST",
-                                                body: formData,
-                                            })
-                                            .then((response) => response.json())
-                                            .then((data) => {
-                                                loadingThrobber.style.display = "none";
-                                                let dataJSON = JSON.stringify(data);
-                                                let dataToSend = new FormData();
-                                                dataToSend.append("data", dataJSON);
 
-                                                // Create a new form and submit it to app.php
-                                                let form = document.createElement("form");
-                                                form.method = "POST";
-                                                form.action = "app.php";
-                                                let hiddenField = document.createElement("input");
-                                                hiddenField.type = "hidden";
-                                                hiddenField.name = "data";
-                                                hiddenField.value = dataJSON;
-                                                form.appendChild(hiddenField);
-                                                document.body.appendChild(form);
-                                                form.submit();
-                                            })
-                                            .catch((error) => {
-                                                loadingThrobber.style.display = "none";
-                                                console.error("Error:", error);
-                                            });
-                                    });
-                            </script>
 
 
                         </div>
