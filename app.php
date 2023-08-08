@@ -661,7 +661,7 @@ echo '';
 										<h1 style="font-size:60px;">Upload your voice file</h1>
 										<h2>MP3 or WAV</h2>
 									</div>
-									<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
+									<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mt-0">
 										<!--begin::Title-->
 										<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
 											Step 1:
@@ -669,7 +669,7 @@ echo '';
 										<!--end::Title-->
 
 									</div>
-									<form class="form" action="#" method="post">
+									<form class="form mt-5" action="#" method="post">
 										<!--begin::Input group-->
 										<div class="fv-row">
 											<!--begin::Dropzone-->
@@ -712,7 +712,7 @@ echo '';
 								<!--end::Row-->
 								<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
 									<!--begin::Title-->
-									<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+									<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0 mb-5">
 										Step 2:
 									</h1>
 									<!--end::Title-->
