@@ -26,4 +26,9 @@ Colab connected indicator
 - if timesout in 5 seconds then show disconnected via red icon with link to reconnect
 
 
+30 July
+
+- use url.php to get updated ngrok url
+- then checkServerStatus(url) to get status on start
+
 */
