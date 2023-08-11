@@ -14,7 +14,8 @@ if ($con->connect_errno) {
 //     exit();
 // }
 
-
+print($_POST);
+die;
 // Check if the POST request is not empty
 if (!empty($_POST)) {
 
@@ -33,7 +34,7 @@ if (!empty($_POST)) {
     } else {
         echo "Error: " . $stmt->error;
     }
-    echo print($_POST);
+    print($_POST);
     // Close the statement
     $stmt->close();
 } else {
