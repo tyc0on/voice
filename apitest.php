@@ -7,13 +7,44 @@ if ($con->connect_errno) {
     exit();
 }
 
-// $input = json_decode(file_get_contents('php://input'), true);
+$payload = file_get_contents('php://input');
+$result = endpointVerify($_SERVER, $payload, 'eee37aecc6c01cef15fcc965fd302be2e2a15a60ca8238085d632158625a2501');
+http_response_code($result['code']);
+echo json_encode($result['payload']);
 
-// if (isset($input['type']) && $input['type'] == 1) {
-//     echo json_encode(['type' => 1]);
-//     exit();
-// }
-$postData = $_POST;
+function endpointVerify(array $headers, string $payload, string $publicKey): array
+{
+    if (
+        !isset($headers['HTTP_X_SIGNATURE_ED25519'])
+        || !isset($headers['HTTP_X_SIGNATURE_TIMESTAMP'])
+    )
+        return ['code' => 401, 'payload' => null];
+
+    $signature = $headers['HTTP_X_SIGNATURE_ED25519'];
+    $timestamp = $headers['HTTP_X_SIGNATURE_TIMESTAMP'];
+
+    if (!trim($signature, '0..9A..Fa..f') == '')
+        return ['code' => 401, 'payload' => null];
+
+    $message = $timestamp . $payload;
+    $binarySignature = sodium_hex2bin($signature);
+    $binaryKey = sodium_hex2bin($publicKey);
+
+    if (!sodium_crypto_sign_verify_detached($binarySignature, $message, $binaryKey))
+        return ['code' => 401, 'payload' => null];
+
+    $payload = json_decode($payload, true);
+    switch ($payload['type']) {
+        case 1:
+            return ['code' => 200, 'payload' => ['type' => 1]];
+        case 2:
+            return ['code' => 200, 'payload' => ['type' => 2]];
+        default:
+            return ['code' => 400, 'payload' => null];
+    }
+}
+
+$postData = $payload;
 
 // Convert $_POST data to JSON
 $jsonData = json_encode($postData);
@@ -29,10 +60,10 @@ $stmt->bind_param('s', $jsonData);
 
 if ($stmt->execute()) {
     // Data inserted successfully
-    echo 'Data inserted into the log table.';
+    // echo 'Data inserted into the log table.';
 } else {
     // Error inserting data
-    echo 'Error: ' . $stmt->error;
+    // echo 'Error: ' . $stmt->error;
 }
 
 // Close the statement and connection
