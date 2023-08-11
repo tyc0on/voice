@@ -7,6 +7,13 @@ if ($con->connect_errno) {
     exit();
 }
 
+$input = json_decode(file_get_contents('php://input'), true);
+
+if (isset($input['type']) && $input['type'] == 1) {
+    echo json_encode(['type' => 1]);
+    exit();
+}
+
 
 // Check if the POST request is not empty
 if (!empty($_POST)) {
