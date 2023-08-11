@@ -13,30 +13,28 @@ if ($con->connect_errno) {
 //     echo json_encode(['type' => 1]);
 //     exit();
 // }
+$postData = $_POST;
 
-print($_POST);
-die;
-// Check if the POST request is not empty
-if (!empty($_POST)) {
+// Convert $_POST data to JSON
+$jsonData = json_encode($postData);
 
-    // Capture all $_POST data
-    $logData = json_encode($_POST);
+// Prepare the SQL statement
+$sql = "INSERT INTO log (log) VALUES (?)";
 
-    // Prepare a SQL statement to insert the data into the apitest table
-    $stmt = $con->prepare("INSERT INTO apitest (log, created_at) VALUES (?, NOW())");
+// Prepare the statement
+$stmt = $con->prepare($sql);
 
-    // Bind the log data to the prepared statement
-    $stmt->bind_param('s', $logData);
+// Bind the parameter and execute the statement
+$stmt->bind_param('s', $jsonData);
 
-    // Execute the statement
-    if ($stmt->execute()) {
-        echo "Data logged successfully.";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-    print($_POST);
-    // Close the statement
-    $stmt->close();
+if ($stmt->execute()) {
+    // Data inserted successfully
+    echo 'Data inserted into the log table.';
 } else {
-    echo "No POST data to log.";
+    // Error inserting data
+    echo 'Error: ' . $stmt->error;
 }
+
+// Close the statement and connection
+$stmt->close();
+$con->close();
