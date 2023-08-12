@@ -8,7 +8,7 @@ if ($con->connect_errno) {
 }
 
 $payload = file_get_contents('php://input');
-$result = endpointVerify($_SERVER, $payload, 'eee37aecc6c01cef15fcc965fd302be2e2a15a60ca8238085d632158625a2501');
+$result = endpointVerify($_SERVER, $payload, '9d2adf6234644a7bb7273edff0b41cea8468a751f80160d83401ae1f9285fc96');
 http_response_code($result['code']);
 echo json_encode($result['payload']);
 
