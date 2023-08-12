@@ -8,30 +8,20 @@ if ($con->connect_errno) {
 }
 
 $payload = file_get_contents('php://input');
+
 $postData = $payload;
-
-// Convert $_POST data to JSON
 $jsonData = json_encode($postData);
-
-// Prepare the SQL statement
 $sql = "INSERT INTO log (log) VALUES (?)";
-
-// Prepare the statement
 $stmt = $con->prepare($sql);
-
-// Bind the parameter and execute the statement
 $stmt->bind_param('s', $jsonData);
-
 if ($stmt->execute()) {
-    // Data inserted successfully
     // echo 'Data inserted into the log table.';
 } else {
-    // Error inserting data
     // echo 'Error: ' . $stmt->error;
 }
-
 $stmt->close();
 $con->close();
+
 $result = endpointVerify($_SERVER, $payload, 'eee37aecc6c01cef15fcc965fd302be2e2a15a60ca8238085d632158625a2501');
 http_response_code($result['code']);
 echo json_encode($result['payload']);
