@@ -40,6 +40,17 @@ function endpointVerify(array $headers, string $payload, string $publicKey): arr
             return ['code' => 200, 'payload' => ['type' => 1]];
         case 2:
             return ['code' => 200, 'payload' => ['type' => 2]];
+        case 4:
+            $response = array(
+                "type" => 4,
+                "data" => array(
+                    "tts" => false,
+                    "content" => "Congrats on sending your command!",
+                    "embeds" => array(),
+                    "allowed_mentions" => array("parse" => array())
+                )
+            );
+            return ['code' => 200, 'payload' => $response];
         default:
             return ['code' => 400, 'payload' => null];
     }
