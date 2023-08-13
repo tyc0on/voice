@@ -14,6 +14,13 @@ http_response_code($result['code']);
 header('Content-Type: application/json');
 echo json_encode($result['payload']);
 
+$sql = "INSERT INTO log (log) VALUES (?)";
+$stmt = $con->prepare($sql);
+$stmt->bind_param('s', json_encode($result['payload']));
+if ($stmt->execute()) {
+} else {
+}
+
 function endpointVerify(array $headers, string $payload, string $publicKey): array
 {
     if (
@@ -71,22 +78,11 @@ $postData = $payload;
 
 // Convert $_POST data to JSON
 $jsonData = json_encode($postData);
-
-// Prepare the SQL statement
 $sql = "INSERT INTO log (log) VALUES (?)";
-
-// Prepare the statement
 $stmt = $con->prepare($sql);
-
-// Bind the parameter and execute the statement
 $stmt->bind_param('s', $jsonData);
-
 if ($stmt->execute()) {
-    // Data inserted successfully
-    // echo 'Data inserted into the log table.';
 } else {
-    // Error inserting data
-    // echo 'Error: ' . $stmt->error;
 }
 
 $stmt->close();
