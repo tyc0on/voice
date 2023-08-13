@@ -37,9 +37,29 @@ function endpointVerify(array $headers, string $payload, string $publicKey): arr
     $payload = json_decode($payload, true);
     switch ($payload['type']) {
         case 1:
-            return ['code' => 200, 'payload' => ['type' => 1]];
+            $response = array(
+                "type" => 1,
+                "data" => array(
+                    "tts" => false,
+                    "content" => "Congrats on sending your command!1",
+                    "embeds" => array(),
+                    "allowed_mentions" => array("parse" => array())
+                )
+            );
+            // return ['code' => 200, 'payload' => ['type' => 1]];
+            return ['code' => 200, 'payload' => $response];
         case 2:
-            return ['code' => 200, 'payload' => ['type' => 2]];
+            $response = array(
+                "type" => 2,
+                "data" => array(
+                    "tts" => false,
+                    "content" => "Congrats on sending your command!2",
+                    "embeds" => array(),
+                    "allowed_mentions" => array("parse" => array())
+                )
+            );
+            // return ['code' => 200, 'payload' => ['type' => 2]];
+            return ['code' => 200, 'payload' => $response];
         case 4:
             $response = array(
                 "type" => 4,
