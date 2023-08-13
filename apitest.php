@@ -24,26 +24,26 @@ if ($stmt->execute()) {
 $url = "https://discord.com/api/v10/interactions/" . $result['payload']['id'] . "/" . $result['payload']['token'] . "/callback";
 // echo $url;
 
-$payload = array(
-    "type" => 4,
-    "data" => array(
-        "content" => "Congrats on sending your command!"
-    )
-);
+// $payload = array(
+//     "type" => 4,
+//     "data" => array(
+//         "content" => "Congrats on sending your command!"
+//     )
+// );
 
-// Step 2: Make an HTTP POST Request
-$ch = curl_init($url);
+// // Step 2: Make an HTTP POST Request
+// $ch = curl_init($url);
 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Content-Type: application/json'
-));
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// curl_setopt($ch, CURLOPT_POST, true);
+// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+//     'Content-Type: application/json'
+// ));
 
-$response = curl_exec($ch);
+// $response = curl_exec($ch);
 
-curl_close($ch);
+// curl_close($ch);
 
 
 function endpointVerify(array $headers, string $payload, string $publicKey): array
@@ -105,7 +105,7 @@ $postData = $payload;
 $jsonData = json_encode($postData);
 $sql = "INSERT INTO log (log) VALUES (?)";
 $stmt = $con->prepare($sql);
-$stmt->bind_param('s', $jsonData);
+$stmt->bind_param('s', $url . $jsonData);
 if ($stmt->execute()) {
 } else {
 }
