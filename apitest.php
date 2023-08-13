@@ -14,14 +14,16 @@ http_response_code($result['code']);
 header('Content-Type: application/json');
 echo json_encode($result['payload']);
 
+
+$arrpayload = json_decode($payload, true);
+$url = "https://discord.com/api/v10/interactions/" . $arrpayload['id'] . "/" . $arrpayload['token'] . "/callback";
+
 $sql = "INSERT INTO log (log) VALUES (?)";
 $stmt = $con->prepare($sql);
-$stmt->bind_param('s', json_encode($result['payload']));
+$stmt->bind_param('s', $url . json_encode($result['payload']));
 if ($stmt->execute()) {
 } else {
 }
-
-$url = "https://discord.com/api/v10/interactions/" . $result['payload']['id'] . "/" . $result['payload']['token'] . "/callback";
 // echo $url;
 
 // $payload = array(
@@ -105,7 +107,7 @@ $postData = $payload;
 $jsonData = json_encode($postData);
 $sql = "INSERT INTO log (log) VALUES (?)";
 $stmt = $con->prepare($sql);
-$stmt->bind_param('s', $url . $jsonData);
+$stmt->bind_param('s', "url: " . $url . $jsonData);
 if ($stmt->execute()) {
 } else {
 }
