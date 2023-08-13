@@ -11,6 +11,7 @@ if ($con->connect_errno) {
 $payload = file_get_contents('php://input');
 $result = endpointVerify($_SERVER, $payload, '9d2adf6234644a7bb7273edff0b41cea8468a751f80160d83401ae1f9285fc96');
 http_response_code($result['code']);
+header('Content-Type: application/json');
 echo json_encode($result['payload']);
 
 function endpointVerify(array $headers, string $payload, string $publicKey): array
@@ -37,17 +38,7 @@ function endpointVerify(array $headers, string $payload, string $publicKey): arr
     $payload = json_decode($payload, true);
     switch ($payload['type']) {
         case 1:
-            $response = array(
-                "type" => 1,
-                "data" => array(
-                    "tts" => false,
-                    "content" => "Congrats on sending your command!1",
-                    "embeds" => array(),
-                    "allowed_mentions" => array("parse" => array())
-                )
-            );
-            // return ['code' => 200, 'payload' => ['type' => 1]];
-            return ['code' => 200, 'payload' => $response];
+            return ['code' => 200, 'payload' => ['type' => 1]];
         case 2:
             $response = array(
                 "type" => 2,
