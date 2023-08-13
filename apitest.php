@@ -7,6 +7,7 @@ if ($con->connect_errno) {
     exit();
 }
 
+//! DONT FORGET TO UPDATE THE PUBLIC KEY
 $payload = file_get_contents('php://input');
 $result = endpointVerify($_SERVER, $payload, '9d2adf6234644a7bb7273edff0b41cea8468a751f80160d83401ae1f9285fc96');
 http_response_code($result['code']);
