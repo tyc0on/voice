@@ -10,7 +10,7 @@ if ($con->connect_errno) {
 // $con = mysqli_connect("hostname", "user", "password", "database");
 
 // Read data from database
-$query = "SELECT `log` FROM `log` ORDER BY `id` DESC";
+$query = "SELECT `log` FROM `log` WHERE id = 92 ORDER BY `id` DESC";
 $result = mysqli_query($con, $query);
 
 $dataArray = [];

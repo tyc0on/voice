@@ -20,32 +20,39 @@ $url = "https://discord.com/api/v10/interactions/" . $arrpayload['id'] . "/" . $
 
 $sql = "INSERT INTO log (log) VALUES (?)";
 $stmt = $con->prepare($sql);
-$stmt->bind_param('s', $url . json_encode($result['payload']));
+$stmt->bind_param('s', json_encode($result['payload']));
+if ($stmt->execute()) {
+} else {
+}
+
+$sql = "INSERT INTO log (log) VALUES (?)";
+$stmt = $con->prepare($sql);
+$stmt->bind_param('s', $url);
 if ($stmt->execute()) {
 } else {
 }
 // echo $url;
 
-// $payload = array(
-//     "type" => 4,
-//     "data" => array(
-//         "content" => "Congrats on sending your command!"
-//     )
-// );
+$payload2 = array(
+    "type" => 4,
+    "data" => array(
+        "content" => "Audio file received. You will be notified when it has processed"
+    )
+);
 
-// // Step 2: Make an HTTP POST Request
-// $ch = curl_init($url);
+// Step 2: Make an HTTP POST Request
+$ch = curl_init($url);
 
-// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-// curl_setopt($ch, CURLOPT_POST, true);
-// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//     'Content-Type: application/json'
-// ));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload2));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json'
+));
 
-// $response = curl_exec($ch);
+$response = curl_exec($ch);
 
-// curl_close($ch);
+curl_close($ch);
 
 
 function endpointVerify(array $headers, string $payload, string $publicKey): array
@@ -107,7 +114,7 @@ $postData = $payload;
 $jsonData = json_encode($postData);
 $sql = "INSERT INTO log (log) VALUES (?)";
 $stmt = $con->prepare($sql);
-$stmt->bind_param('s', "url: " . $url . $jsonData);
+$stmt->bind_param('s', $jsonData);
 if ($stmt->execute()) {
 } else {
 }
