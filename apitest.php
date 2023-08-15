@@ -121,3 +121,42 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $con->close();
+
+$jobData = array(
+    'audio_url' => $arrpayload['data']['resolved']['attachments'][0]['url'],
+    'settings' => 'none',
+    'metadata' => array(
+        'member' => array(
+            'user' => array(
+                'id' => $arrpayload['member']['user']['id'],
+            )
+        )
+    )
+);
+
+// $jobData = array("audio_url" => $arrpayload['data']['resolved']['attachments'][0]['url'], "settings" => "none", "metadata" => "");
+// $jobData = $_POST;
+
+// Validation
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
+require 'vendor/autoload.php';
+
+$connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
+$channel = $connection->channel();
+
+$channel->queue_declare('job_queue', false, true, false, false);
+
+$msg = new AMQPMessage(json_encode($jobData));
+$channel->basic_publish($msg, '', 'job_queue');
+
+$channel->close();
+$connection->close();
+
+// header("HTTP/1.1 200 OK");
+// echo 'Job submitted successfully.';
+// print_r($jobData);
+
+
+exit();

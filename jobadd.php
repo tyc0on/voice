@@ -1,21 +1,22 @@
 <?php
-require 'vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-$app = new Slim\App();
+include 'include.php';
+require 'vendor/autoload.php';
 
-// Endpoint to submit a job
-$app->post('/submitJob', function ($request, $response) {
-    $jobData = $request->getParsedBody();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $jobData = $_POST;
 
-    // Validation (You can expand on this)
+    // Validation
     if (!isset($jobData['audio_url']) || !isset($jobData['settings']) || !isset($jobData['metadata'])) {
-        return $response->withStatus(400)->write('Invalid job data.');
+        header("HTTP/1.1 400 Bad Request");
+        echo 'Invalid job data.';
+        exit();
     }
 
-    $connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
+    $connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
     $channel = $connection->channel();
 
     $channel->queue_declare('job_queue', false, true, false, false);
@@ -26,7 +27,8 @@ $app->post('/submitJob', function ($request, $response) {
     $channel->close();
     $connection->close();
 
-    return $response->withStatus(200)->write('Job submitted successfully.');
-});
-
-$app->run();
+    header("HTTP/1.1 200 OK");
+    echo 'Job submitted successfully.';
+    print_r($jobData);
+    exit();
+}
