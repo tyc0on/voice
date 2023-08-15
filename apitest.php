@@ -18,19 +18,19 @@ echo json_encode($result['payload']);
 $arrpayload = json_decode($payload, true);
 $url = "https://discord.com/api/v10/interactions/" . $arrpayload['id'] . "/" . $arrpayload['token'] . "/callback";
 
-$sql = "INSERT INTO log (log) VALUES (?)";
+$sql = "INSERT INTO log (log, `note`) VALUES (?, ?)";
 $stmt = $con->prepare($sql);
-$stmt->bind_param('s', json_encode($result['payload']));
+$stmt->bind_param('ss', json_encode($result['payload']), 'result payload');
 if ($stmt->execute()) {
 } else {
 }
 
-$sql = "INSERT INTO log (log) VALUES (?)";
-$stmt = $con->prepare($sql);
-$stmt->bind_param('s', $url);
-if ($stmt->execute()) {
-} else {
-}
+// $sql = "INSERT INTO log (log) VALUES (?)";
+// $stmt = $con->prepare($sql);
+// $stmt->bind_param('s', $url);
+// if ($stmt->execute()) {
+// } else {
+// }
 // echo $url;
 
 $payload2 = array(
@@ -112,9 +112,9 @@ $postData = $payload;
 
 // Convert $_POST data to JSON
 $jsonData = json_encode($postData);
-$sql = "INSERT INTO log (log) VALUES (?)";
+$sql = "INSERT INTO log (log, `note`) VALUES (?, ?)";
 $stmt = $con->prepare($sql);
-$stmt->bind_param('s', $jsonData);
+$stmt->bind_param('ss', $jsonData, 'jsonData');
 if ($stmt->execute()) {
 } else {
 }
