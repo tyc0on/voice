@@ -18,13 +18,15 @@ echo json_encode($result['payload']);
 $arrpayload = json_decode($payload, true);
 $url = "https://discord.com/api/v10/interactions/" . $arrpayload['id'] . "/" . $arrpayload['token'] . "/callback";
 
-$sql = "INSERT INTO log (log, `note`) VALUES (?, ?)";
+$sql = "INSERT INTO log (log) VALUES (?)";
 $stmt = $con->prepare($sql);
-$stmt->bind_param('ss', json_encode($result['payload']), 'result payload');
+$stmt->bind_param('s', json_encode($result['payload']));
 if ($stmt->execute()) {
+    // get last id
+    $interaction = $con->insert_id;
 } else {
 }
-
+$stmt->close();
 // $sql = "INSERT INTO log (log) VALUES (?)";
 // $stmt = $con->prepare($sql);
 // $stmt->bind_param('s', $url);
@@ -36,7 +38,7 @@ if ($stmt->execute()) {
 $payload2 = array(
     "type" => 4,
     "data" => array(
-        "content" => "Audio file received. You will be notified when it has processed"
+        "content" => "Voice received. Processing..."
     )
 );
 
@@ -112,27 +114,77 @@ $postData = $payload;
 
 // Convert $_POST data to JSON
 $jsonData = json_encode($postData);
-$sql = "INSERT INTO log (log, `note`) VALUES (?, ?)";
+$sql = "INSERT INTO log (log) VALUES (?)";
 $stmt = $con->prepare($sql);
-$stmt->bind_param('ss', $jsonData, 'jsonData');
+$stmt->bind_param('s', $jsonData);
 if ($stmt->execute()) {
 } else {
 }
 
 $stmt->close();
-$con->close();
+
+$attachments = $arrpayload['data']['resolved']['attachments'];
+$firstAttachment = reset($attachments);  // Get the first attachment regardless of its key
+
+$vm = $arrpayload['data']['options'];
+$firstVm = reset($vm);  // Get the first attachment regardless of its key
 
 $jobData = array(
-    'audio_url' => $arrpayload['data']['resolved']['attachments'][0]['url'],
+    'audio_url' => $firstAttachment['url'],
+    'voice_model' => $firstVm['value'],
     'settings' => 'none',
+    'guild_id' => $arrpayload['guild_id'],
+    'channel_id' => $arrpayload['channel_id'],
+    'message_id' => $arrpayload['message_id'],
+    'interaction_id' => $arrpayload['id'],
+    'interaction_token' => $arrpayload['token'],
+    'interaction' => $interaction,
+    'type' => 'discord',
+    'application_id' => $arrpayload['application_id'],
     'metadata' => array(
         'member' => array(
             'user' => array(
                 'id' => $arrpayload['member']['user']['id'],
+                'username' => $arrpayload['member']['user']['username'],
+                'global_name' => $arrpayload['member']['user']['global_name'],
             )
         )
     )
 );
+
+// lookup users.id with where discord_id = $arrpayload['member']['user']['id']
+$sql = "SELECT id FROM users WHERE discord_id = ?";
+$stmt = $con->prepare($sql);
+$stmt->bind_param('s', $arrpayload['member']['user']['id']);
+$stmt->execute();
+$stmt->bind_result($user_id);
+$stmt->fetch();
+$stmt->close();
+if ($user_id) {
+} else {
+    $sql = "INSERT INTO users (discord_id) VALUES (?)";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param('s', $arrpayload['member']['user']['id']);
+    $stmt->execute();
+    $user_id = $stmt->insert_id;
+    $stmt->close();
+
+    $sql = "INSERT INTO credits (user_id, amount, source) VALUES (?, 3600, 'free_trial')";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param('s', $user_id);
+    $stmt->execute();
+    $stmt->close();
+}
+
+$sql = "SELECT SUM(amount) AS total_credits FROM credits WHERE user_id = ? AND (expiration_date IS NULL OR expiration_date > CURRENT_TIMESTAMP)";
+$stmt = $con->prepare($sql);
+$stmt->bind_param('s', $user_id);
+$stmt->execute();
+$stmt->bind_result($total_credits);
+$stmt->fetch();
+$stmt->close();
+
+$jobData['credits'] = $total_credits;
 
 // $jobData = array("audio_url" => $arrpayload['data']['resolved']['attachments'][0]['url'], "settings" => "none", "metadata" => "");
 // $jobData = $_POST;
@@ -158,5 +210,10 @@ $connection->close();
 // echo 'Job submitted successfully.';
 // print_r($jobData);
 
+
+
+
+// close $con
+$con->close();
 
 exit();

@@ -222,7 +222,7 @@ echo '';
 					<!--begin::Mobile logo-->
 					<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
 						<a href="/app.php" class="d-lg-none">
-							<img alt="Logo" src="assets/media/logos/default-small.svg" class="h-30px" />
+							<img alt="Logo" src="assets/media/logos/android-chrome-192x192.png" class="h-30px" />
 						</a>
 					</div>
 					<!--end::Mobile logo-->
@@ -525,7 +525,7 @@ echo '';
 						<!--begin::Logo image-->
 						<a href="/app.php">
 							<img alt="Logo" src="assets/media/logos/logo-dark.png" class="h-50px app-sidebar-logo-default" />
-							<img alt="Logo" src="assets/media/logos/default-small.svg" class="h-20px app-sidebar-logo-minimize" />
+							<img alt="Logo" src="assets/media/logos/android-chrome-192x192.png" class="h-20px app-sidebar-logo-minimize" />
 						</a>
 						<!--end::Logo image-->
 						<!--begin::Sidebar toggle-->
