@@ -196,11 +196,73 @@ if ($_POST['type'] == 'discord') {
         die("Error: Uploaded file not found.");
     }
 
-    // save in samples folder with name of $_POST['name'].mp3
-    $name = $_POST['name'];
-    $extension = pathinfo($_FILES['audioFile']['name'], PATHINFO_EXTENSION);
-    $newFile = "samples/" . $name . "." . $extension;
-    move_uploaded_file($tempFile, $newFile);
+    // if post[pitch] set $pitch = ".p" . $_POST[pitch] else $pitch = ""
+    if (isset($_POST['pitch'])) {
+        $pitch = ".p" . $_POST['pitch'];
+    } else {
+        $pitch = "";
+    }
+
+    // if folder audios not exists create
+    if (!file_exists('paudios')) {
+        mkdir('paudios', 0755, true);
+    }
+
+
+    // if isset POST job save in paudios folder with name of timestamp . ".j" . job . ".p" . $pitch . .mp3
+    if (isset($_POST['job'])) {
+        $timestamp = date("ymd-His");
+        $job = $_POST['job'];
+        $extension = pathinfo($_FILES['audioFile']['name'], PATHINFO_EXTENSION);
+        $newFile = "paudios/" . $timestamp . ".j" . $job . $pitch . "." . $extension;
+        move_uploaded_file($tempFile, $newFile);
+        // insert into paudio_files table with user_id, file_path, file_format, job_id
+        $sql = "INSERT INTO paudio_files (user_id, file_path, file_format, job_id) VALUES (?, ?, ?, ?)";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param('isss', $_POST['user_id'], $newFile, $extension, $job);
+        $stmt->execute();
+        $paudio_id = $con->insert_id;
+        $stmt->close();
+
+        // update table jobs set paudio_id = $paudio_id where id = $_POST['job']
+        $sql = "UPDATE jobs SET paudio_id = ?, status = ? WHERE id = ?";
+        $stmt = $con->prepare($sql);
+        $status = "complete";
+        $stmt->bind_param('isi', $paudio_id, $status, $_POST['job']);
+        $stmt->execute();
+        $stmt->close();
+
+        $sql = "SELECT batch_id FROM jobs WHERE id = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param('i', $_POST['job']);
+        $stmt->execute();
+        $stmt->bind_result($batch_id);
+        $stmt->fetch();
+        $stmt->close();
+
+        // select * from jobs where id = $_POST['job'] and status != "complete", if empty then update table batch set status = "complete" where id = jobs.batch_id
+        $sql = "SELECT * FROM jobs WHERE batch_id = ? AND status != ?";
+        $stmt = $con->prepare($sql);
+        $status = "complete";
+        $stmt->bind_param('is', $batch_id, $status);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        if ($result->num_rows === 0) {
+            $sql = "UPDATE batch SET status = ? WHERE id = ?";
+            $stmt = $con->prepare($sql);
+            $status = "complete";
+            $stmt->bind_param('si', $status, $batch_id);
+            $stmt->execute();
+            $stmt->close();
+        }
+    } else {
+        // save in samples folder with name of $_POST['name'].mp3
+        $name = $_POST['name'];
+        $extension = pathinfo($_FILES['audioFile']['name'], PATHINFO_EXTENSION);
+        $newFile = "samples/" . $name . $pitch . "." . $extension;
+        move_uploaded_file($tempFile, $newFile);
+    }
 }
 
 
