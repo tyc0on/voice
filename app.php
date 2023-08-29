@@ -101,60 +101,12 @@ include 'header.php';
 						<!--end::Title-->
 
 					</div>
-					<!-- <form class="form mt-5" action="reveal.php" method="post">
-										<div class="fv-row">
-											<div class="dropzone pt-10 pb-10" id="kt_dropzonejs_example_1" style="border: 1px dashed #9b00ff; background-color: #000000;">
-												<div class="dz-message needsclick">
-													<i class="ki-duotone ki-file-up fs-3x text-primary"><span class="path1"></span><span class="path2"></span></i>
-													<div class="ms-4">
-														<h3 class="fs-3 fw-bold text-gray-900 mb-1">Drop files here or click to upload.</h3>
-														<span class="fs-7 fw-semibold text-gray-400">Upload your voice file here</span>
-													</div>
-												</div>
-											</div>
-											<button type="submit" class="btn btn-primary">Submit</button>
-										</div>
-									</form> -->
-					<script>
-						// var myDropzone = new Dropzone("#kt_dropzonejs_example_1", {
-						// 	url: "upload.php",
-						// 	paramName: "file",
-						// 	maxFiles: 1,
-						// 	maxFilesize: 10,
-						// 	addRemoveLinks: true,
-						// 	autoProcessQueue: false,
-						// 	accept: function(file, done) {
-						// 		if (file.name == "wow.jpg") {
-						// 			done("Naha, you don't.");
-						// 		} else {
-						// 			done();
-						// 		}
-						// 	}
-						// });
 
-						// document.querySelector(".form").addEventListener("submit", function(e) {
-						// 	e.preventDefault();
-
-						// 	if (myDropzone.getQueuedFiles().length > 0) {
-						// 		myDropzone.processQueue();
-						// 	} else {
-						// 		this.submit();
-						// 	}
-						// });
-
-						// myDropzone.on("success", function() {
-						// 	document.querySelector(".form").submit();
-						// });
-
-						// myDropzone.on("error", function(file, errorMessage) {
-						// 	console.error("File upload error:", errorMessage);
-						// });
-					</script>
 
 
 				</div>
 				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-					<form class="form mt-5" action="reveal.php" method="post" enctype="multipart/form-data" id="audios">
+					<form class="form mt-5" action="processing.php" method="post" enctype="multipart/form-data" id="audios">
 						<div class="fv-row">
 							<input type="file" name="files[]" id="fileInput" multiple style="display: none;">
 							<div class="custom-file-upload" style="border: 1px dashed #9b00ff; background-color: #000000; padding: 10px; text-align: center; cursor: pointer;">
@@ -465,31 +417,34 @@ include 'header.php';
 
 											document.getElementById(audioElementId).querySelector("source").src = fileName;
 											document.getElementById(audioElementId).load();
+
+											const pitchElement = document.getElementById('kt_modal_create_campaign_budget_label');
+											if (pitchElement) {
+												pitchElement.textContent = pitch;
+											}
+
+											const slider = document.getElementById('kt_modal_create_campaign_budget_slider');
+											if (slider) {
+												const percentage = (pitch / 100) * 100; // Assuming max pitch of 100
+												slider.style.width = percentage + "%";
+											}
 										}
-									</script>
 
-
-									<script>
 										document.addEventListener('DOMContentLoaded', function() {
-											// Get all the select buttons in the table
 											const selectButtons = document.querySelectorAll('a.btn');
 
 											selectButtons.forEach(button => {
 												button.addEventListener('click', function(event) {
-													event.preventDefault(); // Prevent any default behavior
+													event.preventDefault();
 
-													// Find the corresponding name value from the hidden input
 													const row = this.closest('tr');
 													const hiddenInput = row.querySelector('input[type="hidden"]');
 													const nameValue = hiddenInput ? hiddenInput.value : null;
 
-													// Get the pitch value from the span
 													const pitchElement = document.getElementById('kt_modal_create_campaign_budget_label');
-													const pitchValue = pitchElement ? pitchElement.textContent.trim() : null;
+													const pitchValue = pitchElement ? parseInt(pitchElement.textContent.trim()) : null;
 
-													// If both values were found, add them to the form and submit it
 													if (nameValue && pitchValue) {
-														// Create hidden inputs for name and pitch
 														const nameInput = document.createElement('input');
 														nameInput.type = 'hidden';
 														nameInput.name = 'name';
@@ -500,16 +455,18 @@ include 'header.php';
 														pitchInput.name = 'pitch';
 														pitchInput.value = pitchValue;
 
-														// Append to the form and submit
 														const form = document.getElementById('audios');
 														form.appendChild(nameInput);
 														form.appendChild(pitchInput);
 														form.submit();
+
+														updateAudioSource(pitchValue, row.getAttribute('data-id'), nameValue);
 													}
 												});
 											});
 										});
 									</script>
+
 									<!--end::Table-->
 								</div>
 								<!--end::Table container-->

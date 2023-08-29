@@ -546,7 +546,7 @@ include('variables.php');
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="thumbnail" onclick="location.href='/sign-up'"><img class="radius w-100" src="assets2/images/screenshot2.jpg" alt="Images"></div>
+                        <div class="thumbnail" onclick="location.href='/sign-up'"><img class="radius w-100" src="assets2/images/screenshot2.webp" alt="Images"></div>
                     </div>
                 </div>
 

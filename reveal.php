@@ -122,13 +122,10 @@ if (empty($audioFiles)) {
     // } elseif (count($audioFiles) == 1) {
     //     $batch = 0;
 } else {
-    // user original_name from audio_files to create short name for batch
-    $sql =
 
-
-        // if batch
-        // add to batch table with user_id, status
-        $sql = "INSERT INTO batch (user_id, status) VALUES (?, ?)";
+    // if batch
+    // add to batch table with user_id, status
+    $sql = "INSERT INTO batch (user_id, status) VALUES (?, ?)";
     $stmt = $con->prepare($sql);
     $status = "pending";
     $stmt->bind_param('is', $_SESSION['id'], $status);
