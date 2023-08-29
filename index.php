@@ -461,7 +461,7 @@ include('variables.php');
                         <div class="inner text-center">
                             <!-- <span class="subtitle theme-gradient">Hello! This is WebAgency</span> -->
                             <!-- <h1 class="title">Unlock <span class="theme-gradient">10x Productivity</span><br> with Easy AI Solutions.</h1> -->
-                            <h1 class="title">Create <span class="theme-gradient">AI Voice</span> Magic<br>for
+                            <h1 class="title">Use <span class="theme-gradient">AI Voice</span> Cloning<br>for
                                 <span class="header-caption">
                                     <span class="cd-headline clip is-full-width">
                                         <span class="cd-words-wrapper">
