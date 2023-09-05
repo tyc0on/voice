@@ -11,6 +11,7 @@ if (@$_SESSION['id'] == 1) {
 // If the user is not logged in redirect to the login page...
 
 include 'include.php';
+include 'config.php';
 include 'variables.php';
 $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
 
@@ -250,7 +251,7 @@ $connection->close();
 
 // open in colab button
 echo '';
-include 'header.php';
+include 'core/header.php';
 ?>
 
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
@@ -320,4 +321,4 @@ include 'header.php';
 		</div>
 		<!--end::Footer-->
 		<!-- <script src="assets/js/custom/documentation/forms/nouislider.js"></script> -->
-		<?php include 'footer.php'; ?>
+		<?php include 'core/footer.php'; ?>

@@ -101,7 +101,7 @@ $title = $sitename . " - " . $siteslogan ?? $sitename;
         // 		.catch(error => updateUI(false));
         // }, 5000);
     </script>
-    <?php include '_head.php'; ?>
+    <?php echo $head; ?>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
