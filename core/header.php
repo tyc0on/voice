@@ -495,7 +495,7 @@ $title = $sitename . " - " . $siteslogan ?? $sitename;
                                                     $batch_name = substr($batch_name, 0, 20) . '...';
                                                 }
                                                 // shorten jon['name'] if longer than 10 characters
-                                                $jobname = $job['name'];
+                                                $jobname = $job['original_name'];
                                                 if (strlen($jobname) > 10) {
                                                     $jobname = substr($jobname, 0, 10) . '...';
                                                 }
