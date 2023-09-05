@@ -70,7 +70,14 @@ if (!isset($_SESSION['loggedin'])) {
     }
     // exit;
 } else {
-    $loggedin = "true";
+    if (isset($_SESSION['return_url'])) {
+        unset($_SESSION['return_url']);
+        header('Location: ' . $_SESSION['return_url']);
+    } else {
+        header('Location: ' . $siteapp);
+    }
+
+    exit;
 }
 // if (isset($_SESSION['loggedin'])) {
 //     if (isset($_SESSION['return_url'])) {
