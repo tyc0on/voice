@@ -73,9 +73,16 @@ if ($payload && $payload['aud'] == $google_oauth_client_id) {
             $_SESSION['picture'] = $picture;
             $_SESSION['colab'] = $instid;
 
+            // First, update the picture column for the user
+            if ($stmt = $con->prepare('UPDATE accounts SET picture = ? WHERE email = ?')) {
+                $stmt->bind_param('ss', $picture, $email);
+                $stmt->execute();
+            }
+
             $remember_token = bin2hex(random_bytes(32));
-            if ($stmt = $con->prepare('UPDATE accounts SET remember_token = ?, picture = ? WHERE email = ?')) {
-                $stmt->bind_param('sss', $remember_token, $picture, $email);
+            // Now, insert the new remember token into the remember_tokens table
+            if ($stmt = $con->prepare('INSERT INTO remember_tokens (user_id, token) VALUES (?, ?)')) {
+                $stmt->bind_param('is', $id, $remember_token); // Using $id here as it's the user's ID
                 $stmt->execute();
                 setcookie('remember_token', $remember_token, time() + 31536000, '/');
             }
@@ -123,31 +130,30 @@ if ($payload && $payload['aud'] == $google_oauth_client_id) {
                 $_SESSION['picture'] = $picture;
 
                 // find an unused inst and assign to user
-                $stmt2 = $con->prepare('SELECT id FROM inst WHERE user_id IS NULL ORDER BY RAND() LIMIT 1');
+                // $stmt2 = $con->prepare('SELECT id FROM inst WHERE user_id IS NULL ORDER BY RAND() LIMIT 1');
 
-                $stmt2->execute();
-                $stmt2->store_result();
+                // $stmt2->execute();
+                // $stmt2->store_result();
 
-                if ($stmt2->num_rows > 0) {
-                    $stmt2->bind_result($instid);
-                    $stmt2->fetch();
+                // if ($stmt2->num_rows > 0) {
+                //     $stmt2->bind_result($instid);
+                //     $stmt2->fetch();
 
-                    $stmt2 = $con->prepare('UPDATE inst SET user_id = ? WHERE id = ?');
-                    $stmt2->bind_param('ii', $id, $instid);
-                    $stmt2->execute();
-                }
-                $stmt2->close();
+                //     $stmt2 = $con->prepare('UPDATE inst SET user_id = ? WHERE id = ?');
+                //     $stmt2->bind_param('ii', $id, $instid);
+                //     $stmt2->execute();
+                // }
+                // $stmt2->close();
 
-                // set session colab as inst id
-                $_SESSION['colab'] = $instid;
+                // // set session colab as inst id
+                // $_SESSION['colab'] = $instid;
 
                 $remember_token = bin2hex(random_bytes(32));
-                if ($stmt = $con->prepare('UPDATE accounts SET remember_token = ?, inst = ? WHERE email = ?')) {
-                    $stmt->bind_param('sss', $remember_token, $instid, $email);
+                if ($stmt = $con->prepare('INSERT INTO remember_tokens (user_id, token) VALUES (?, ?)')) {
+                    $stmt->bind_param('is', $id, $remember_token); // Using $id here as it's the user's ID
                     $stmt->execute();
                     setcookie('remember_token', $remember_token, time() + 31536000, '/');
                 }
-
                 // SELECT id FROM inst WHERE user_id IS NULL ORDER BY RAND() LIMIT 1 
 
                 $useremail = $email;

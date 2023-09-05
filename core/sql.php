@@ -20,6 +20,6 @@ CREATE TABLE `analytics` (
     `element_id` varchar(255) DEFAULT NULL,
     `monitor_data` varchar(255) DEFAULT NULL,
     `event_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-  ) 
+) 
 
 EOD;
