@@ -10,6 +10,8 @@ session_start();
 // include google API client
 require_once "vendor/autoload.php";
 include('include.php');
+include('variables.php');
+
 
 use SendGrid\Mail\Mail;
 
