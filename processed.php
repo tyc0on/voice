@@ -11,9 +11,9 @@ if (@$_SESSION['id'] == 1) {
 // If the user is not logged in redirect to the login page...
 
 include 'include.php';
-include 'config.php';
 include 'variables.php';
 $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
+include 'config.php';
 
 if ($con->connect_errno) {
 	printf("connection failed: %s\n", $con->connect_error());
