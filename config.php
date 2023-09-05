@@ -222,3 +222,6 @@ $menu1 = <<<EOD
                         </div>
 
 EOD;
+
+
+$modals = '';
