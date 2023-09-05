@@ -468,7 +468,7 @@ $title = $sitename . " - " . $siteslogan ?? $sitename;
                                             while ($row = $result->fetch_assoc()) {
                                                 // use audio_files table original_names to create nice batch names
                                                 // first get jobs in batch as they contain audio_files.id
-                                                $sql2 = "SELECT * FROM jobs WHERE batch_id = ?";
+                                                $sql2 = "SELECT * FROM jobs LEFT JOIN files ON files.id = jobs.model_id  WHERE jobs.batch_id = ?";
                                                 $stmt2 = $con->prepare($sql2);
                                                 $stmt2->bind_param('i', $row['id']);
                                                 $stmt2->execute();
@@ -494,6 +494,15 @@ $title = $sitename . " - " . $siteslogan ?? $sitename;
                                                 if (strlen($batch_name) > 20) {
                                                     $batch_name = substr($batch_name, 0, 20) . '...';
                                                 }
+                                                // shorten jon['name'] if longer than 10 characters
+                                                $jobname = $job['name'];
+                                                if (strlen($jobname) > 10) {
+                                                    $jobname = substr($jobname, 0, 10) . '...';
+                                                }
+                                                // add pitch to jobname if not 0
+                                                if ($job['pitch'] != 0) {
+                                                    $jobname .= ' ' . $job['pitch'];
+                                                }
                                                 if ($count['COUNT(*)'] > 1) {
                                                     $batch_name .= ' (' . ($count['COUNT(*)'] - 1) . ' more)';
                                                 }
@@ -509,7 +518,7 @@ $title = $sitename . " - " . $siteslogan ?? $sitename;
                                                 echo '<span class="menu-bullet">';
                                                 echo '<span class="bullet bullet-dot"></span>';
                                                 echo '</span>';
-                                                echo '<span class="menu-title"' . $menucolor . '>' . htmlspecialchars($batch_name) . '</span>';
+                                                echo '<span class="menu-title"' . $menucolor . '>' . htmlspecialchars($batch_name) . ' ' . $jobname . '</span>';
                                                 echo '</a>';
                                                 echo '</div>';
                                             }
