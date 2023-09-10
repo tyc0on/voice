@@ -41,7 +41,7 @@ if ($_POST['type'] == 'discord') {
         $errorMessage = $_POST['error_message'];
         $error_payload = [
             "username" => "VoicezeBot Worker ⛏️",
-            "content" => "<@" . $_POST['user_id'] . "> Error: " . $errorMessage . ". Try a different model.",
+            "content" => "<@" . $_POST['user_id'] . "> Error: " . $errorMessage . ".",
         ];
         // $json_data = json_encode($data);
         $ch = curl_init($url);
