@@ -1,8 +1,15 @@
 <?php
+//errors on
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 ini_set('session.cookie_lifetime', 60 * 60 * 24 * 365);
 session_start();
 include('include.php');
 include('variables.php');
+$con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
+
 
 $loggedin = "false";
 if (!isset($_SESSION['loggedin'])) {
