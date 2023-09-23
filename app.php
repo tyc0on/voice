@@ -275,7 +275,7 @@ include 'core/header.php';
 									</div>
 									<!--begin::Select-->
 									<div class="me-6 my-1">
-										<select id="kt_filter_year" name="year" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-solid form-select-sm">
+										<select id="kt_filter_year" name="year" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-sm">
 											<option value="All" selected="selected">Gender</option>
 											<option value="thisyear">Male</option>
 											<option value="thismonth">Female</option>
@@ -285,7 +285,7 @@ include 'core/header.php';
 									<!--end::Select-->
 									<!--begin::Select-->
 									<div class="me-4 my-1">
-										<select id="kt_filter_orders" name="orders" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-solid form-select-sm">
+										<select id="kt_filter_orders" name="orders" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-sm">
 											<option value="All" selected="selected">Accent</option>
 											<option value="Approved">Approved</option>
 											<option value="Declined">Declined</option>
@@ -300,7 +300,7 @@ include 'core/header.php';
 											<span class="path1"></span>
 											<span class="path2"></span>
 										</i>
-										<input type="text" id="kt_filter_search" class="form-control form-control-solid form-select-sm w-150px ps-9" placeholder="Search Voices" />
+										<input type="text" id="kt_filter_search" class="form-control w-150px fs-7 ps-9" placeholder="Search Voices" />
 									</div>
 									<!--end::Search-->
 								</div>
@@ -364,7 +364,24 @@ include 'core/header.php';
 													$url = strlen($row['url']) > 18 ? substr($row['url'], 0, 18) . '...' : $row['url'];
 
 
-
+													if ($_SESSION['id'] == 1) {
+														$checkbox = '<input class="form-check-input me-2" type="checkbox" name="id[]" value="' . $row['id'] . '"> ';
+														$copybutton = '';
+														// find tags for each file
+														$query = "SELECT tag_name FROM tags INNER JOIN files_tags ON tags.tag_id = files_tags.tag_id WHERE files_tags.file_id = '" . $row['id'] . "'";
+														$result3 = mysqli_query($con, $query);
+														// set $tags as badge html
+														$tags = '';
+														while ($row3 = mysqli_fetch_assoc($result3)) {
+															$tags .= '<span class="badge badge-light">' . $row3['tag_name'] . '</span> ';
+														}
+													} else {
+														$checkbox = '';
+														$copybutton = "<button class='btn btn-sm fw-bold btn-light copy-button ms-4 p-1 ps-2 pe-2' onclick='copyToClipboard(\"" . htmlspecialchars($row['url']) . "\", this)'>
+														Copy to Clipboard
+														</button>";
+														$tags = '<span class="badge badge-light-success fw-bold px-4 py-3">Online</span>';
+													}
 
 													// get first letter from $row['name']
 													$firstLetter = mb_substr($row['original_name'], 0, 1);
@@ -375,7 +392,7 @@ include 'core/header.php';
 															</div></div>";
 
 													echo '<tr>
-															<td>
+															<td>' . $checkbox . '
 																<div class="d-flex align-items-center">
 																	' . $icon . '
 																	<div class="d-flex flex-column justify-content-center">
@@ -417,7 +434,7 @@ include 'core/header.php';
 
 													echo '</td>
 															<td>
-																<span class="badge badge-light-success fw-bold px-4 py-3">Online</span>
+																' . $tags . '
 															</td>
 															<td class="text-end">
 																<input type="hidden" id="name-' . $row['id'] . '" name="name-' . $row['id'] . '" value="' . $row['name'] . '">
