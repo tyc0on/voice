@@ -486,7 +486,7 @@ include 'core/header.php';
 													const pitchElement = document.getElementById('kt_modal_create_campaign_budget_label');
 													const pitchValue = pitchElement ? parseInt(pitchElement.textContent.trim()) : null;
 
-													if (nameValue && pitchValue) {
+													if (nameValue !== null && pitchValue !== null) {
 														const nameInput = document.createElement('input');
 														nameInput.type = 'hidden';
 														nameInput.name = 'name';
