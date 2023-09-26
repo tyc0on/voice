@@ -364,24 +364,24 @@ include 'core/header.php';
 													$url = strlen($row['url']) > 18 ? substr($row['url'], 0, 18) . '...' : $row['url'];
 
 
-													if ($_SESSION['id'] == 1) {
-														$checkbox = '<input class="form-check-input me-2" type="checkbox" name="id[]" value="' . $row['id'] . '"> ';
-														$copybutton = '';
-														// find tags for each file
-														$query = "SELECT tag_name FROM tags INNER JOIN files_tags ON tags.tag_id = files_tags.tag_id WHERE files_tags.file_id = '" . $row['id'] . "'";
-														$result3 = mysqli_query($con, $query);
-														// set $tags as badge html
-														$tags = '';
-														while ($row3 = mysqli_fetch_assoc($result3)) {
-															$tags .= '<span class="badge badge-light">' . $row3['tag_name'] . '</span> ';
-														}
-													} else {
-														$checkbox = '';
-														$copybutton = "<button class='btn btn-sm fw-bold btn-light copy-button ms-4 p-1 ps-2 pe-2' onclick='copyToClipboard(\"" . htmlspecialchars($row['url']) . "\", this)'>
+													// if ($_SESSION['id'] == 1) {
+													// 	$checkbox = '<input class="form-check-input me-2" type="checkbox" name="id[]" value="' . $row['id'] . '"> ';
+													// 	$copybutton = '';
+													// 	// find tags for each file
+													// 	$query = "SELECT tag_name FROM tags INNER JOIN files_tags ON tags.tag_id = files_tags.tag_id WHERE files_tags.file_id = '" . $row['id'] . "'";
+													// 	$result3 = mysqli_query($con, $query);
+													// 	// set $tags as badge html
+													// 	$tags = '';
+													// 	while ($row3 = mysqli_fetch_assoc($result3)) {
+													// 		$tags .= '<span class="badge badge-light">' . $row3['tag_name'] . '</span> ';
+													// 	}
+													// } else {
+													$checkbox = '';
+													$copybutton = "<button class='btn btn-sm fw-bold btn-light copy-button ms-4 p-1 ps-2 pe-2' onclick='copyToClipboard(\"" . htmlspecialchars($row['url']) . "\", this)'>
 														Copy to Clipboard
 														</button>";
-														$tags = '<span class="badge badge-light-success fw-bold px-4 py-3">Online</span>';
-													}
+													$tags = '<span class="badge badge-light-success fw-bold px-4 py-3">Online</span>';
+													// }
 
 													// get first letter from $row['name']
 													$firstLetter = mb_substr($row['original_name'], 0, 1);
