@@ -260,7 +260,7 @@ if ($_POST['type'] == 'discord') {
         // save in samples folder with name of $_POST['name'].mp3
         $name = $_POST['name'];
         $extension = pathinfo($_FILES['audioFile']['name'], PATHINFO_EXTENSION);
-        $newFile = "samples/" . $name . $pitch . "." . $extension;
+        $newFile = "samples2/" . $name . $pitch . "." . $extension;
         move_uploaded_file($tempFile, $newFile);
     }
 }
