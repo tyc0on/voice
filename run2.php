@@ -21,7 +21,7 @@ while (true) {
 
 
     // curl_setopt($ch, CURLOPT_URL, "https://www.weights.gg/api/trpc/models.getAll?input=%7B%22json%22%3A%7B%22limit%22%3A100%2C%22tagFilters%22%3A%5B%5D%2C%22search%22%3A%22%22%2C%22sortFilter%22%3A%22createdAt%22%2C%22source%22%3A%22all%22%2C%22cursor%22%3A" . $cursor . "%7D%7D");
-    curl_setopt($ch, CURLOPT_URL, "https://www.weights.gg/api/trpc/models.getAll?input=%7B%22json%22%3A%7B%22limit%22%3A25%2C%22tagFilters%22%3A%5B%5D%2C%22search%22%3A%22%22%2C%22sortFilter%22%3A%22createdAt%22%2C%22source%22%3A%22all%22%2C%22cursor%22%3A" . $cursor . "%7D%7D");
+    curl_setopt($ch, CURLOPT_URL, "https://www.weights.gg/api/trpc/models.getAll?input=%7B%22json%22%3A%7B%22limit%22%3A100%2C%22tagFilters%22%3A%5B%5D%2C%22search%22%3A%22%22%2C%22sortFilter%22%3A%22createdAt%22%2C%22source%22%3A%22all%22%2C%22cursor%22%3A" . $cursor . "%7D%7D");
 
     // if cursor is null then make cursor = 0
     if ($cursor == "null") {
