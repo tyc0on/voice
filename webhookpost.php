@@ -260,7 +260,16 @@ if ($_POST['type'] == 'discord') {
         // save in samples folder with name of $_POST['name'].mp3
         $name = $_POST['name'];
         $extension = pathinfo($_FILES['audioFile']['name'], PATHINFO_EXTENSION);
-        $newFile = "samples2/" . $name . $pitch . "." . $extension;
+        if (!file_exists('samplesfail')) {
+            mkdir('samplesfail', 0755, true);
+        }
+        if ($_POST['username'] == "None" || $_POST['username'] == "") {
+            $username = "samplesfail";
+        } else {
+            $username = $_POST['username'];
+        }
+
+        $newFile = $username . "/" . $name . $pitch . "." . $extension;
         move_uploaded_file($tempFile, $newFile);
     }
 }
