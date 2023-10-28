@@ -7,7 +7,7 @@ if ($con->connect_errno) {
     exit();
 }
 
-$folder = "samples2";
+$folder = "/var/www/easyaivoice.com/public_html/samples2";
 $file = "sample2.mp3";
 // create samples folder if not exists
 if (!file_exists($folder)) {
