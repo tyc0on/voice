@@ -15,7 +15,7 @@ if (!file_exists($folder)) {
 }
 
 // loop through all `files` and create job for each with curl
-$sql = "SELECT * FROM files WHERE md5 <> 'T' AND index_name != ''";
+$sql = "SELECT * FROM files WHERE md5 <> 'T' AND index_name != '' ORDER BY `id` DESC";
 $stmt = $con->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
