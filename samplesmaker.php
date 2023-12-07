@@ -50,10 +50,14 @@ while ($row = $result->fetch_assoc()) {
 
     // Check for file existence for each pitch
     foreach ($pitches as $pitch) {
-        $existing = $folder . "/" . $model_name . ".p" . $pitch . ".mp3";
-        echo $existing . "<br>\n";
+        if ($pitch == 0) {
+            $existing = $folder . "/" . $model_name . ".mp3";
+        } else {
+            $existing = $folder . "/" . $model_name . ".p" . $pitch . ".mp3";
+        }
         if (!file_exists($existing)) {
-
+            echo $existing . "<br>\n";
+        
             $jobData = array(
                 'audio_url' => $url,
                 'voice_model' => $name,
