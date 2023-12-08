@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $response = $sendgrid->send($email);
         // echo "Email sent successfully. Response code: " . $response->statusCode() . "\n";
-        echo "Email sent\n";
+        echo "Takedown request will be reviewed ASAP\n";
     } catch (Exception $e) {
         echo 'Caught exception: ' .  $e->getMessage() . "\n";
     }
