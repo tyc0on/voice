@@ -112,31 +112,19 @@ if ($modelUrl == "") {
 								</div>
 								<button type="button" id="pickExistingFiles" class="btn btn-primary mt-3">Pick from existing audio files</button>
 								<select multiple id="existingFilesDropdown" style="display:none;"><?php
-
 																									$sql = "SELECT * FROM audio_files WHERE user_id = ? ORDER BY id DESC";
 																									$stmt = $con->prepare($sql);
 																									$stmt->bind_param('i', $_SESSION['id']);
 																									$stmt->execute();
 																									$result = $stmt->get_result();
 
-																									// Assuming there's a field 'name' in the 'batch' table to display as the menu title.
-																									// If the field name is different, replace 'name' with the appropriate field name.
 																									while ($row = $result->fetch_assoc()) {
 																										$filepath = str_replace("audios/", "", $row['file_path']);
 																										$audioFiles[] = ['id' => $row['id'], 'file_name' => $row['original_name']];
 																									}
 
 																									$stmt->close();
-																									// $audioFiles = [
-																									// 	['id' => 1, 'file_name' => 'audio1.mp3'],
-																									// 	['id' => 2, 'file_name' => 'audio2.mp3'],
-																									// 	['id' => 3, 'file_name' => 'audio3.mp3'],
-																									// 	['id' => 4, 'file_name' => 'audio4.mp3'],
-																									// 	['id' => 5, 'file_name' => 'audio5.mp3'],
-																									// 	// ... more files
-																									// ];
 
-																									// echo "<option value=''>Select files</option>";
 																									foreach ($audioFiles as $audioFile) {
 																										echo "<option value='{$audioFile['id']}'>{$audioFile['file_name']}</option>";
 																									}
@@ -144,7 +132,30 @@ if ($modelUrl == "") {
 							</div>
 							<input type="hidden" name="name" value="<?php echo htmlspecialchars($modelUrl); ?>">
 							<button class="btn btn-primary mt-3" type="submit" name="submit">Submit -></button>
+							<!-- Toggle button for advanced settings -->
+							<button type="button" id="toggleAdvancedSettings" class="btn btn-secondary mt-3">Advanced Settings</button>
+							<!-- Advanced settings section (hidden by default) -->
+							<div id="advancedSettings" style="display: none;">
+								<h3>Advanced settings</h3>
+								<div class="fv-row">
+									<label for="pitch">Pitch:</label>
+									<input type="number" id="pitch" name="pitch" value="0" min="-100" max="100">
+								</div>
+							</div>
 						</form>
+
+						<script>
+							// JavaScript to toggle the advanced settings visibility
+							document.getElementById('toggleAdvancedSettings').addEventListener('click', function() {
+								var advSettings = document.getElementById('advancedSettings');
+								if (advSettings.style.display === 'none') {
+									advSettings.style.display = 'block';
+								} else {
+									advSettings.style.display = 'none';
+								}
+							});
+						</script>
+
 						<script>
 							document.querySelector(".custom-file-upload").addEventListener("click", function() {
 								document.getElementById("fileInput").click();
