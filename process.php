@@ -270,8 +270,10 @@ include 'core/header.php';
 
 					<div style="text-align:center; margin-top:100px;">
 						<img src="/assets/media/misc/loading.webp" alt="loading" style="width: 480px; height: 480px;">
-						<h1 style="font-size:60px;">Audio Files are Processing....</h1>
-						<h2>Check back later. The link in the menu will turn green</h2>
+						<h1 style="font-size:60px;">Processing your audio files....</h1>
+						<div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
 						<div id="error-message" style="display:none;">
 							<p style="color:red; font-size:24px;">An error occurred while processing your files.</p>
 							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button>
