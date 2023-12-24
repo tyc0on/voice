@@ -76,6 +76,13 @@ if ($stmt = $con->prepare('SELECT id, password, accounttype, username FROM accou
 			// 	$_SESSION['credits'] =  $total;
 			// 	$stmt2->close();
 			// }
+
+			// if isset session return_url set goto to that and unset return_url
+			if (isset($_SESSION['return_url'])) {
+				$goto = $_SESSION['return_url'];
+				unset($_SESSION['return_url']);
+			}
+
 			header('Location: ' . $goto);
 		} else {
 			echo 'Incorrect password!';

@@ -129,6 +129,10 @@ if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE email = ? OR 
 				echo 'Caught exception: ' .  $e->getMessage() . "\n";
 			}
 			//echo 'You have successfully registered, you can now login! <a href="login.php">Login</a>';
+			if (isset($_SESSION['return_url'])) {
+				$goto = $_SESSION['return_url'];
+				unset($_SESSION['return_url']);
+			}
 			header('Location: ' . $goto);
 		} else {
 			// Something is wrong with the sql statement, check to make sure accounts table exists with all 3 fields.
