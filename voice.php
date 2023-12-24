@@ -680,7 +680,7 @@ echo '';
 
 						<!--end::Toolbar-->
 						<!--begin::Content-->
-						<div id="kt_app_content" class="app-content flex-column-fluid">
+						<div id="kt_app_content" class="app-content flex-column-fluid" style="background: rgba(27, 27, 27, 0.5);">
 							<div id="userContent" class="d-flex align-items-center" style="background-color:#000000; padding-left:85px; padding-top:15px; padding-bottom:15px;">
 								<img id="inline-image" class="mr-3" src="https://lh3.googleusercontent.com/a/AAcHTteAneghS5HbLvTGHh8fijGv-JhOAwNSDneN-I_n7XmwHQ54=s96-c">
 								<div class="fs-1">Transform yupin-test1.mp3 into Yupin</div>
