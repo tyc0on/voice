@@ -133,7 +133,7 @@ include 'core/header.php';
 								<!--begin::Card title-->
 								<div class="card-title flex-column">
 									<h3 class="fw-bold mb-1">Processed Audio Files</h3>
-									<div class="fs-6 text-gray-400">Completed 37 minutes ago</div>
+									<!-- <div class="fs-6 text-gray-400">Completed 37 minutes ago</div> -->
 								</div>
 								<!--begin::Card title-->
 								<!--begin::Card toolbar-->
@@ -162,13 +162,13 @@ include 'core/header.php';
 											<option value="In Transit">In Transit</option>
 										</select>
 									</div> -->
-									<div class="d-flex align-items-center position-relative my-1">
+									<!-- <div class="d-flex align-items-center position-relative my-1">
 										<i class="ki-duotone ki-magnifier fs-3 position-absolute ms-3">
 											<span class="path1"></span>
 											<span class="path2"></span>
 										</i>
 										<input type="text" id="kt_filter_search" class="form-control form-control-solid form-select-sm w-150px ps-9" placeholder="Search Voices" />
-									</div>
+									</div> -->
 									<!--end::Search-->
 								</div>
 								<!--begin::Card toolbar-->
@@ -182,11 +182,9 @@ include 'core/header.php';
 									<table id="kt_profile_overview_table" class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
 										<thead class="fs-7 text-gray-400 text-uppercase">
 											<tr>
-												<th class="min-w-250px">Manager</th>
+												<th class="min-w-250px">File</th>
 												<th class="min-w-150px">Date</th>
-												<th class="min-w-90px">Sample</th>
-												<th class="min-w-90px">Rating</th>
-												<th class="min-w-50px text-end">Details</th>
+												<th class="min-w-90px text-end">Download</th>
 											</tr>
 										</thead>
 										<tbody class="fs-6">
@@ -270,7 +268,7 @@ include 'core/header.php';
 																</div>
 															</td>
 															<td>' . $created_at . '</td>
-<td class="fs-7">';
+<td class="fs-7 text-end">';
 													$pitches = [-16, -12, -8, -4, 0, 4, 8, 12, 16];
 
 													// Single audio player
@@ -300,14 +298,14 @@ include 'core/header.php';
 													// echo '</div>'; // Close Pitch div
 
 
-													echo '</td>
-															<td>
-																<span class="badge badge-light-success fw-bold px-4 py-3">Online</span>
-															</td>
-															<td class="text-end">
-																
-															</td>
-														</tr>';
+													// echo '</td>
+													// 		<td>
+													// 			<span class="badge badge-light-success fw-bold px-4 py-3">Online</span>
+													// 		</td>
+													// 		<td>
+
+													// 		</td>
+													// 	</tr>';
 												}
 											}
 											?>
