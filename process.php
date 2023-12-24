@@ -8,6 +8,9 @@ if (@$_SESSION['id'] == 1) {
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 }
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 // If the user is not logged in redirect to the login page...
 
 include 'include.php';
@@ -162,12 +165,10 @@ $stmt->bind_param('s', $_POST['name']);
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
-// if model_id exists set model_id
 if ($result->num_rows > 0) {
 	$row = $result->fetch_assoc();
 	$model_id = $row['id'];
 } else {
-	// die("Model not found.");
 	$model_id = 0;
 }
 
@@ -180,11 +181,11 @@ require 'vendor/autoload.php';
 $connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
 $channel = $connection->channel();
 
-$channel->queue_declare('job_queue', false, true, false, false);
+// $channel->queue_declare('job_queue', false, true, false, false);
+$channel->queue_declare('job_queue', false, true, false, false, false, new \PhpAmqpLib\Wire\AMQPTable(['x-max-priority' => 10]));
 
 $pitches = array(-16, -12, -8, -4, 4, 8, 12, 16);
 
-// while ($row = $result->fetch_assoc()) {
 foreach ($audioFiles as $audioFile) {
 	$sql = "INSERT INTO jobs (user_id, audio_id, model_id, pitch, status, batch_id) VALUES (?, ?, ?, ?, ?, ?)";
 	$stmt = $con->prepare($sql);
@@ -202,14 +203,10 @@ foreach ($audioFiles as $audioFile) {
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$stmt->close();
-	// if file_path exists add to audioFiles
 	if ($result->num_rows > 0) {
 		$row = $result->fetch_assoc();
 
-		// url is the url of the audio file to process
 		$url = "https://easyaivoice.com/" . $row['file_path'];
-		// $name = $row['name'];
-		//model url
 		$name = $_POST['name'];
 		$pitch = $_POST['pitch'];
 
@@ -239,12 +236,11 @@ foreach ($audioFiles as $audioFile) {
 			)
 		);
 
-		$msg = new AMQPMessage(json_encode($jobData));
+		// $msg = new AMQPMessage(json_encode($jobData));
+		$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2]);
 		$channel->basic_publish($msg, '', 'job_queue');
 	}
-	// die;
 }
-// }
 $channel->close();
 $connection->close();
 
@@ -404,4 +400,13 @@ include 'core/header.php';
 	</div>
 	<!--end::Footer-->
 	<!-- <script src="assets/js/custom/documentation/forms/nouislider.js"></script> -->
-	<?php include 'core/footer.php'; ?>
+	<?php include 'core/footer.php';
+	if ($model_id == 0) {
+		$scriptPath = __DIR__ . '/samplesmaker.php';
+		exec("/usr/bin/php $scriptPath");
+		$scriptPath = __DIR__ . '/samplesmaker2.php';
+		exec("/usr/bin/php $scriptPath");
+		// include('samplesmaker.php');
+		// include('samplesmaker2.php');
+	}
+	?>

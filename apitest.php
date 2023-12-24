@@ -198,7 +198,7 @@ require 'vendor/autoload.php';
 $connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
 $channel = $connection->channel();
 
-$channel->queue_declare('job_queue', false, true, false, false);
+$channel->queue_declare('job_queue', false, true, false, false, false, new \PhpAmqpLib\Wire\AMQPTable(['x-max-priority' => 10]));
 
 $msg = new AMQPMessage(json_encode($jobData));
 $channel->basic_publish($msg, '', 'job_queue');
