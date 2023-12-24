@@ -273,7 +273,7 @@ include 'core/header.php';
 										<div id="kt_modal_create_campaign_budget_slider" class="noUi-sm"></div>
 
 									</div>
-									<!-- <div class="me-6 my-1">
+									<div class="me-6 my-1" style="display:none;">
 										<select id="kt_filter_year" name="year" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-sm">
 											<option value="All" selected="selected">Gender</option>
 											<option value="thisyear">Male</option>
@@ -281,7 +281,7 @@ include 'core/header.php';
 											<option value="lastmonth">Other</option>
 										</select>
 									</div>
-									<div class="me-4 my-1">
+									<div class="me-4 my-1" style="display:none;">
 										<select id="kt_filter_orders" name="orders" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-sm">
 											<option value="All" selected="selected">Accent</option>
 											<option value="Approved">Approved</option>
@@ -289,7 +289,7 @@ include 'core/header.php';
 											<option value="In Progress">In Progress</option>
 											<option value="In Transit">In Transit</option>
 										</select>
-									</div> -->
+									</div>
 									<div class="d-flex align-items-center position-relative my-1">
 										<i class="ki-duotone ki-magnifier fs-3 position-absolute ms-3">
 											<span class="path1"></span>
