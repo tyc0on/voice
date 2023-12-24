@@ -276,6 +276,15 @@ include 'core/header.php';
 						<div id="countdown-timer" style="font-size:30px; margin-top:20px;">
 							Next check in <span id="countdown-value">10</span> seconds.
 						</div>
+						<h2><?php
+							// make array of possible messages
+							$messages = array(
+								"Hang tight! We're currently convincing a pack of sleepy electrons to move a little faster, negotiating a peace treaty between rival bandwidth tribes, and looking for the 'speed up' button we lost last week.", "Just a sec! Your request is jumping through hoops of fire, dodging lazy zeros and ones, and teaching an old computer new tricks. It's a tough job, but someone's gotta do it!", "Processing... Our code wizards are currently in a heated debate with a stubborn server gnome who loves taking long breaks. We've promised him an extra vacation day, so we should be back on track shortly!", "Brace yourself! We're wrangling the digital hamsters, negotiating with time-traveling tourists, and bribing the internet gremlins to speed things up. Hold on tight; your request is surfing through the cosmic internet waves!"
+							);
+							// get random message
+							$message = $messages[array_rand($messages)];
+							echo $message;
+							?></h2>
 						<button id="manual-check" onclick="manualCheck()" style="margin-top:20px;">Check Now</button>
 						<div id="error-message" style="display:none;">
 							<p style="color:red; font-size:24px;">An error occurred while processing your files.</p>
