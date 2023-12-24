@@ -167,7 +167,8 @@ if ($result->num_rows > 0) {
 	$row = $result->fetch_assoc();
 	$model_id = $row['id'];
 } else {
-	die("Model not found.");
+	// die("Model not found.");
+	$model_id = 0;
 }
 
 
