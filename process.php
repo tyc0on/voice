@@ -284,7 +284,7 @@ include 'core/header.php';
 					</div>
 					<script type="text/javascript">
 						(function() {
-							var delay = 1000; // 10 seconds
+							var delay = 1000;
 							var countdownValue = delay / 1000;
 							var batchId = <?php echo json_encode($batch ?? 'null'); ?>;
 
@@ -300,13 +300,14 @@ include 'core/header.php';
 								}
 							}
 
-							function resetCountdown() {
+							function resetCountdown(newDelay) {
+								delay = newDelay !== undefined ? newDelay : delay;
 								countdownValue = delay / 1000;
 								updateCountdown();
 							}
 
 							function manualCheck() {
-								resetCountdown();
+								resetCountdown(1000); // Reset the delay to 1000 milliseconds
 								checkBatchStatus();
 							}
 
@@ -321,8 +322,8 @@ include 'core/header.php';
 										} else if (response.error) {
 											displayError();
 										} else {
-											delay *= 2; // Consider adjusting this logic as needed
-											resetCountdown();
+											delay *= 2;
+											resetCountdown(); // Use the increased delay for automatic checks
 											setTimeout(checkBatchStatus, delay);
 										}
 									} else {
@@ -338,9 +339,10 @@ include 'core/header.php';
 							}
 
 							setTimeout(checkBatchStatus, delay);
-							updateCountdown(); // Initialize countdown on page load
+							updateCountdown();
 						})();
 					</script>
+
 				</div>
 
 
