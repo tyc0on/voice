@@ -98,7 +98,9 @@ if ($modelUrl == "") {
 			<div id="kt_app_content" class="app-content flex-column-fluid">
 				<div id="kt_app_content_container" class="app-container container-fluid">
 					<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-						<form class="form mt-5" action="/process" method="post" enctype="multipart/form-data" id="audios">
+						<form class="form mt-15" action="/process" method="post" enctype="multipart/form-data" id="audios">
+							<h1>Upload Audio File</h1>
+							<h2>Selected Voice Model: <?php echo $modelUrl; ?></h2>
 							<div class="fv-row">
 								<input type="file" name="files[]" id="fileInput" multiple style="display: none;">
 								<div class="custom-file-upload" style="border: 1px dashed #9b00ff; background-color: #000000; padding: 10px; text-align: center; cursor: pointer;">
@@ -141,7 +143,7 @@ if ($modelUrl == "") {
 																									?></select>
 							</div>
 							<input type="hidden" name="name" value="<?php echo htmlspecialchars($modelUrl); ?>">
-							<button type="submit" name="submit">Submit</button>
+							<button class="btn btn-primary mt-3" type="submit" name="submit">Submit -></button>
 						</form>
 						<script>
 							document.querySelector(".custom-file-upload").addEventListener("click", function() {
