@@ -267,13 +267,16 @@ include 'core/header.php';
 			<div id="kt_app_content_container" class="app-container container-xxl">
 				<!--begin::Row-->
 				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-
 					<div style="text-align:center; margin-top:100px;">
 						<img src="/assets/media/misc/loading.webp" alt="loading" style="width: 480px; height: 480px;">
 						<h1 style="font-size:60px;">Processing your audio files....</h1>
 						<div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
 							<span class="visually-hidden">Loading...</span>
 						</div>
+						<div id="countdown-timer" style="font-size:30px; margin-top:20px;">
+							Next check in <span id="countdown-value">10</span> seconds.
+						</div>
+						<button id="manual-check" onclick="manualCheck()" style="margin-top:20px;">Check Now</button>
 						<div id="error-message" style="display:none;">
 							<p style="color:red; font-size:24px;">An error occurred while processing your files.</p>
 							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button>
@@ -281,11 +284,30 @@ include 'core/header.php';
 					</div>
 					<script type="text/javascript">
 						(function() {
-							var delay = 1000;
+							var delay = 1000; // 10 seconds
+							var countdownValue = delay / 1000;
 							var batchId = <?php echo json_encode($batch ?? 'null'); ?>;
 
 							function displayError() {
 								document.getElementById('error-message').style.display = 'block';
+							}
+
+							function updateCountdown() {
+								document.getElementById('countdown-value').textContent = countdownValue;
+								if (countdownValue > 0) {
+									countdownValue--;
+									setTimeout(updateCountdown, 1000);
+								}
+							}
+
+							function resetCountdown() {
+								countdownValue = delay / 1000;
+								updateCountdown();
+							}
+
+							function manualCheck() {
+								resetCountdown();
+								checkBatchStatus();
 							}
 
 							function checkBatchStatus() {
@@ -299,7 +321,8 @@ include 'core/header.php';
 										} else if (response.error) {
 											displayError();
 										} else {
-											delay *= 2;
+											delay *= 2; // Consider adjusting this logic as needed
+											resetCountdown();
 											setTimeout(checkBatchStatus, delay);
 										}
 									} else {
@@ -315,11 +338,14 @@ include 'core/header.php';
 							}
 
 							setTimeout(checkBatchStatus, delay);
+							updateCountdown(); // Initialize countdown on page load
 						})();
 					</script>
+				</div>
 
 
-					<!-- <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mt-0">
+
+				<!-- <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mt-0">
 
 						<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
 							Step 1:
@@ -329,39 +355,39 @@ include 'core/header.php';
 
 
 
-				</div>
-
-
-
-				<!--end::Content container-->
 			</div>
-			<!--end::Content-->
+
+
+
+			<!--end::Content container-->
 		</div>
-		<!--end::Content wrapper-->
-		<!--begin::Footer-->
-		<div id="kt_app_footer" class="app-footer">
-			<!--begin::Footer container-->
-			<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-				<!--begin::Copyright-->
-				<div class="text-dark order-2 order-md-1">
-					<span class="text-muted fw-semibold me-1">2023&copy;</span>
-					<a href="https://easyaivoice.com" target="_blank" class="text-gray-800 text-hover-primary">EasyAIVoice</a>
-				</div>
-				<!--end::Copyright-->
-				<!--begin::Menu-->
-				<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-					<li class="menu-item">
-						<a href="https://easyaivoice.com" target="_blank" class="menu-link px-2">About</a>
-					</li>
-					<li class="menu-item">
-						<a href="https://blog.easyai.studio/contact" target="_blank" class="menu-link px-2">Support</a>
-					</li>
-					<!-- footerlink -->
-				</ul>
-				<!--end::Menu-->
+		<!--end::Content-->
+	</div>
+	<!--end::Content wrapper-->
+	<!--begin::Footer-->
+	<div id="kt_app_footer" class="app-footer">
+		<!--begin::Footer container-->
+		<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+			<!--begin::Copyright-->
+			<div class="text-dark order-2 order-md-1">
+				<span class="text-muted fw-semibold me-1">2023&copy;</span>
+				<a href="https://easyaivoice.com" target="_blank" class="text-gray-800 text-hover-primary">EasyAIVoice</a>
 			</div>
-			<!--end::Footer container-->
+			<!--end::Copyright-->
+			<!--begin::Menu-->
+			<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
+				<li class="menu-item">
+					<a href="https://easyaivoice.com" target="_blank" class="menu-link px-2">About</a>
+				</li>
+				<li class="menu-item">
+					<a href="https://blog.easyai.studio/contact" target="_blank" class="menu-link px-2">Support</a>
+				</li>
+				<!-- footerlink -->
+			</ul>
+			<!--end::Menu-->
 		</div>
-		<!--end::Footer-->
-		<!-- <script src="assets/js/custom/documentation/forms/nouislider.js"></script> -->
-		<?php include 'core/footer.php'; ?>
+		<!--end::Footer container-->
+	</div>
+	<!--end::Footer-->
+	<!-- <script src="assets/js/custom/documentation/forms/nouislider.js"></script> -->
+	<?php include 'core/footer.php'; ?>
