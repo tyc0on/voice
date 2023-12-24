@@ -267,7 +267,7 @@ include 'core/header.php';
 			<div id="kt_app_content_container" class="app-container container-xxl">
 				<!--begin::Row-->
 				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-					<div style="text-align:center; margin-top:100px;">
+					<div style="text-align:center; margin-top:15px;">
 						<img src="/assets/media/misc/loading.webp" alt="loading" style="width: 480px; height: 480px;">
 						<h1 style="font-size:60px;">Processing your audio files....</h1>
 						<div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
@@ -275,6 +275,12 @@ include 'core/header.php';
 						</div>
 						<div id="countdown-timer" style="font-size:30px; margin-top:20px;">
 							Next check in <span id="countdown-value">10</span> seconds.
+						</div>
+
+						<button id="manual-check" style="margin-top:20px;">Check Now</button>
+						<div id="error-message" style="display:none;">
+							<p style="color:red; font-size:24px;">An error occurred while processing your files.</p>
+							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button>
 						</div>
 						<h2><?php
 							// make array of possible messages
@@ -285,11 +291,6 @@ include 'core/header.php';
 							$message = $messages[array_rand($messages)];
 							echo $message;
 							?></h2>
-						<button id="manual-check" onclick="manualCheck()" style="margin-top:20px;">Check Now</button>
-						<div id="error-message" style="display:none;">
-							<p style="color:red; font-size:24px;">An error occurred while processing your files.</p>
-							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button>
-						</div>
 					</div>
 					<script type="text/javascript">
 						(function() {
@@ -346,6 +347,8 @@ include 'core/header.php';
 								};
 								xhr.send();
 							}
+
+							document.getElementById('manual-check').addEventListener('click', manualCheck);
 
 							setTimeout(checkBatchStatus, delay);
 							updateCountdown();
