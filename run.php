@@ -110,7 +110,7 @@ if ($modelUrl == "") {
 										<span class="fs-7 fw-semibold text-gray-400" id="fileNames">Upload your voice files here</span>
 									</div>
 								</div>
-								<button type="button" id="pickExistingFiles" class="btn btn-primary mt-3">Pick from existing audio files</button>
+								<button type="button" id="pickExistingFiles" class="btn btn-success mt-3">Pick from existing audio files</button>
 								<select multiple id="existingFilesDropdown" style="display:none;"><?php
 																									$sql = "SELECT * FROM audio_files WHERE user_id = ? ORDER BY id DESC";
 																									$stmt = $con->prepare($sql);
@@ -132,14 +132,14 @@ if ($modelUrl == "") {
 							</div>
 							<input type="hidden" name="name" value="<?php echo htmlspecialchars($modelUrl); ?>">
 							<button class="btn btn-primary mt-3" type="submit" name="submit">Submit -></button>
-							<!-- Toggle button for advanced settings -->
-							<button type="button" id="toggleAdvancedSettings" class="btn btn-secondary mt-3">Advanced Settings</button>
-							<!-- Advanced settings section (hidden by default) -->
-							<div id="advancedSettings" style="display: none;">
-								<h3>Advanced settings</h3>
-								<div class="fv-row">
-									<label for="pitch">Pitch:</label>
-									<input type="number" id="pitch" name="pitch" value="0" min="-100" max="100">
+							<div class="fv-row">
+								<button type="button" id="toggleAdvancedSettings" class="btn btn-secondary mt-3">Advanced Settings</button>
+								<div id="advancedSettings" style="display: none;">
+									<h3>Advanced settings</h3>
+									<div class="fv-row">
+										<label for="pitch">Pitch:</label>
+										<input type="number" id="pitch" name="pitch" value="0" min="-100" max="100">
+									</div>
 								</div>
 							</div>
 						</form>
