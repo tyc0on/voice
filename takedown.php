@@ -42,7 +42,7 @@ include 'core/header.php';
 
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
     <!--begin::Content wrapper-->
-    <div class="d-flex flex-column flex-column-fluid" style="background: url('1f1e371d-cb89-4735-b106-2f9c30de9be5.jpeg') repeat-y center top; background-size: 100% auto;">
+    <div class="d-flex flex-column flex-column-fluid" style="background: url('/assets/media/misc/dc5251e3-c26b-434b-a449-19e48d6874c1.webp') repeat-y center top; background-size: 100% auto;">
         <!--begin::Toolbar-->
 
         <!--end::Toolbar-->
@@ -56,52 +56,52 @@ include 'core/header.php';
                     <div class="col-xl-12">
                         <div class="card card-flush">
                             <div class="card-header" style="min-height:55px;">
-                            <div class="card-title flex-column">
-                        <h3 class="fw-bold mb-1">Takedown Request Form</h3>
-                        <small class="text-muted">Please complete the form to submit your request.</small>
-                    </div>
+                                <div class="card-title flex-column">
+                                    <h3 class="fw-bold mb-1">Takedown Request Form</h3>
+                                    <small class="text-muted">Please complete the form to submit your request.</small>
+                                </div>
                             </div>
                             <div class="card-body pt-0">
-                    <form action="/takedownemail" method="post">
-                        <div class="mb-3">
-                            <label for="fullName" class="form-label">Full Name:</label>
-                            <input type="text" class="form-control" id="fullName" name="fullName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contactEmail" class="form-label">Contact Email:</label>
-                            <input type="email" class="form-control" id="contactEmail" name="contactEmail" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="affiliation" class="form-label">Affiliation:</label>
-                            <select class="form-control" id="affiliation" name="affiliation" required>
-                                <option value="">-- Select One --</option>
-                                <option value="voiceActor">Voice Actor</option>
-                                <option value="legalRepresentative">Legal Representative</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="url" class="form-label">URL of the Infringing Voice Model:</label>
-                            <input type="url" class="form-control" id="url" name="url" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description of the Infringing Content:</label>
-                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="rightsOwnership" name="rightsOwnership" required>
-                            <label class="form-check-label" for="rightsOwnership">I am the owner of the exclusive rights to the voice recording or am authorized to act on behalf of the owner.</label>
-                        </div>
-                        <div class="mb-3">
-                            <label for="declarationName" class="form-label">Your Full Legal Name for Declaration:</label>
-                            <input type="text" class="form-control" id="declarationName" name="declarationName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="date" class="form-label">Date:</label>
-                            <input type="date" class="form-control" id="date" name="date" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit Request</button>
-                    </form>
-                </div>
+                                <form action="/takedownemail" method="post">
+                                    <div class="mb-3">
+                                        <label for="fullName" class="form-label">Full Name:</label>
+                                        <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contactEmail" class="form-label">Contact Email:</label>
+                                        <input type="email" class="form-control" id="contactEmail" name="contactEmail" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="affiliation" class="form-label">Affiliation:</label>
+                                        <select class="form-control" id="affiliation" name="affiliation" required>
+                                            <option value="">-- Select One --</option>
+                                            <option value="voiceActor">Voice Actor</option>
+                                            <option value="legalRepresentative">Legal Representative</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="url" class="form-label">URL of the Infringing Voice Model:</label>
+                                        <input type="url" class="form-control" id="url" name="url" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description of the Infringing Content:</label>
+                                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="rightsOwnership" name="rightsOwnership" required>
+                                        <label class="form-check-label" for="rightsOwnership">I am the owner of the exclusive rights to the voice recording or am authorized to act on behalf of the owner.</label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="declarationName" class="form-label">Your Full Legal Name for Declaration:</label>
+                                        <input type="text" class="form-control" id="declarationName" name="declarationName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="date" class="form-label">Date:</label>
+                                        <input type="date" class="form-control" id="date" name="date" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
