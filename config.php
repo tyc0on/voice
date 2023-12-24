@@ -131,61 +131,61 @@ $result = $stmt->get_result();
 // Assuming there's a field 'name' in the 'batch' table to display as the menu title.
 // If the field name is different, replace 'name' with the appropriate field name.
 while ($row = $result->fetch_assoc()) {
-    // use audio_files table original_names to create nice batch names
-    // first get jobs in batch as they contain audio_files.id
-    $sql2 = "SELECT * FROM jobs LEFT JOIN files ON files.id = jobs.model_id  WHERE jobs.batch_id = ?";
-    $stmt2 = $con->prepare($sql2);
-    $stmt2->bind_param('i', $row['id']);
-    $stmt2->execute();
-    $result2 = $stmt2->get_result();
-    $job = $result2->fetch_assoc();
-    // count how many other files are in the batch
-    $sql3 = "SELECT COUNT(*) FROM jobs WHERE batch_id = ?";
-    $stmt3 = $con->prepare($sql3);
-    $stmt3->bind_param('i', $row['id']);
-    $stmt3->execute();
-    $result3 = $stmt3->get_result();
-    $count = $result3->fetch_assoc();
+  // use audio_files table original_names to create nice batch names
+  // first get jobs in batch as they contain audio_files.id
+  $sql2 = "SELECT * FROM jobs LEFT JOIN files ON files.id = jobs.model_id  WHERE jobs.batch_id = ?";
+  $stmt2 = $con->prepare($sql2);
+  $stmt2->bind_param('i', $row['id']);
+  $stmt2->execute();
+  $result2 = $stmt2->get_result();
+  $job = $result2->fetch_assoc();
+  // count how many other files are in the batch
+  $sql3 = "SELECT COUNT(*) FROM jobs WHERE batch_id = ?";
+  $stmt3 = $con->prepare($sql3);
+  $stmt3->bind_param('i', $row['id']);
+  $stmt3->execute();
+  $result3 = $stmt3->get_result();
+  $count = $result3->fetch_assoc();
 
-    // now get audio_files.original_name and create batch name
-    $sql4 = "SELECT * FROM audio_files WHERE id = ?";
-    $stmt4 = $con->prepare($sql4);
-    $stmt4->bind_param('i', $job['audio_id']);
-    $stmt4->execute();
-    $result4 = $stmt4->get_result();
-    $audio_file = $result4->fetch_assoc();
-    $batch_name = $audio_file['original_name'];
-    // shorten batch name if longer than 20 characters
-    if (strlen($batch_name) > 20) {
-        $batch_name = substr($batch_name, 0, 20) . '...';
-    }
-    // shorten jon['name'] if longer than 10 characters
-    $jobname = $job['original_name'];
-    if (strlen($jobname) > 10) {
-        $jobname = substr($jobname, 0, 10) . '...';
-    }
-    // add pitch to jobname if not 0
-    if ($job['pitch'] != 0) {
-        $jobname .= ' ' . $job['pitch'];
-    }
-    if ($count['COUNT(*)'] > 1) {
-        $batch_name .= ' (' . ($count['COUNT(*)'] - 1) . ' more)';
-    }
+  // now get audio_files.original_name and create batch name
+  $sql4 = "SELECT * FROM audio_files WHERE id = ?";
+  $stmt4 = $con->prepare($sql4);
+  $stmt4->bind_param('i', $job['audio_id']);
+  $stmt4->execute();
+  $result4 = $stmt4->get_result();
+  $audio_file = $result4->fetch_assoc();
+  $batch_name = $audio_file['original_name'];
+  // shorten batch name if longer than 20 characters
+  if (strlen($batch_name) > 20) {
+    $batch_name = substr($batch_name, 0, 20) . '...';
+  }
+  // shorten jon['name'] if longer than 10 characters
+  $jobname = $job['original_name'];
+  if (strlen($jobname) > 10) {
+    $jobname = substr($jobname, 0, 10) . '...';
+  }
+  // add pitch to jobname if not 0
+  if ($job['pitch'] != 0) {
+    $jobname .= ' ' . $job['pitch'];
+  }
+  if ($count['COUNT(*)'] > 1) {
+    $batch_name .= ' (' . ($count['COUNT(*)'] - 1) . ' more)';
+  }
 
-    // if $row['status'] == "complete" $menucolor = green else yellow
-    $menucolor = ' style="color: #FFC107;"';
-    if ($row['status'] == 'complete') {
-        $menucolor = ' style="color: #28C76F;"';
-    }
+  // if $row['status'] == "complete" $menucolor = green else yellow
+  $menucolor = ' style="color: #FFC107;"';
+  if ($row['status'] == 'complete') {
+    $menucolor = ' style="color: #28C76F;"';
+  }
 
-    $menu2 .=  '<div class="menu-item">';
-    $menu2 .=  '<a class="menu-link" href="/processed?batch=' . $row['id'] . '">';
-    $menu2 .=  '<span class="menu-bullet">';
-    $menu2 .=  '<span class="bullet bullet-dot"></span>';
-    $menu2 .=  '</span>';
-    $menu2 .=  '<span class="menu-title"' . $menucolor . '>' . htmlspecialchars($batch_name) . ' ' . $jobname . '</span>';
-    $menu2 .=  '</a>';
-    $menu2 .=  '</div>';
+  $menu2 .=  '<div class="menu-item">';
+  $menu2 .=  '<a class="menu-link" href="/processed?batch=' . $row['id'] . '">';
+  $menu2 .=  '<span class="menu-bullet">';
+  $menu2 .=  '<span class="bullet bullet-dot"></span>';
+  $menu2 .=  '</span>';
+  $menu2 .=  '<span class="menu-title"' . $menucolor . '>' . htmlspecialchars($batch_name) . ' ' . $jobname . '</span>';
+  $menu2 .=  '</a>';
+  $menu2 .=  '</div>';
 }
 
 $stmt->close();
@@ -215,6 +215,13 @@ $menu1 = <<<EOD
                                         <div class="menu-item"><a class="menu-link" href="https://preview.keenthemes.com/html/metronic/docs/base/utilities" target="_blank" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right" data-bs-original-title="Check out over 200 in-house components, plugins and ready for use solutions" data-kt-initialized="1"><span class="menu-icon"><i class="ki-duotone ki-rocket fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Components</span></a></div>
                                     </div>
                                 </div> -->
+                                <div class="menu-item">
+                                    <a href="https://voice-models.com" target="_blank" class="menu-link">
+                                        <span class="menu-icon">
+                                            <i class="bi bi-megaphone-fill fs-3"></i> </span>
+                                        <span class="menu-title">Voice Models</span>
+                                    </a>
+                                </div>
                                 <div class="menu-item">
                                     <a href="https://discord.gg/GEzDY6cy" target="_blank" class="menu-link">
                                         <span class="menu-icon">
