@@ -97,7 +97,7 @@ if ($modelUrl == "") {
 		<div class="d-flex flex-column flex-column-fluid" style="background: url('1f1e371d-cb89-4735-b106-2f9c30de9be5.jpeg') repeat-y center top; background-size: 100% auto;">
 			<div id="kt_app_content" class="app-content flex-column-fluid">
 				<div id="kt_app_content_container" class="app-container container-fluid">
-					<form action="/processing.php" method="post" enctype="multipart/form-data">
+					<form action="/process" method="post" enctype="multipart/form-data">
 						<h1>Upload Audio File</h1>
 						<h2>Selected Voice Model: <?php echo $modelUrl; ?></h2>
 						<label for="audioFile">Upload Audio File (max 6 minutes):</label>
