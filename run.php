@@ -52,7 +52,7 @@ if (!isset($_SESSION['loggedin'])) {
 	}
 
 	// If the user is not logged in and the remember token doesn't exist, save the return URL
-	if (!$loggedin) {
+	if ($loggedin == "false") {
 		$_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
 		//if localhost fake login
 		if ($_SERVER['HTTP_HOST'] == "localhost:5011") {
