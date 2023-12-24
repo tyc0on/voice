@@ -180,7 +180,7 @@ require 'vendor/autoload.php';
 $connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
 $channel = $connection->channel();
 
-$channel->queue_declare('job_queue', false, true, false, false);
+$channel->queue_declare('job_queue', false, true, false, false, false, new \PhpAmqpLib\Wire\AMQPTable(['x-max-priority' => 10]));
 
 $pitches = array(-16, -12, -8, -4, 4, 8, 12, 16);
 

@@ -273,8 +273,7 @@ include 'core/header.php';
 										<div id="kt_modal_create_campaign_budget_slider" class="noUi-sm"></div>
 
 									</div>
-									<!--begin::Select-->
-									<div class="me-6 my-1">
+									<!-- <div class="me-6 my-1">
 										<select id="kt_filter_year" name="year" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-sm">
 											<option value="All" selected="selected">Gender</option>
 											<option value="thisyear">Male</option>
@@ -282,8 +281,6 @@ include 'core/header.php';
 											<option value="lastmonth">Other</option>
 										</select>
 									</div>
-									<!--end::Select-->
-									<!--begin::Select-->
 									<div class="me-4 my-1">
 										<select id="kt_filter_orders" name="orders" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-sm">
 											<option value="All" selected="selected">Accent</option>
@@ -292,9 +289,7 @@ include 'core/header.php';
 											<option value="In Progress">In Progress</option>
 											<option value="In Transit">In Transit</option>
 										</select>
-									</div>
-									<!--end::Select-->
-									<!--begin::Search-->
+									</div> -->
 									<div class="d-flex align-items-center position-relative my-1">
 										<i class="ki-duotone ki-magnifier fs-3 position-absolute ms-3">
 											<span class="path1"></span>
@@ -302,7 +297,6 @@ include 'core/header.php';
 										</i>
 										<input type="text" id="kt_filter_search" class="form-control w-150px fs-7 ps-9" placeholder="Search Voices" />
 									</div>
-									<!--end::Search-->
 								</div>
 								<!--begin::Card toolbar-->
 							</div>
@@ -315,11 +309,11 @@ include 'core/header.php';
 									<table id="kt_profile_overview_table" class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
 										<thead class="fs-7 text-gray-400 text-uppercase">
 											<tr>
-												<th class="min-w-250px">Manager</th>
+												<th class="min-w-250px">Voice</th>
 												<th class="min-w-150px">Date</th>
 												<th class="min-w-90px">Sample</th>
-												<th class="min-w-90px">Rating</th>
-												<th class="min-w-50px text-end">Details</th>
+												<!-- <th class="min-w-90px">Rating</th> -->
+												<th class="min-w-50px text-end">Run</th>
 											</tr>
 										</thead>
 										<tbody class="fs-6">
@@ -358,10 +352,10 @@ include 'core/header.php';
 													$created_at = date('F j, Y', strtotime($row['added_date']));
 
 													// trim row original_name if too long
-													$original_name = strlen($row['original_name']) > 18 ? substr($row['original_name'], 0, 18) . '...' : $row['original_name'];
+													$original_name = strlen($row['original_name']) > 25 ? substr($row['original_name'], 0, 25) . '...' : $row['original_name'];
 
 													// trim row url if too long
-													$url = strlen($row['url']) > 18 ? substr($row['url'], 0, 18) . '...' : $row['url'];
+													$url = strlen($row['url']) > 25 ? substr($row['url'], 0, 25) . '...' : $row['url'];
 
 
 													if ($_SESSION['id'] == 1) {
@@ -433,9 +427,9 @@ include 'core/header.php';
 
 
 													echo '</td>
-															<td>
+															<!--<td>
 																' . $tags . '
-															</td>
+															</td>-->
 															<td class="text-end">
 																<input type="hidden" id="name-' . $row['id'] . '" name="name-' . $row['id'] . '" value="' . $row['name'] . '">
 																<a href="#" class="btn btn-lg btn-primary btn-active-light-primary">Select -></a> 
