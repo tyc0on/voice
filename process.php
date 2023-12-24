@@ -159,7 +159,7 @@ if (empty($audioFiles)) {
 }
 
 // get model_id from files where POST name = files.name
-$sql = "SELECT * FROM files WHERE name = ?";
+$sql = "SELECT * FROM files WHERE url = ?";
 $stmt = $con->prepare($sql);
 $stmt->bind_param('s', $_POST['name']);
 $stmt->execute();
@@ -402,10 +402,10 @@ include 'core/header.php';
 	<!-- <script src="assets/js/custom/documentation/forms/nouislider.js"></script> -->
 	<?php include 'core/footer.php';
 	if ($model_id == 0) {
-		$scriptPath = __DIR__ . '/samplesmaker.php';
-		exec("/usr/bin/php $scriptPath");
-		$scriptPath = __DIR__ . '/samplesmaker2.php';
-		exec("/usr/bin/php $scriptPath");
+		// $scriptPath = __DIR__ . '/samplesmaker.php';
+		// exec("/usr/bin/php $scriptPath");
+		// $scriptPath = __DIR__ . '/samplesmaker2.php';
+		// exec("/usr/bin/php $scriptPath");
 		// include('samplesmaker.php');
 		// include('samplesmaker2.php');
 	}
