@@ -42,6 +42,10 @@ if ($payload && $payload['aud'] == $google_oauth_client_id) {
     $email = $payload["email"];
     $picture = $payload["picture"];
 
+    $ipAddress = $_SERVER['REMOTE_ADDR'];
+    $ipAddress2 = $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+
     // if user exists, login
     if ($stmt = $con->prepare('SELECT id, accounttype, username, picture, inst FROM accounts WHERE email = ?')) {
         $stmt->bind_param('s', $email);
@@ -97,8 +101,6 @@ if ($payload && $payload['aud'] == $google_oauth_client_id) {
             }
 
             $userId = $id;
-            $ipAddress = $_SERVER['REMOTE_ADDR'];
-            $ipAddress2 = $_SERVER['HTTP_X_FORWARDED_FOR'];
             $eventType = "user_signin";
             $page = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $elementId = null;
@@ -113,12 +115,12 @@ if ($payload && $payload['aud'] == $google_oauth_client_id) {
             $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*_";
             $rpass = substr(str_shuffle($chars), 0, 16);
             $password = password_hash($rpass, PASSWORD_DEFAULT);
-            if ($stmt = $con->prepare('INSERT INTO accounts (fullname, password, email, ref, refcode, picture) VALUES (?, ?, ?, ?, ?, ?)')) {
+            if ($stmt = $con->prepare('INSERT INTO accounts (fullname, password, email, ref, refcode, picture, registerip, registerip2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')) {
                 // We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
                 // $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
                 // $stmt->bind_param('sss', $name, $email, $password);
                 $refcode = substr(hash('sha256', $email), 0, 8);
-                $stmt->bind_param('ssssss', $name, $password, $email, $_SESSION['ref'], $refcode, $picture);
+                $stmt->bind_param('ssssssss', $name, $password, $email, $_SESSION['ref'], $refcode, $picture, $ipAddress, $ipAddress2);
 
                 $stmt->execute();
                 $id = $con->insert_id;
