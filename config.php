@@ -223,7 +223,7 @@ $menu1 = <<<EOD
                                     </a>
                                 </div>
                                 <div class="menu-item">
-                                    <a href="https://discord.gg/GEzDY6cy" target="_blank" class="menu-link">
+                                    <a href="https://discord.gg/czFGXsFJjh" target="_blank" class="menu-link">
                                         <span class="menu-icon">
                                             <i class="bi bi-discord fs-3"></i> </span>
                                         <span class="menu-title">Discord</span>
