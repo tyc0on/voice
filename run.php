@@ -63,7 +63,7 @@ if (!isset($_SESSION['loggedin'])) {
 			$_SESSION['id'] = 1;
 			$loggedin = "true";
 		} else {
-			header('Location: /sign-in');
+			// header('Location: /sign-in');
 		}
 	}
 	// exit;
@@ -257,6 +257,7 @@ if ($modelUrl == "") {
 	</div>
 	<!--end::Footer container-->
 </div>
+<?php include 'layout/modals/_login.php'; ?>
 <!--end::Footer-->
 <!-- <script src="assets/js/custom/documentation/forms/nouislider.js"></script> -->
 <?php include 'core/footer.php'; ?>
