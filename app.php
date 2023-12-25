@@ -70,24 +70,21 @@ if (!isset($_SESSION['loggedin'])) {
 			$loggedin = "true";
 		}
 	}
+
+
 	// If the user is not logged in and the remember token doesn't exist, save the return URL
-	if (!$loggedin) {
+	if ($loggedin == "false") {
 		$_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
 		//if localhost fake login
-		if ($_SERVER['HTTP_HOST'] == "localhost:5011") {
+		if ($_SERVER['HTTP_HOST'] == "localhost:5014") {
 			$_SESSION['loggedin'] = true;
 			$_SESSION['email'] = "mikem1@gmail.com";
 			$_SESSION['accounttype'] = "Trial";
-			$_SESSION['name'] = "Local User";
+			$_SESSION['name'] = "Penis Vagina";
 			$_SESSION['id'] = 1;
 			$loggedin = "true";
-		} else {
-			// user not logged in, redirect so sign-in
-			header('Location: /sign-in');
-			exit;
 		}
 	}
-
 	// exit;
 } else {
 	$loggedin = "true";
@@ -567,4 +564,5 @@ include 'core/header.php';
 		</div>
 		<!--end::Footer-->
 		<!-- <script src="assets/js/custom/documentation/forms/nouislider.js"></script> -->
+		<?php include 'layout/modals/_login.php'; ?>
 		<?php include 'core/footer.php'; ?>
