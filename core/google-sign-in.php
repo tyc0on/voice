@@ -190,24 +190,24 @@ if ($payload && $payload['aud'] == $google_oauth_client_id) {
                 // }
                 // $stmt2->close();
 
-                $email = new Mail();
-                $email->setFrom("hello@nocodelog.com", "Nocode Log");
-                $email->setSubject("New user for " . $sitename . " " . date("Y-m-d"));
-                $email->addTo("easyaistudio@gmail.com", "EasyAi Studio");
-                $email->addContent("text/plain", $useremail . " just signed up for " . $sitename . ", time to start coding.");
-                $email->addContent(
-                    "text/html",
-                    "<strong>" . $useremail . " just signed up for " . $sitename . ", time to start coding.</strong>"
-                );
-                $sendgrid = new \SendGrid($sendgrid_api);
-                try {
-                    $response = $sendgrid->send($email);
-                    print $response->statusCode() . "\n";
-                    print_r($response->headers());
-                    print $response->body() . "\n";
-                } catch (Exception $e) {
-                    echo 'Caught exception: ' .  $e->getMessage() . "\n";
-                }
+                // $email = new Mail();
+                // $email->setFrom("hello@nocodelog.com", "Nocode Log");
+                // $email->setSubject("New user for " . $sitename . " " . date("Y-m-d"));
+                // $email->addTo("easyaistudio@gmail.com", "EasyAi Studio");
+                // $email->addContent("text/plain", $useremail . " just signed up for " . $sitename . ", time to start coding.");
+                // $email->addContent(
+                //     "text/html",
+                //     "<strong>" . $useremail . " just signed up for " . $sitename . ", time to start coding.</strong>"
+                // );
+                // $sendgrid = new \SendGrid($sendgrid_api);
+                // try {
+                //     $response = $sendgrid->send($email);
+                //     print $response->statusCode() . "\n";
+                //     print_r($response->headers());
+                //     print $response->body() . "\n";
+                // } catch (Exception $e) {
+                //     echo 'Caught exception: ' .  $e->getMessage() . "\n";
+                // }
 
                 $userId = $id;
                 $ipAddress = $_SERVER['REMOTE_ADDR'];
