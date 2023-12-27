@@ -279,11 +279,9 @@ include 'core/header.php';
 							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button>
 						</div>
 						<h2><?php
-							// make array of possible messages
 							$messages = array(
 								"Hang tight! We're currently convincing a pack of sleepy electrons to move a little faster, negotiating a peace treaty between rival bandwidth tribes, and looking for the 'speed up' button we lost last week.", "Just a sec! Your request is jumping through hoops of fire, dodging lazy zeros and ones, and teaching an old computer new tricks. It's a tough job, but someone's gotta do it!", "Processing... Our code wizards are currently in a heated debate with a stubborn server gnome who loves taking long breaks. We've promised him an extra vacation day, so we should be back on track shortly!", "Brace yourself! We're wrangling the digital hamsters, negotiating with time-traveling tourists, and bribing the internet gremlins to speed things up. Hold on tight; your request is surfing through the cosmic internet waves!"
 							);
-							// get random message
 							$message = $messages[array_rand($messages)];
 							echo $message;
 							?></h2>
@@ -293,6 +291,9 @@ include 'core/header.php';
 							var delay = 1000;
 							var countdownValue = delay / 1000;
 							var batchId = <?php echo json_encode($batch ?? 'null'); ?>;
+							var startTime = Date.now();
+							var oneHour = 3600000;
+							var twentyFourHours = 86400000;
 
 							function displayError() {
 								document.getElementById('error-message').style.display = 'block';
@@ -313,8 +314,21 @@ include 'core/header.php';
 							}
 
 							function manualCheck() {
-								resetCountdown(1000); // Reset the delay to 1000 milliseconds
+								resetCountdown(1000);
 								checkBatchStatus();
+							}
+
+							function adjustDelay() {
+								var currentTime = Date.now();
+								var elapsedTime = currentTime - startTime;
+
+								if (elapsedTime < oneHour) {
+									delay = Math.min(delay + 5000, 60000);
+								} else if (elapsedTime < twentyFourHours) {
+									delay = 600000;
+								} else {
+									delay = null;
+								}
 							}
 
 							function checkBatchStatus() {
@@ -328,8 +342,8 @@ include 'core/header.php';
 										} else if (response.error) {
 											displayError();
 										} else {
-											delay *= 2;
-											resetCountdown(); // Use the increased delay for automatic checks
+											adjustDelay();
+											resetCountdown();
 											setTimeout(checkBatchStatus, delay);
 										}
 									} else {
