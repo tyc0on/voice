@@ -340,28 +340,28 @@ include 'core/header.php';
 												return $letterStyles[strtoupper($letter[0])] ?? null;
 											}
 											if ($result->num_rows > 0) {
-												// output data of each row
 												$i = 0;
 												while ($row = $result->fetch_assoc()) {
 													$i++;
-													// if ($i == 5) $i = 1;
-													// make $row['created_ad'] look nice
+
+													$defaultFileName = "samples/" . $row['name'] . ".mp3";
+
+													if (!file_exists($defaultFileName)) {
+														continue;
+													}
+
 													$created_at = date('F j, Y', strtotime($row['added_date']));
 
-													// trim row original_name if too long
 													$original_name = strlen($row['original_name']) > 25 ? substr($row['original_name'], 0, 25) . '...' : $row['original_name'];
 
-													// trim row url if too long
 													$url = strlen($row['url']) > 25 ? substr($row['url'], 0, 25) . '...' : $row['url'];
 
 
 													if ($_SESSION['id'] == 1) {
 														$checkbox = '<input class="form-check-input me-2" type="checkbox" name="id[]" value="' . $row['id'] . '"> ';
 														$copybutton = '';
-														// find tags for each file
 														$query = "SELECT tag_name FROM tags INNER JOIN files_tags ON tags.tag_id = files_tags.tag_id WHERE files_tags.file_id = '" . $row['id'] . "'";
 														$result3 = mysqli_query($con, $query);
-														// set $tags as badge html
 														$tags = '';
 														while ($row3 = mysqli_fetch_assoc($result3)) {
 															$tags .= '<span class="badge badge-light">' . $row3['tag_name'] . '</span> ';
@@ -374,7 +374,6 @@ include 'core/header.php';
 														$tags = '<span class="badge badge-light-success fw-bold px-4 py-3">Online</span>';
 													}
 
-													// get first letter from $row['name']
 													$firstLetter = mb_substr($row['original_name'], 0, 1);
 
 													$backgroundColor = getLetterStyle($firstLetter, $letterStyles);
@@ -396,23 +395,16 @@ include 'core/header.php';
 <td class="fs-7">';
 													$pitches = [-16, -12, -8, -4, 0, 4, 8, 12, 16];
 
-													// Single audio player
 													$defaultFileName = "samples/" . $row['name'] . ".mp3";
-													echo '<div style="float: left; margin-right: 10px;">'; // Float the audio player to the left
+													echo '<div style="float: left; margin-right: 10px;">';
 													echo '<audio id="audioPlayer-' . $row['id'] . '" style="height:40px;" controls>
     <source src="' . $defaultFileName . '" type="audio/mpeg">
     Your browser does not support the audio tag.
 </audio>';
-													echo '</div>'; // Close audio player div
-
-													// Display Sample text
-													// echo '<div>Sample</div>';
-
-													// Display Pitch text and dropdown
+													echo '</div>';
 													echo '<div>Pitch:</div>';
 													echo '<div><select id="pitchSelector-' . $row['id'] . '" onchange="updateAudioSource(this.value, ' . $row['id'] . ', \'' . $row['name'] . '\');">';
 													foreach ($pitches as $pitch) {
-														// if pitch 0 set as default
 														if ($pitch == 0) {
 															echo '<option value="' . $pitch . '" selected>' . $pitch . '</option>';
 														} else {
@@ -420,7 +412,7 @@ include 'core/header.php';
 														}
 													}
 													echo '</select>';
-													echo '</div>'; // Close Pitch div
+													echo '</div>';
 
 
 													echo '</td>
