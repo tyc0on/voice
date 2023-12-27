@@ -275,16 +275,16 @@ include 'core/header.php';
 
 						<button id="manual-check" style="margin-top:20px;">Check Now</button>
 						<div id="error-message" style="display:none;">
-							<p style="color:red; font-size:24px;">An error occurred while processing your files.</p>
-							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button> or look for a new voice model <a href="https://voice-models.com">here</a>.
+							<p style="color:red; font-size:48px; font-weight:bold;">An error occurred while processing your files.</p>
+							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button> <span style="font-size:24px; ">or look for a new voice model <a href="https://voice-models.com">here</a></span>.
 						</div>
-						<h2><?php
-							$messages = array(
-								"Hang tight! We're currently convincing a pack of sleepy electrons to move a little faster, negotiating a peace treaty between rival bandwidth tribes, and looking for the 'speed up' button we lost last week.", "Just a sec! Your request is jumping through hoops of fire, dodging lazy zeros and ones, and teaching an old computer new tricks. It's a tough job, but someone's gotta do it!", "Processing... Our code wizards are currently in a heated debate with a stubborn server gnome who loves taking long breaks. We've promised him an extra vacation day, so we should be back on track shortly!", "Brace yourself! We're wrangling the digital hamsters, negotiating with time-traveling tourists, and bribing the internet gremlins to speed things up. Hold on tight; your request is surfing through the cosmic internet waves!"
-							);
-							$message = $messages[array_rand($messages)];
-							echo $message;
-							?></h2>
+						<h2 id="hero-sub"><?php
+											$messages = array(
+												"Hang tight! We're currently convincing a pack of sleepy electrons to move a little faster, negotiating a peace treaty between rival bandwidth tribes, and looking for the 'speed up' button we lost last week.", "Just a sec! Your request is jumping through hoops of fire, dodging lazy zeros and ones, and teaching an old computer new tricks. It's a tough job, but someone's gotta do it!", "Processing... Our code wizards are currently in a heated debate with a stubborn server gnome who loves taking long breaks. We've promised him an extra vacation day, so we should be back on track shortly!", "Brace yourself! We're wrangling the digital hamsters, negotiating with time-traveling tourists, and bribing the internet gremlins to speed things up. Hold on tight; your request is surfing through the cosmic internet waves!"
+											);
+											$message = $messages[array_rand($messages)];
+											echo $message;
+											?></h2>
 					</div>
 					<script type="text/javascript">
 						(function() {
@@ -301,6 +301,7 @@ include 'core/header.php';
 								document.getElementById('hero-load').style.display = 'none';
 								document.getElementById('countdown-timer').style.display = 'none';
 								document.getElementById('manual-check').style.display = 'none';
+								document.getElementById('hero-sub').style.display = 'none';
 								document.getElementById('hero-image').src = '/assets/media/misc/fail.jpg';
 
 							}
