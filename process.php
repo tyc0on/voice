@@ -264,9 +264,9 @@ include 'core/header.php';
 				<!--begin::Row-->
 				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
 					<div style="text-align:center; margin-top:15px;">
-						<img src="/assets/media/misc/loading.webp" alt="loading" style="width: 480px; height: 480px;">
-						<h1 style="font-size:60px;">Processing your audio files....</h1>
-						<div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+						<img id="hero-image" src="/assets/media/misc/loading.webp" alt="loading" style="width: 480px; height: 480px;">
+						<h1 id="hero-h" style="font-size:60px;">Processing your audio files....</h1>
+						<div id="hero-load" class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
 							<span class="visually-hidden">Loading...</span>
 						</div>
 						<div id="countdown-timer" style="font-size:30px; margin-top:20px;">
@@ -276,7 +276,7 @@ include 'core/header.php';
 						<button id="manual-check" style="margin-top:20px;">Check Now</button>
 						<div id="error-message" style="display:none;">
 							<p style="color:red; font-size:24px;">An error occurred while processing your files.</p>
-							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button>
+							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button> or look for a new voice model <a href="https://voice-models.com">here</a>.
 						</div>
 						<h2><?php
 							$messages = array(
@@ -297,6 +297,12 @@ include 'core/header.php';
 
 							function displayError() {
 								document.getElementById('error-message').style.display = 'block';
+								document.getElementById('hero-h').style.display = 'none';
+								document.getElementById('hero-load').style.display = 'none';
+								document.getElementById('countdown-timer').style.display = 'none';
+								document.getElementById('manual-check').style.display = 'none';
+								document.getElementById('hero-image').src = '/assets/media/misc/fail.jpg';
+
 							}
 
 							function updateCountdown() {
