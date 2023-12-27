@@ -171,6 +171,31 @@ if ($_POST['type'] == 'discord') {
 
 
     if (!isset($_FILES['audioFile'])) {
+        // if post job not == 0 then update table jobs set status = "failed" where id = $_POST['job']
+        if ($_POST['job'] == 0) {
+            $sql = "UPDATE jobs SET status = ? WHERE id = ?";
+            $stmt = $con->prepare($sql);
+            $status = "failed";
+            $stmt->bind_param('si', $status, $_POST['job']);
+            $stmt->execute();
+            $stmt->close();
+
+            $sql = "SELECT batch_id FROM jobs WHERE id = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bind_param('i', $_POST['job']);
+            $stmt->execute();
+            $stmt->bind_result($batch_id);
+            $stmt->fetch();
+            $stmt->close();
+
+            // update table batch set status = "failed" where id = jobs.batch_id
+            $sql = "UPDATE batch SET status = ? WHERE id = ?";
+            $stmt = $con->prepare($sql);
+            $status = "failed";
+            $stmt->bind_param('si', $status, $batch_id);
+            $stmt->execute();
+            $stmt->close();
+        }
         die("No audio file uploaded.");
     }
     if ($_FILES['audioFile']['error'] !== UPLOAD_ERR_OK) {

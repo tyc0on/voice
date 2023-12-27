@@ -1,10 +1,17 @@
 <?php
 session_start();
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include 'include.php';
 include 'variables.php';
 
-require 'vendor/autoload.php';
+// use PhpAmqpLib\Connection\AMQPStreamConnection;
+// use PhpAmqpLib\Message\AMQPMessage;
+
+// require 'vendor/autoload.php';
 
 $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
 
@@ -13,16 +20,18 @@ if ($con->connect_errno) {
     exit();
 }
 
-$connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
-$channel = $connection->channel();
 
-$queue_info = $channel->queue_declare('job_queue', true);
-if ($queue_info[1] == 0) {
-    echo json_encode(['status' => 'failed', 'error' => 'Queue is empty']);
-    $channel->close();
-    $connection->close();
-    exit();
-}
+
+// $connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
+// $channel = $connection->channel();
+
+// $queue_info = $channel->queue_declare('job_queue', false, true, false, false, false, new \PhpAmqpLib\Wire\AMQPTable(['x-max-priority' => 10]));
+// if ($queue_info[1] == 0) {
+//     echo json_encode(['status' => 'failed', 'error' => 'Queue is empty']);
+//     $channel->close();
+//     $connection->close();
+//     exit();
+// }
 
 if (!isset($_SESSION['id'], $_GET['batch'])) {
     echo json_encode(['error' => 'Access denied: user not logged in or batch ID missing']);
@@ -38,7 +47,12 @@ $result = $con->query($query);
 if ($result) {
     if ($result->num_rows > 0) {
         $batch = $result->fetch_assoc();
-        echo json_encode(['status' => $batch['status']]);
+        if ($batch['status'] == 'failed') {
+            // show error and status
+            echo json_encode(['status' => $batch['status'], 'error' => 'Batch failed']);
+        } else {
+            echo json_encode(['status' => $batch['status']]);
+        }
     } else {
         echo json_encode(['error' => 'Batch not found or does not belong to the current user']);
     }
@@ -46,6 +60,6 @@ if ($result) {
     echo json_encode(['error' => 'Error querying the database']);
 }
 
-$channel->close();
-$connection->close();
+// $channel->close();
+// $connection->close();
 $con->close();
