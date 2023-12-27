@@ -84,7 +84,11 @@ while ($row = $result->fetch_assoc()) {
             );
 
 
-            $msg = new AMQPMessage(json_encode($jobData));
+            // $msg = new AMQPMessage(json_encode($jobData));
+            $msg = new AMQPMessage(
+                json_encode($jobData),
+                array('delivery_mode' => 2, 'priority' => 1) // Setting the message priority
+            );
             $channel->basic_publish($msg, '', 'job_queue');
         }
     }
