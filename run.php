@@ -22,8 +22,9 @@ if ($con->connect_errno) {
 
 
 $loggedin = "false";
+$_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
+
 if (!isset($_SESSION['loggedin'])) {
-	$_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
 	// header('Location: ' . $rdir);
 
 	if (isset($_COOKIE['remember_token'])) {

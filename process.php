@@ -276,7 +276,7 @@ include 'core/header.php';
 						<button id="manual-check" style="margin-top:20px;">Check Now</button>
 						<div id="error-message" style="display:none;">
 							<p style="color:red; font-size:48px; font-weight:bold;">An error occurred while processing your files.</p>
-							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Return</button> <span style="font-size:24px; ">or look for a new voice model <a href="https://voice-models.com">here</a></span>.
+							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Try Again</button> <span style="font-size:24px; ">or look for a new voice model <a href="https://voice-models.com">here</a></span>.
 						</div>
 						<h2 id="hero-sub"><?php
 											$messages = array(
