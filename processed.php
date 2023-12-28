@@ -226,13 +226,13 @@ include 'core/header.php';
 													$original_name = $row['original_name'];
 													echo '<tr>
 															<td class="p-1">
-																<div class="d-flex align-items-center">
+																<!--<div class="d-flex align-items-center">
 																	
 																	<div class="d-flex flex-column justify-content-center">
-																		<span class="fs-6 text-gray-800 text-hover-primary">' . $original_name . '</span>
+																		
 																		<div class="fw-semibold text-gray-400">' . $url . '</div>
 																	</div>
-																</div><br>
+																</div><br>-->
 															<!--</td>
 															<td>--><!--</td>
 <td class="fs-7 text-end">-->';
@@ -241,11 +241,11 @@ include 'core/header.php';
 													// Single audio player
 													// $defaultFileName = "paudios/" . $row['name'] . ".mp3";
 													echo '<div style="float: left; margin-right: 10px;">'; // Float the audio player to the left
-													echo '<audio id="audioPlayer-' . $row['id'] . '" style="height:40px;" controls>
+													echo '<audio id="audioPlayer-' . $row['id'] . '" style="height:40px; margin-right: 10px;" controls>
     <source src="' . $row['file_path'] . '" type="audio/mpeg">
     Your browser does not support the audio tag.
 </audio>';
-													echo '</div><!--<br>' . $created_at . '--></td>'; // Close audio player div
+													echo ' <span class="fs-6 text-gray-800 text-hover-primary">' . $original_name . '</span></div><!--<br>' . $created_at . '--></td>'; // Close audio player div
 
 													// Display Sample text
 													// echo '<div>Sample</div>';
