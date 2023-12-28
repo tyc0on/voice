@@ -233,7 +233,7 @@ if ($_POST['type'] == 'discord') {
 
 
     // if isset POST job save in paudios folder with name of timestamp . ".j" . job . ".p" . $pitch . .mp3
-    if ($_POST['job'] != "") {
+    if ($_POST['job'] != 0) {
         $timestamp = date("ymd-His");
         $job = $_POST['job'];
         $extension = pathinfo($_FILES['audioFile']['name'], PATHINFO_EXTENSION);
