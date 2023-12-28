@@ -258,7 +258,7 @@ include 'core/header.php';
 
 													$original_name = $row['original_name'];
 													echo '<tr>
-															<td>
+															<td class="p-1">
 																<div class="d-flex align-items-center">
 																	
 																	<div class="d-flex flex-column justify-content-center">
@@ -278,7 +278,7 @@ include 'core/header.php';
     <source src="' . $row['file_path'] . '" type="audio/mpeg">
     Your browser does not support the audio tag.
 </audio>';
-													echo '</div><br>' . $created_at . '</td>'; // Close audio player div
+													echo '</div><!--<br>' . $created_at . '--></td>'; // Close audio player div
 
 													// Display Sample text
 													// echo '<div>Sample</div>';
