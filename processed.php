@@ -229,7 +229,7 @@ include 'core/header.php';
 																<div class="d-flex align-items-center">
 																	
 																	<div class="d-flex flex-column justify-content-center">
-																		<a href="" class="fs-6 text-gray-800 text-hover-primary">' . $original_name . '</a>
+																		<span class="fs-6 text-gray-800 text-hover-primary">' . $original_name . '</span>
 																		<div class="fw-semibold text-gray-400">' . $url . '</div>
 																	</div>
 																</div><br>
