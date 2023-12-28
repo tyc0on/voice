@@ -306,11 +306,11 @@ include 'core/header.php';
 									<table id="kt_profile_overview_table" class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
 										<thead class="fs-7 text-gray-400 text-uppercase">
 											<tr>
-												<th class="min-w-150px">Voice</th>
-												<!-- <th class="min-w-150px">Date</th> -->
+												<th class="min-w-100px">Voice</th>
+												<th class="min-w-50px">Run</th>
 												<th class="min-w-90px">Sample</th>
 												<!-- <th class="min-w-90px">Rating</th> -->
-												<th class="text-end">Run</th>
+												<th class="text-end">Date</th>
 											</tr>
 										</thead>
 										<tbody class="fs-6">
@@ -391,7 +391,11 @@ include 'core/header.php';
 																	</div>
 																</div>
 															</td>
-															<!--<td>' . $created_at . '</td>-->
+															<td class="">
+																<input type="hidden" id="name-' . $row['id'] . '" name="name-' . $row['id'] . '" value="' . $row['name'] . '">
+																<a href="#" class="btn btn-lg btn-primary btn-active-light-primary">Select -></a> 
+															</td>
+															
 <td class="fs-7">';
 													$pitches = [-16, -12, -8, -4, 0, 4, 8, 12, 16];
 
@@ -419,10 +423,8 @@ include 'core/header.php';
 															<!--<td>
 																' . $tags . '
 															</td>-->
-															<td class="">
-																<input type="hidden" id="name-' . $row['id'] . '" name="name-' . $row['id'] . '" value="' . $row['name'] . '">
-																<a href="#" class="btn btn-lg btn-primary btn-active-light-primary">Select -></a> 
-															</td>
+															
+															<td class="text-end">' . $created_at . '</td>
 														</tr>';
 												}
 											}
