@@ -296,25 +296,24 @@ include 'core/header.php';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-					<!--begin::Row-->
-
 				</div>
 				<!--end::Content container-->
+
+
+
+				<!-- <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+					<div class="col-xl-12">
+						<div class="card card-flush mt-6 mt-xl-9">
+						
+							<div class="card-body pt-0">
+								<h1><a href="">Use voice model again</a></h1>
+
+							</div>
+						</div>
+					</div>
+				</div> -->
+
+
 			</div>
 			<!--end::Content-->
 		</div>
