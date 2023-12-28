@@ -183,8 +183,8 @@ include 'core/header.php';
 										<thead class="fs-7 text-gray-400 text-uppercase">
 											<tr>
 												<th class="min-w-250px">File</th>
-												<th class="min-w-150px">Date</th>
-												<th class="min-w-90px text-end">Download</th>
+												<!-- <th class="min-w-150px">Date</th>
+												<th class="min-w-90px text-end">Download</th> -->
 											</tr>
 										</thead>
 										<tbody class="fs-6">
@@ -265,10 +265,10 @@ include 'core/header.php';
 																		<a href="" class="fs-6 text-gray-800 text-hover-primary">' . $original_name . '</a>
 																		<div class="fw-semibold text-gray-400">' . $url . '</div>
 																	</div>
-																</div>
-															</td>
-															<td>' . $created_at . '</td>
-<td class="fs-7 text-end">';
+																</div><br>
+															<!--</td>
+															<td>--><!--</td>
+<td class="fs-7 text-end">-->';
 													$pitches = [-16, -12, -8, -4, 0, 4, 8, 12, 16];
 
 													// Single audio player
@@ -278,7 +278,7 @@ include 'core/header.php';
     <source src="' . $row['file_path'] . '" type="audio/mpeg">
     Your browser does not support the audio tag.
 </audio>';
-													echo '</div>'; // Close audio player div
+													echo '</div><br>' . $created_at . '</td>'; // Close audio player div
 
 													// Display Sample text
 													// echo '<div>Sample</div>';
