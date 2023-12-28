@@ -129,50 +129,17 @@ include 'core/header.php';
 						<!--begin::Table-->
 						<div class="card card-flush mt-6 mt-xl-9">
 							<!--begin::Card header-->
-							<div class="card-header mt-5">
-								<!--begin::Card title-->
+							<!-- <div class="card-header mt-5">
+								
 								<div class="card-title flex-column">
 									<h3 class="fw-bold mb-1">Processed Audio Files</h3>
-									<!-- <div class="fs-6 text-gray-400">Completed 37 minutes ago</div> -->
+									
 								</div>
-								<!--begin::Card title-->
-								<!--begin::Card toolbar-->
+								
 								<div class="card-toolbar my-1 w-75 d-flex justify-content-end">
-									<!-- <div class="me-4 my-1"><span class="fw-bold fs-4 mt-1 me-2">Set Pitch</span>
-										<span class="fw-bold fs-3x" id="kt_modal_create_campaign_budget_label"></span>
-									</div>
-									<div class="me-4 my-1 ps-4 pe-4 w-25">
-										<div id="kt_modal_create_campaign_budget_slider" class="noUi-sm"></div>
-
-									</div>
-									<div class="me-6 my-1">
-										<select id="kt_filter_year" name="year" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-solid form-select-sm">
-											<option value="All" selected="selected">Gender</option>
-											<option value="thisyear">Male</option>
-											<option value="thismonth">Female</option>
-											<option value="lastmonth">Other</option>
-										</select>
-									</div>
-									<div class="me-4 my-1">
-										<select id="kt_filter_orders" name="orders" data-control="select2" data-hide-search="true" class="w-125px form-select form-select-solid form-select-sm">
-											<option value="All" selected="selected">Accent</option>
-											<option value="Approved">Approved</option>
-											<option value="Declined">Declined</option>
-											<option value="In Progress">In Progress</option>
-											<option value="In Transit">In Transit</option>
-										</select>
-									</div> -->
-									<!-- <div class="d-flex align-items-center position-relative my-1">
-										<i class="ki-duotone ki-magnifier fs-3 position-absolute ms-3">
-											<span class="path1"></span>
-											<span class="path2"></span>
-										</i>
-										<input type="text" id="kt_filter_search" class="form-control form-control-solid form-select-sm w-150px ps-9" placeholder="Search Voices" />
-									</div> -->
-									<!--end::Search-->
+									
 								</div>
-								<!--begin::Card toolbar-->
-							</div>
+							</div> -->
 							<!--end::Card header-->
 							<!--begin::Card body-->
 							<div class="card-body pt-0">
