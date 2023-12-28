@@ -171,8 +171,7 @@ if ($_POST['type'] == 'discord') {
 
 
     if (!isset($_FILES['audioFile'])) {
-        // if post job not == 0 then update table jobs set status = "failed" where id = $_POST['job']
-        if ($_POST['job'] != 0) {
+        if ($_POST['job'] > 0) {
             $sql = "UPDATE jobs SET status = ? WHERE id = ?";
             $stmt = $con->prepare($sql);
             $status = "failed";
@@ -188,7 +187,6 @@ if ($_POST['type'] == 'discord') {
             $stmt->fetch();
             $stmt->close();
 
-            // update table batch set status = "failed" where id = jobs.batch_id
             $sql = "UPDATE batch SET status = ? WHERE id = ?";
             $stmt = $con->prepare($sql);
             $status = "failed";
@@ -196,7 +194,7 @@ if ($_POST['type'] == 'discord') {
             $stmt->execute();
             $stmt->close();
         }
-        die("No audio file uploaded.");
+        die("No audio file uploaded...");
     }
     if ($_FILES['audioFile']['error'] !== UPLOAD_ERR_OK) {
         $errorCode = $_FILES['audioFile']['error'];
@@ -204,7 +202,7 @@ if ($_POST['type'] == 'discord') {
             UPLOAD_ERR_INI_SIZE   => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
             UPLOAD_ERR_FORM_SIZE  => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
             UPLOAD_ERR_PARTIAL    => 'The uploaded file was only partially uploaded.',
-            UPLOAD_ERR_NO_FILE    => 'No file was uploaded.',
+            UPLOAD_ERR_NO_FILE    => 'No file was uploaded.2',
             UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder.',
             UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.',
             UPLOAD_ERR_EXTENSION  => 'A PHP extension stopped the file upload.'
@@ -278,6 +276,30 @@ if ($_POST['type'] == 'discord') {
             $stmt = $con->prepare($sql);
             $status = "complete";
             $stmt->bind_param('si', $status, $batch_id);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        // if jobs.model_id == 0 then use original_name to search files.original_name and update jobs.model_id = files.model_id
+        $sql = "SELECT model_id FROM jobs WHERE id = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param('i', $_POST['job']);
+        $stmt->execute();
+        $stmt->bind_result($model_id);
+        $stmt->fetch();
+        $stmt->close();
+        if ($model_id == 0) {
+            $sql = "SELECT id FROM files WHERE original_name = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bind_param('s', $_POST['original_name']);
+            $stmt->execute();
+            $stmt->bind_result($model_id);
+            $stmt->fetch();
+            $stmt->close();
+
+            $sql = "UPDATE jobs SET model_id = ? WHERE id = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bind_param('ii', $model_id, $_POST['job']);
             $stmt->execute();
             $stmt->close();
         }

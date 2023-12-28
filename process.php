@@ -339,7 +339,8 @@ include 'core/header.php';
 								var elapsedTime = currentTime - startTime;
 
 								if (elapsedTime < oneHour) {
-									delay = Math.min(delay + 5000, 60000);
+									// delay = Math.min(delay + 5000, 60000);
+									delay = 5000;
 								} else if (elapsedTime < twentyFourHours) {
 									delay = 600000;
 								} else {
