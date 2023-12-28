@@ -252,7 +252,7 @@ include 'core/header.php';
 
 
 						<!--begin::Table-->
-						<div class="card card-flush mt-6 mt-xl-9">
+						<div class="card card-flush">
 							<!--begin::Card header-->
 							<div class="card-header mt-5">
 								<!--begin::Card title-->
@@ -393,21 +393,20 @@ include 'core/header.php';
 															</td>
 															<td class="">
 																<input type="hidden" id="name-' . $row['id'] . '" name="name-' . $row['id'] . '" value="' . $row['name'] . '">
-																<a href="#" class="btn btn-lg btn-primary btn-active-light-primary">Select -></a> 
+																<a href="#" class="btn btn-primary btn-active-light-primary">Select -></a> 
 															</td>
 															
-<td class="fs-7">';
+<td class="fs-7" style="display: flex; align-items: center; gap: 10px;">';
 													$pitches = [-16, -12, -8, -4, 0, 4, 8, 12, 16];
 
 													$defaultFileName = "samples/" . $row['name'] . ".mp3";
 													echo '<div style="float: left; margin-right: 10px;">';
-													echo '<audio id="audioPlayer-' . $row['id'] . '" style="height:40px;" controls>
+													echo '<audio id="audioPlayer-' . $row['id'] . '" data-row-name="' . $row['name'] . '" style="height:40px;" controls>
     <source src="' . $defaultFileName . '" type="audio/mpeg">
     Your browser does not support the audio tag.
 </audio>';
 													echo '</div>';
-													echo '<div>Pitch:</div>';
-													echo '<div><select id="pitchSelector-' . $row['id'] . '" onchange="updateAudioSource(this.value, ' . $row['id'] . ', \'' . $row['name'] . '\');">';
+													echo '<div>Pitch:<br><select id="pitchSelector-' . $row['id'] . '" onchange="updateAudioSource(this.value, ' . $row['id'] . ', \'' . $row['name'] . '\');">';
 													foreach ($pitches as $pitch) {
 														if ($pitch == 0) {
 															echo '<option value="' . $pitch . '" selected>' . $pitch . '</option>';
@@ -417,6 +416,7 @@ include 'core/header.php';
 													}
 													echo '</select>';
 													echo '</div>';
+													echo '<div>Gender:<br><button id="genderToggle-' . $row['id'] . '" onclick="toggleGender(' . $row['id'] . ');">Male</button></div>';
 
 
 													echo '</td>
@@ -434,13 +434,36 @@ include 'core/header.php';
 										</tbody>
 									</table>
 									<script>
+										var genderState = {};
+
+										function toggleGender(rowId) {
+											// Toggle the gender state for the specific row
+											genderState[rowId] = !genderState[rowId];
+
+											// Fetch the rowName and the toggle button
+											const audioPlayer = document.getElementById("audioPlayer-" + rowId);
+											const rowName = audioPlayer.getAttribute("data-row-name");
+											const toggleButton = document.getElementById("genderToggle-" + rowId);
+
+											// Update the button text based on the current state
+											if (genderState[rowId]) {
+												toggleButton.textContent = "Female"; // or "samples2", or any label you prefer
+											} else {
+												toggleButton.textContent = "Male"; // or "samples", or any label you prefer
+											}
+
+											// Fetch the current pitch value
+											const pitchElement = document.getElementById('pitchSelector-' + rowId);
+											const pitch = pitchElement ? pitchElement.value : 0;
+
+											// Update the audio source with the correct file name
+											updateAudioSource(pitch, rowId, rowName);
+										}
+
 										function updateAudioSource(pitch, rowId, rowName) {
 											var audioElementId = "audioPlayer-" + rowId;
-											var fileName = "samples/" + rowName + ".p" + pitch + ".mp3";
-
-											if (pitch == 0) {
-												fileName = "samples/" + rowName + ".mp3";
-											}
+											var folder = genderState[rowId] ? "samples2" : "samples";
+											var fileName = folder + "/" + rowName + (pitch == 0 ? ".mp3" : ".p" + pitch + ".mp3");
 
 											document.getElementById(audioElementId).querySelector("source").src = fileName;
 											document.getElementById(audioElementId).load();
@@ -452,7 +475,7 @@ include 'core/header.php';
 
 											const slider = document.getElementById('kt_modal_create_campaign_budget_slider');
 											if (slider) {
-												const percentage = (pitch / 100) * 100; // Assuming max pitch of 100
+												const percentage = (pitch / 100) * 100;
 												slider.style.width = percentage + "%";
 											}
 										}
