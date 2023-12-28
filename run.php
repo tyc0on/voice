@@ -154,8 +154,8 @@ if ($modelUrl == "") {
 							<button class="btn btn-primary mt-3" type="submit" name="submit">Submit -></button>
 							<div class="fv-row">
 								<button type="button" id="toggleAdvancedSettings" class="btn btn-secondary mt-3">Advanced Settings</button>
-								<div id="advancedSettings" style="display: none;">
-									<h3>Advanced settings</h3>
+								<div id="advancedSettings">
+									<!-- <h3>Advanced settings</h3> -->
 									<div class="fv-row">
 										<label for="pitch">Pitch:</label>
 										<input type="number" id="pitch" name="pitch" value="0" min="-100" max="100">

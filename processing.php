@@ -239,7 +239,15 @@ foreach ($audioFiles as $audioFile) {
 			)
 		);
 
-		$msg = new AMQPMessage(json_encode($jobData));
+		if ($_SESSION['accounttype'] == "TRIAL") {
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 3]);
+		} elseif ($_SESSION['accounttype'] == "BASIC") {
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 4]);
+		} elseif ($_SESSION['accounttype'] == "ADVANCED") {
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 5]);
+		} else {
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2]);
+		}
 		$channel->basic_publish($msg, '', 'job_queue');
 	}
 	// die;
@@ -267,17 +275,120 @@ include 'core/header.php';
 			<div id="kt_app_content_container" class="app-container container-xxl">
 				<!--begin::Row-->
 				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+					<div style="text-align:center; margin-top:15px;">
+						<img id="hero-image" src="/assets/media/misc/loading.webp" alt="loading" style="width: 480px; height: 480px;">
+						<h1 id="hero-h" style="font-size:60px;">Processing your audio files....</h1>
+						<div id="hero-load" class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+						<div id="countdown-timer" style="font-size:30px; margin-top:20px;">
+							Next check in <span id="countdown-value">10</span> seconds.
+						</div>
 
-					<div style="text-align:center; margin-top:100px;">
-						<h1 style="font-size:60px;">Audio Files are Processing....</h1>
-						<h2>Check back later. The link in the menu will turn green</h2>
+						<button id="manual-check" style="margin-top:20px;">Check Now</button>
+						<div id="error-message" style="display:none;">
+							<p style="color:red; font-size:48px; font-weight:bold;">An error occurred while processing your files.</p>
+							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Try Again</button> <span style="font-size:24px; ">or look for a new voice model <a href="https://voice-models.com">here</a></span>.
+						</div>
+						<h2 id="hero-sub"><?php
+											$messages = array(
+												"Hang tight! We're currently convincing a pack of sleepy electrons to move a little faster, negotiating a peace treaty between rival bandwidth tribes, and looking for the 'speed up' button we lost last week.", "Just a sec! Your request is jumping through hoops of fire, dodging lazy zeros and ones, and teaching an old computer new tricks. It's a tough job, but someone's gotta do it!", "Processing... Our code wizards are currently in a heated debate with a stubborn server gnome who loves taking long breaks. We've promised him an extra vacation day, so we should be back on track shortly!", "Brace yourself! We're wrangling the digital hamsters, negotiating with time-traveling tourists, and bribing the internet gremlins to speed things up. Hold on tight; your request is surfing through the cosmic internet waves!"
+											);
+											$message = $messages[array_rand($messages)];
+											echo $message;
+											?></h2>
 					</div>
-					<?php
-					// redirect back to /app using javascript after 3 seconds
-					echo '<script type="text/javascript">setTimeout(function(){window.location.href = "/app";}, 3000);</script>';
+					<script type="text/javascript">
+						(function() {
+							var delay = 1000;
+							var countdownValue = delay / 1000;
+							var batchId = <?php echo json_encode($batch ?? 'null'); ?>;
+							var startTime = Date.now();
+							var oneHour = 3600000;
+							var twentyFourHours = 86400000;
 
-					?>
-					<!-- <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mt-0">
+							function displayError() {
+								document.getElementById('error-message').style.display = 'block';
+								document.getElementById('hero-h').style.display = 'none';
+								document.getElementById('hero-load').style.display = 'none';
+								document.getElementById('countdown-timer').style.display = 'none';
+								document.getElementById('manual-check').style.display = 'none';
+								document.getElementById('hero-sub').style.display = 'none';
+								document.getElementById('hero-image').src = '/assets/media/misc/fail.jpg';
+
+							}
+
+							function updateCountdown() {
+								document.getElementById('countdown-value').textContent = countdownValue;
+								if (countdownValue > 0) {
+									countdownValue--;
+									setTimeout(updateCountdown, 1000);
+								}
+							}
+
+							function resetCountdown(newDelay) {
+								delay = newDelay !== undefined ? newDelay : delay;
+								countdownValue = delay / 1000;
+								updateCountdown();
+							}
+
+							function manualCheck() {
+								resetCountdown(1000);
+								checkBatchStatus();
+							}
+
+							function adjustDelay() {
+								var currentTime = Date.now();
+								var elapsedTime = currentTime - startTime;
+
+								if (elapsedTime < oneHour) {
+									delay = Math.min(delay + 5000, 60000);
+								} else if (elapsedTime < twentyFourHours) {
+									delay = 600000;
+								} else {
+									delay = null;
+								}
+							}
+
+							function checkBatchStatus() {
+								var xhr = new XMLHttpRequest();
+								xhr.open('GET', '/batchstatus.php?batch=' + batchId, true);
+								xhr.onload = function() {
+									if (xhr.status === 200) {
+										var response = JSON.parse(xhr.responseText);
+										if (response.status === 'complete') {
+											window.location.href = '/processed?batch=' + batchId;
+										} else if (response.error) {
+											displayError();
+										} else {
+											adjustDelay();
+											resetCountdown();
+											setTimeout(checkBatchStatus, delay);
+										}
+									} else {
+										console.error('Error checking batch status');
+										displayError();
+									}
+								};
+								xhr.onerror = function() {
+									console.error('Network error trying to check batch status');
+									displayError();
+								};
+								xhr.send();
+							}
+
+							document.getElementById('manual-check').addEventListener('click', manualCheck);
+
+							setTimeout(checkBatchStatus, delay);
+							updateCountdown();
+						})();
+					</script>
+
+				</div>
+
+
+
+				<!-- <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mt-0">
 
 						<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
 							Step 1:
@@ -287,39 +398,39 @@ include 'core/header.php';
 
 
 
-				</div>
-
-
-
-				<!--end::Content container-->
 			</div>
-			<!--end::Content-->
+
+
+
+			<!--end::Content container-->
 		</div>
-		<!--end::Content wrapper-->
-		<!--begin::Footer-->
-		<div id="kt_app_footer" class="app-footer">
-			<!--begin::Footer container-->
-			<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-				<!--begin::Copyright-->
-				<div class="text-dark order-2 order-md-1">
-					<span class="text-muted fw-semibold me-1">2023&copy;</span>
-					<a href="https://easyaivoice.com" target="_blank" class="text-gray-800 text-hover-primary">EasyAIVoice</a>
-				</div>
-				<!--end::Copyright-->
-				<!--begin::Menu-->
-				<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-					<li class="menu-item">
-						<a href="https://easyaivoice.com" target="_blank" class="menu-link px-2">About</a>
-					</li>
-					<li class="menu-item">
-						<a href="https://blog.easyai.studio/contact" target="_blank" class="menu-link px-2">Support</a>
-					</li>
-					<!-- footerlink -->
-				</ul>
-				<!--end::Menu-->
+		<!--end::Content-->
+	</div>
+	<!--end::Content wrapper-->
+	<!--begin::Footer-->
+	<div id="kt_app_footer" class="app-footer">
+		<!--begin::Footer container-->
+		<div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+			<!--begin::Copyright-->
+			<div class="text-dark order-2 order-md-1">
+				<span class="text-muted fw-semibold me-1">2023&copy;</span>
+				<a href="https://easyaivoice.com" target="_blank" class="text-gray-800 text-hover-primary">EasyAIVoice</a>
 			</div>
-			<!--end::Footer container-->
+			<!--end::Copyright-->
+			<!--begin::Menu-->
+			<ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
+				<li class="menu-item">
+					<a href="https://easyaivoice.com" target="_blank" class="menu-link px-2">About</a>
+				</li>
+				<li class="menu-item">
+					<a href="https://blog.easyai.studio/contact" target="_blank" class="menu-link px-2">Support</a>
+				</li>
+				<!-- footerlink -->
+			</ul>
+			<!--end::Menu-->
 		</div>
-		<!--end::Footer-->
-		<!-- <script src="assets/js/custom/documentation/forms/nouislider.js"></script> -->
-		<?php include 'core/footer.php'; ?>
+		<!--end::Footer container-->
+	</div>
+	<!--end::Footer-->
+	<!-- <script src="assets/js/custom/documentation/forms/nouislider.js"></script> -->
+	<?php include 'core/footer.php'; ?>

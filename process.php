@@ -237,7 +237,16 @@ foreach ($audioFiles as $audioFile) {
 		);
 
 		// $msg = new AMQPMessage(json_encode($jobData));
-		$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2]);
+
+		if ($_SESSION['accounttype'] == "TRIAL") {
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2]);
+		} elseif ($_SESSION['accounttype'] == "BASIC") {
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 3]);
+		} elseif ($_SESSION['accounttype'] == "ADVANCED") {
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 4]);
+		} else {
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2]);
+		}
 		$channel->basic_publish($msg, '', 'job_queue');
 	}
 }

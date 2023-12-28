@@ -128,7 +128,7 @@ include 'core/header.php';
 
 				</div>
 				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-					<form class="form mt-5" action="processing.php" method="post" enctype="multipart/form-data" id="audios">
+					<form class="form mt-5" action="processing" method="post" enctype="multipart/form-data" id="audios">
 						<div class="fv-row">
 							<input type="file" name="files[]" id="fileInput" multiple style="display: none;">
 							<div class="custom-file-upload" style="border: 1px dashed #9b00ff; background-color: #000000; padding: 10px; text-align: center; cursor: pointer;">
@@ -386,7 +386,7 @@ include 'core/header.php';
 																<div class="d-flex align-items-center">
 																	' . $icon . '
 																	<div class="d-flex flex-column justify-content-center">
-																		<a href="" class="fs-6 text-gray-800 text-hover-primary">' . $original_name . '</a>
+																		<span href="" class="fs-6 text-gray-800 text-hover-primary">' . $original_name . '</span>
 																		<div class="fw-semibold text-gray-400">' . $url . '</div>
 																	</div>
 																</div>
@@ -394,17 +394,24 @@ include 'core/header.php';
 															<td class="">
 																<input type="hidden" id="name-' . $row['id'] . '" name="name-' . $row['id'] . '" value="' . $row['name'] . '">
 																<a href="#" class="btn btn-primary btn-active-light-primary">Select -></a> 
-															</td>
-															
-<td class="fs-7" style="display: flex; align-items: center; gap: 10px;">';
+															</td>';
+
+													echo '<td class="fs-7" style="display: flex; align-items: center; gap: 10px;">';
 													$pitches = [-16, -12, -8, -4, 0, 4, 8, 12, 16];
 
 													$defaultFileName = "samples/" . $row['name'] . ".mp3";
 													echo '<div style="float: left; margin-right: 10px;">';
-													echo '<audio id="audioPlayer-' . $row['id'] . '" data-row-name="' . $row['name'] . '" style="height:40px;" controls>
-    <source src="' . $defaultFileName . '" type="audio/mpeg">
-    Your browser does not support the audio tag.
+
+													echo '<div id="playIcon-' . $row['id'] . '" onclick="playAudio(' . $row['id'] . ', \'' . $row['name'] . '\');" style="cursor: pointer; float: left; margin-right: 10px;">
+													<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+													<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+												  </svg>
+</div>';
+													echo '<audio id="audioPlayer-' . $row['id'] . '" data-row-name="' . $row['name'] . '" style="height:40px; display:none;" controls>
+<source type="audio/mpeg">
+Your browser does not support the audio tag.
 </audio>';
+													echo '</div>';
 													echo '</div>';
 													echo '<div>Pitch:<br><select id="pitchSelector-' . $row['id'] . '" onchange="updateAudioSource(this.value, ' . $row['id'] . ', \'' . $row['name'] . '\');">';
 													foreach ($pitches as $pitch) {
@@ -436,48 +443,45 @@ include 'core/header.php';
 									<script>
 										var genderState = {};
 
+										function playAudio(rowId, rowName) {
+											const audioPlayer = document.getElementById("audioPlayer-" + rowId);
+											audioPlayer.style.display = 'block';
+
+											const playIcon = document.getElementById("playIcon-" + rowId);
+											playIcon.style.display = 'none';
+
+											const pitch = document.getElementById('pitchSelector-' + rowId).value;
+											updateAudioSource(pitch, rowId, rowName);
+											audioPlayer.play();
+										}
+
 										function toggleGender(rowId) {
-											// Toggle the gender state for the specific row
 											genderState[rowId] = !genderState[rowId];
 
-											// Fetch the rowName and the toggle button
-											const audioPlayer = document.getElementById("audioPlayer-" + rowId);
-											const rowName = audioPlayer.getAttribute("data-row-name");
 											const toggleButton = document.getElementById("genderToggle-" + rowId);
 
-											// Update the button text based on the current state
 											if (genderState[rowId]) {
-												toggleButton.textContent = "Female"; // or "samples2", or any label you prefer
+												toggleButton.textContent = "Female";
 											} else {
-												toggleButton.textContent = "Male"; // or "samples", or any label you prefer
+												toggleButton.textContent = "Male";
 											}
 
-											// Fetch the current pitch value
 											const pitchElement = document.getElementById('pitchSelector-' + rowId);
 											const pitch = pitchElement ? pitchElement.value : 0;
+											const rowName = document.getElementById("audioPlayer-" + rowId).getAttribute("data-row-name");
 
-											// Update the audio source with the correct file name
 											updateAudioSource(pitch, rowId, rowName);
 										}
 
 										function updateAudioSource(pitch, rowId, rowName) {
 											var audioElementId = "audioPlayer-" + rowId;
+											var audioPlayer = document.getElementById(audioElementId);
+
 											var folder = genderState[rowId] ? "samples2" : "samples";
 											var fileName = folder + "/" + rowName + (pitch == 0 ? ".mp3" : ".p" + pitch + ".mp3");
 
-											document.getElementById(audioElementId).querySelector("source").src = fileName;
-											document.getElementById(audioElementId).load();
-
-											const pitchElement = document.getElementById('kt_modal_create_campaign_budget_label');
-											if (pitchElement) {
-												pitchElement.textContent = pitch;
-											}
-
-											const slider = document.getElementById('kt_modal_create_campaign_budget_slider');
-											if (slider) {
-												const percentage = (pitch / 100) * 100;
-												slider.style.width = percentage + "%";
-											}
+											audioPlayer.querySelector("source").src = fileName;
+											audioPlayer.load();
 										}
 
 										document.addEventListener('DOMContentLoaded', function() {
