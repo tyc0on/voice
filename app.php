@@ -111,7 +111,7 @@ include 'core/header.php';
 				<!--begin::Row-->
 				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
 					<!--begin::Form-->
-					<div style="text-align:center; margin-top:100px;">
+					<div style="text-align:center; margin-top:35px;">
 						<h1 style="font-size:60px;">Upload your voice file</h1>
 						<h2>MP3 or WAV</h2>
 					</div>
