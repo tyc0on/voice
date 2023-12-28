@@ -161,15 +161,6 @@ include 'core/header.php';
 						</div>
 					</form>
 					<script>
-						document.getElementById('audios').addEventListener('submit', function(e) {
-							const files = document.getElementById('fileInput').files;
-							const existingFilesSelected = document.querySelectorAll('.existing-file-input').length > 0;
-							if (files.length === 0 && !existingFilesSelected) {
-								e.preventDefault();
-								alert('Please select at least one file to upload or choose from existing files.');
-							}
-						});
-
 						document.querySelector(".custom-file-upload").addEventListener("click", function() {
 							document.getElementById("fileInput").click();
 						});
@@ -489,6 +480,13 @@ Your browser does not support the audio tag.
 												button.addEventListener('click', function(event) {
 													event.preventDefault();
 
+													const files = document.getElementById('fileInput').files;
+													const existingFilesSelected = document.querySelectorAll('.existing-file-input').length > 0;
+													if (files.length === 0 && !existingFilesSelected) {
+														alert('Please select at least one file to upload or choose from existing files.');
+														return; // Stop further execution
+													}
+
 													const row = this.closest('tr');
 													const hiddenInput = row.querySelector('input[type="hidden"]');
 													const nameValue = hiddenInput ? hiddenInput.value : null;
@@ -510,6 +508,7 @@ Your browser does not support the audio tag.
 														const form = document.getElementById('audios');
 														form.appendChild(nameInput);
 														form.appendChild(pitchInput);
+
 														form.submit();
 
 														updateAudioSource(pitchValue, row.getAttribute('data-id'), nameValue);

@@ -200,7 +200,8 @@ $channel = $connection->channel();
 
 $channel->queue_declare('job_queue', false, true, false, false, false, new \PhpAmqpLib\Wire\AMQPTable(['x-max-priority' => 10]));
 
-$msg = new AMQPMessage(json_encode($jobData));
+// $msg = new AMQPMessage(json_encode($jobData));
+$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2]);
 $channel->basic_publish($msg, '', 'job_queue');
 
 $channel->close();
