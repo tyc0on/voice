@@ -147,24 +147,13 @@ include 'core/header.php';
 																								$stmt->execute();
 																								$result = $stmt->get_result();
 
-																								// Assuming there's a field 'name' in the 'batch' table to display as the menu title.
-																								// If the field name is different, replace 'name' with the appropriate field name.
 																								while ($row = $result->fetch_assoc()) {
 																									$filepath = str_replace("audios/", "", $row['file_path']);
 																									$audioFiles[] = ['id' => $row['id'], 'file_name' => $row['original_name']];
 																								}
 
 																								$stmt->close();
-																								// $audioFiles = [
-																								// 	['id' => 1, 'file_name' => 'audio1.mp3'],
-																								// 	['id' => 2, 'file_name' => 'audio2.mp3'],
-																								// 	['id' => 3, 'file_name' => 'audio3.mp3'],
-																								// 	['id' => 4, 'file_name' => 'audio4.mp3'],
-																								// 	['id' => 5, 'file_name' => 'audio5.mp3'],
-																								// 	// ... more files
-																								// ];
 
-																								// echo "<option value=''>Select files</option>";
 																								foreach ($audioFiles as $audioFile) {
 																									echo "<option value='{$audioFile['id']}'>{$audioFile['file_name']}</option>";
 																								}
@@ -172,6 +161,15 @@ include 'core/header.php';
 						</div>
 					</form>
 					<script>
+						document.getElementById('audios').addEventListener('submit', function(e) {
+							const files = document.getElementById('fileInput').files;
+							const existingFilesSelected = document.querySelectorAll('.existing-file-input').length > 0;
+							if (files.length === 0 && !existingFilesSelected) {
+								e.preventDefault();
+								alert('Please select at least one file to upload or choose from existing files.');
+							}
+						});
+
 						document.querySelector(".custom-file-upload").addEventListener("click", function() {
 							document.getElementById("fileInput").click();
 						});
