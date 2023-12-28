@@ -155,7 +155,6 @@ if ($modelUrl == "") {
 							<div class="fv-row">
 								<button type="button" id="toggleAdvancedSettings" class="btn btn-secondary mt-3">Advanced Settings</button>
 								<div id="advancedSettings">
-									<!-- <h3>Advanced settings</h3> -->
 									<div class="fv-row">
 										<label for="pitch">Pitch:</label>
 										<input type="number" id="pitch" name="pitch" value="0" min="-100" max="100">
@@ -216,7 +215,6 @@ if ($modelUrl == "") {
 								const selectedOptions = Array.from(this.selectedOptions);
 								const form = document.getElementById('audios');
 
-								// Clear any previously appended inputs related to existing files
 								document.querySelectorAll('.existing-file-input').forEach(input => {
 									input.remove();
 								});
@@ -232,6 +230,16 @@ if ($modelUrl == "") {
 
 								const selectedFileNames = selectedOptions.map(opt => opt.textContent).join(', ');
 								document.getElementById('fileNames').textContent = selectedFileNames;
+							});
+
+							document.getElementById('audios').addEventListener('submit', function(e) {
+								const fileInput = document.getElementById('fileInput');
+								const existingFilesDropdown = document.getElementById('existingFilesDropdown');
+
+								if (fileInput.files.length === 0 && existingFilesDropdown.selectedOptions.length === 0) {
+									e.preventDefault(); // Prevent form submission
+									alert('Please select at least one file to upload.');
+								}
 							});
 						</script>
 					</div>
