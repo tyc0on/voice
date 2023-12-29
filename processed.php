@@ -300,18 +300,36 @@ include 'core/header.php';
 				<!--end::Content container-->
 
 
+				<?php
+				// find model url at files.url using jobs.model_id
+				$sql = "SELECT * FROM files WHERE id = ?";
+				$stmt = $con->prepare($sql);
+				$stmt->bind_param('i', $_GET['model_id']);
+				$stmt->execute();
+				$result = $stmt->get_result();
+				$stmt->close();
+				if ($result->num_rows > 0) {
+					$row = $result->fetch_assoc();
+					$model_url = $row['url'];
+				}
 
-				<!-- <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-					<div class="col-xl-12">
-						<div class="card card-flush mt-6 mt-xl-9">
-						
-							<div class="card-body pt-0">
-								<h1><a href="">Use voice model again</a></h1>
+				if ($model_url != "") {
+				?>
+					<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+						<div class="col-xl-12">
+							<div class="card card-flush mt-6 mt-xl-9">
 
+								<div class="card-body pt-0">
+
+									<h1><a href="/run?url=<?php echo $model_url; ?>">Use voice model again</a></h1>
+
+								</div>
 							</div>
 						</div>
 					</div>
-				</div> -->
+				<?php
+				}
+				?>
 
 
 			</div>
