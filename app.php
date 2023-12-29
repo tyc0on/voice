@@ -306,7 +306,7 @@ include 'core/header.php';
 											<?php
 
 											//foreach SELECT * FROM markdown WHERE user_id = 1
-											$sql = "SELECT * FROM files ORDER BY added_date DESC";
+											$sql = "SELECT * FROM files WHERE active = 1 ORDER BY added_date DESC";
 											$result = $con->query($sql);
 											function getColorFromLetter($letter)
 											{

@@ -142,7 +142,7 @@ include 'core/header.php';
 							</div> -->
 							<!--end::Card header-->
 							<!--begin::Card body-->
-							<div class="card-body pt-0">
+							<div class="card-body pt-0 pb-0">
 								<!--begin::Table container-->
 								<div class="table-responsive">
 									<!--begin::Table-->
@@ -302,31 +302,33 @@ include 'core/header.php';
 
 				<?php
 				// find model url at files.url using jobs.model_id
-				$sql = "SELECT * FROM files WHERE id = ?";
+				$sql = "SELECT * FROM jobs LEFT JOIN files ON files.id = jobs.model_id WHERE jobs.user_id = ? AND jobs.batch_id = ? ORDER BY jobs.id DESC";
 				$stmt = $con->prepare($sql);
-				$stmt->bind_param('i', $_GET['model_id']);
+				$stmt->bind_param('ii', $_SESSION['id'], $_GET['batch']);
 				$stmt->execute();
 				$result = $stmt->get_result();
 				$stmt->close();
 				if ($result->num_rows > 0) {
 					$row = $result->fetch_assoc();
 					$model_url = $row['url'];
+				} else {
+					$model_url = "";
 				}
 
 				if ($model_url != "") {
 				?>
-					<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+					<!-- <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
 						<div class="col-xl-12">
-							<div class="card card-flush mt-6 mt-xl-9">
+							<div class="card card-flush ">
 
-								<div class="card-body pt-0">
+								<div class="card-body pt-2 pb-2"> -->
 
-									<h1><a href="/run?url=<?php echo $model_url; ?>">Use voice model again</a></h1>
+					<a class="btn btn-primary btn-active-light-primary" href="/run?url=<?php echo $model_url; ?>">Use voice model again -></a>
 
-								</div>
+					<!-- </div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				<?php
 				}
 				?>
