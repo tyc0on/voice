@@ -320,11 +320,12 @@ if ($_POST['type'] == 'discord') {
         move_uploaded_file($tempFile, $newFile);
     }
     // return success json
-    $response = [
-        "success" => true
-    ];
-    echo json_encode($response);
+
 }
 
 
 $con->close();
+$response = [
+    "success" => true
+];
+echo json_encode($response);
