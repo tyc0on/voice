@@ -228,7 +228,7 @@ foreach ($audioFiles as $audioFile) {
 			'metadata' => array(
 				'member' => array(
 					'user' => array(
-						'id' => 1,
+						'id' => $_SESSION['id'],
 						'username' => 'None',
 						'global_name' => 'None',
 					)

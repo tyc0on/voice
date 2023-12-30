@@ -319,6 +319,11 @@ if ($_POST['type'] == 'discord') {
         $newFile = $username . "/" . $name . $pitch . "." . $extension;
         move_uploaded_file($tempFile, $newFile);
     }
+    // return success json
+    $response = [
+        "success" => true
+    ];
+    echo json_encode($response);
 }
 
 
