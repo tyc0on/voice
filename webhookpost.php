@@ -303,6 +303,23 @@ if ($_POST['type'] == 'discord') {
             $stmt->execute();
             $stmt->close();
         }
+
+        // round $_POST['audio_length'] to 2 decimal places
+        $audio_length = round($_POST['audio_length'], 2);
+
+        // update jobs.audio_length = $_POST['audio_length'] where id = $_POST['job']
+        $sql = "UPDATE jobs SET audio_length = ? WHERE id = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param('di', $audio_length, $_POST['job']);
+        $stmt->execute();
+        $stmt->close();
+
+        // update paudio_files.audio_length = $audio_length where id = $paudio_id
+        $sql = "UPDATE paudio_files SET audio_length = ? WHERE id = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param('di', $audio_length, $paudio_id);
+        $stmt->execute();
+        $stmt->close();
     } else {
         // save in samples folder with name of $_POST['name'].mp3
         $name = $_POST['name'];
