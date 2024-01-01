@@ -239,7 +239,7 @@ include 'core/header.php';
 						<button id="manual-check" style="margin-top:20px;">Check Now</button>
 						<div id="error-message" style="display:none;">
 							<p style="color:red; font-size:48px; font-weight:bold;">An error occurred while processing your files.
-							<div id="msg"></div>
+							<div style="color:red; font-size:36px; font-weight:bold;" id="msg"></div>
 							</p>
 							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Try Again</button> <span style="font-size:24px; ">or look for a new voice model <a href="https://voice-models.com">here</a></span>.
 						</div>
