@@ -41,7 +41,7 @@ if (!isset($_SESSION['id'], $_GET['batch'])) {
 $userId = $_SESSION['id'];
 $batchId = $con->real_escape_string($_GET['batch']);
 
-$query = "SELECT `status` FROM `batch` WHERE `id` = '{$batchId}' AND `user_id` = '{$userId}' LIMIT 1";
+$query = "SELECT `status`, `error` FROM `batch` WHERE `id` = '{$batchId}' AND `user_id` = '{$userId}' LIMIT 1";
 $result = $con->query($query);
 
 if ($result) {
@@ -49,7 +49,7 @@ if ($result) {
         $batch = $result->fetch_assoc();
         if ($batch['status'] == 'failed') {
             // show error and status
-            echo json_encode(['status' => $batch['status'], 'error' => 'Batch failed']);
+            echo json_encode(['status' => $batch['status'], 'error' => $batch['error']]);
         } else {
             echo json_encode(['status' => $batch['status']]);
         }

@@ -238,7 +238,7 @@ include 'core/header.php';
 
 						<button id="manual-check" style="margin-top:20px;">Check Now</button>
 						<div id="error-message" style="display:none;">
-							<p style="color:red; font-size:48px; font-weight:bold;">An error occurred while processing your files.</p>
+							<p style="color:red; font-size:48px; font-weight:bold;">An error occurred while processing your files. <span id="msg"></span></p>
 							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Try Again</button> <span style="font-size:24px; ">or look for a new voice model <a href="https://voice-models.com">here</a></span>.
 						</div>
 						<h2 id="hero-sub"><?php
@@ -258,7 +258,7 @@ include 'core/header.php';
 							var oneHour = 3600000;
 							var twentyFourHours = 86400000;
 
-							function displayError() {
+							function displayError(error_msg) {
 								document.getElementById('error-message').style.display = 'block';
 								document.getElementById('hero-h').style.display = 'none';
 								document.getElementById('hero-load').style.display = 'none';
@@ -266,6 +266,7 @@ include 'core/header.php';
 								document.getElementById('manual-check').style.display = 'none';
 								document.getElementById('hero-sub').style.display = 'none';
 								document.getElementById('hero-image').src = '/assets/media/misc/fail.jpg';
+								document.getElementById('msg').textContent = error_msg || 'An unknown error occurred';
 
 							}
 
@@ -310,8 +311,9 @@ include 'core/header.php';
 										var response = JSON.parse(xhr.responseText);
 										if (response.status === 'complete') {
 											window.location.href = '/processed?batch=' + batchId;
+
 										} else if (response.error) {
-											displayError();
+											displayError(response.error);
 										} else {
 											adjustDelay();
 											resetCountdown();
