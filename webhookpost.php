@@ -189,10 +189,10 @@ if ($_POST['type'] == 'discord') {
             $stmt->fetch();
             $stmt->close();
 
-            $sql = "UPDATE batch SET status = ? WHERE id = ?";
+            $sql = "UPDATE batch SET status = ?, error = ? WHERE id = ?";
             $stmt = $con->prepare($sql);
             $status = "failed";
-            $stmt->bind_param('si', $status, $batch_id);
+            $stmt->bind_param('ssi', $status, $_POST['error_message'], $batch_id);
             $stmt->execute();
             $stmt->close();
         }
