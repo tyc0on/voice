@@ -126,7 +126,7 @@ if ($_POST['type'] == 'discord') {
 
     // Cleaning up
     unlink($tempFile);
-    echo $response;
+    // echo $response;
 
 
     $sql = "INSERT INTO log (log) VALUES (?)";
