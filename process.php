@@ -190,17 +190,33 @@ foreach ($audioFiles as $audioFile) {
 			)
 		);
 
+
+
 		// $msg = new AMQPMessage(json_encode($jobData));
+		// if $url exists in files.url table give + 1 priority
+		$sql = "SELECT * FROM files WHERE url = ?";
+		$stmt = $con->prepare($sql);
+		$stmt->bind_param('s', $url);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		if ($result->num_rows > 0) {
+			$priority = 1;
+		} else {
+			$priority = 0;
+		}
 
 		if ($_SESSION['accounttype'] == "TRIAL") {
-			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2]);
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2 + $priority]);
 		} elseif ($_SESSION['accounttype'] == "BASIC") {
-			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 3]);
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 3 + $priority]);
 		} elseif ($_SESSION['accounttype'] == "ADVANCED") {
-			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 4]);
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 4 + $priority]);
 		} else {
-			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2]);
+			$msg = new AMQPMessage(json_encode($jobData), ['priority' => 2 + $priority]);
 		}
+
+
 		$channel->basic_publish($msg, '', 'job_queue');
 	}
 }
