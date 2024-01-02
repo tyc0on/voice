@@ -2,9 +2,9 @@
 //errors on
 // calculate script execution time
 $time_start = microtime(true);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 include 'include.php';
 $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
 
@@ -348,6 +348,7 @@ $time = $time_end - $time_start;
 // $response['execution_time'] = $time;
 
 $con->close();
+header('Content-Type: application/json');
 $response = [
     "success" => true,
     "execution_time" => $time
