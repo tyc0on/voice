@@ -104,17 +104,32 @@ if ($modelUrl == "") {
 						</script>
 
 						<script>
+							// Step 1: Create a function to validate file types
+							function isValidFileType(fileName) {
+								const validExtensions = ['.wav', '.mp3', '.ogg', '.flac', '.m4a', '.aac', '.wma', '.mov'];
+								return validExtensions.some(ext => fileName.endsWith(ext));
+							}
+
+							// Original code for file selection with added validation
 							document.querySelector(".custom-file-upload").addEventListener("click", function() {
 								document.getElementById("fileInput").click();
 							});
 
 							document.getElementById("fileInput").addEventListener("change", function() {
 								const selectedFiles = Array.from(this.files);
-								const fileNames = selectedFiles.map(file => file.name).join(", ");
+								const validFiles = selectedFiles.filter(file => isValidFileType(file.name));
+
+								if (validFiles.length !== selectedFiles.length) {
+									alert("Some files have been removed because they are not of the allowed types.");
+								}
+
+								const fileNames = validFiles.map(file => file.name).join(", ");
 								document.getElementById("fileNames").textContent = fileNames;
 							});
 
 							const dropzone = document.querySelector(".custom-file-upload");
+
+							// Original dragover and dragleave event handlers
 							dropzone.addEventListener("dragover", function(e) {
 								e.preventDefault();
 								this.style.backgroundColor = "#222222";
@@ -125,15 +140,24 @@ if ($modelUrl == "") {
 								this.style.backgroundColor = "#000000";
 							});
 
+							// Updated drop event handler with validation
 							dropzone.addEventListener("drop", function(e) {
 								e.preventDefault();
 								this.style.backgroundColor = "#000000";
 								const files = e.dataTransfer.files;
-								document.getElementById("fileInput").files = files;
-								const fileNames = Array.from(files).map(file => file.name).join(", ");
+								const validFiles = Array.from(files).filter(file => isValidFileType(file.name));
+
+								if (validFiles.length !== files.length) {
+									alert("Some files have been removed because they are not of the allowed types.");
+								}
+
+								// Assuming you can directly assign an array to files (this might not work in all browsers)
+								document.getElementById("fileInput").files = new FileList(...validFiles);
+								const fileNames = validFiles.map(file => file.name).join(", ");
 								document.getElementById("fileNames").textContent = fileNames;
 							});
 
+							// Remaining original code (unchanged)
 							document.getElementById('pickExistingFiles').addEventListener('click', function() {
 								const dropdown = document.getElementById('existingFilesDropdown');
 								dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
@@ -170,6 +194,7 @@ if ($modelUrl == "") {
 								}
 							});
 						</script>
+
 					</div>
 					<!-- <form action="/process" method="post" enctype="multipart/form-data">
 						<h1>Upload Audio File</h1>
