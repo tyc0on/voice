@@ -174,10 +174,10 @@ if ($_POST['type'] == 'discord') {
 
     if (!isset($_FILES['audioFile'])) {
         if ($_POST['job'] > 0) {
-            $sql = "UPDATE jobs SET status = ? WHERE id = ?";
+            $sql = "UPDATE jobs SET status = ?, error = ? WHERE id = ?";
             $stmt = $con->prepare($sql);
             $status = "failed";
-            $stmt->bind_param('si', $status, $_POST['job']);
+            $stmt->bind_param('ssi', $status, $_POST['error_message'], $_POST['job']);
             $stmt->execute();
             $stmt->close();
 
