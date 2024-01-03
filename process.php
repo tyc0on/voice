@@ -275,6 +275,7 @@ include 'core/header.php';
 							var startTime = Date.now();
 							var oneHour = 3600000;
 							var twentyFourHours = 86400000;
+							var tenMinutes = 600000;
 
 							function displayError(error_msg) {
 								document.getElementById('error-message').style.display = 'block';
@@ -311,9 +312,11 @@ include 'core/header.php';
 								var currentTime = Date.now();
 								var elapsedTime = currentTime - startTime;
 
-								if (elapsedTime < oneHour) {
+								if (elapsedTime < tenMinutes) {
 									// delay = Math.min(delay + 5000, 60000);
-									delay = 5000;
+									delay = 3000;
+								} else if (elapsedTime < oneHour) {
+									delay = 15000;
 								} else if (elapsedTime < twentyFourHours) {
 									delay = 600000;
 								} else {
