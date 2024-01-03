@@ -89,13 +89,26 @@ include 'core/header.php';
 						</div>
 					</form>
 					<script>
+						// Function to check if the file type is valid
+						function isValidFileType(fileName) {
+							const validExtensions = ['.wav', '.mp3', '.ogg', '.flac', '.m4a', '.aac', '.wma', '.mov'];
+							return validExtensions.some(ext => fileName.endsWith(ext));
+						}
+
 						document.querySelector(".custom-file-upload").addEventListener("click", function() {
 							document.getElementById("fileInput").click();
 						});
 
+						// Modified 'change' event for file input with validation
 						document.getElementById("fileInput").addEventListener("change", function() {
 							const selectedFiles = Array.from(this.files);
-							const fileNames = selectedFiles.map(file => file.name).join(", ");
+							const validFiles = selectedFiles.filter(file => isValidFileType(file.name));
+
+							if (validFiles.length !== selectedFiles.length) {
+								alert("Some files have been removed because they are not of the allowed types.");
+							}
+
+							const fileNames = validFiles.map(file => file.name).join(", ");
 							document.getElementById("fileNames").textContent = fileNames;
 						});
 
@@ -110,12 +123,20 @@ include 'core/header.php';
 							this.style.backgroundColor = "#000000";
 						});
 
+						// Modified 'drop' event for dropzone with validation
 						dropzone.addEventListener("drop", function(e) {
 							e.preventDefault();
 							this.style.backgroundColor = "#000000";
 							const files = e.dataTransfer.files;
-							document.getElementById("fileInput").files = files;
-							const fileNames = Array.from(files).map(file => file.name).join(", ");
+							const validFiles = Array.from(files).filter(file => isValidFileType(file.name));
+
+							if (validFiles.length !== files.length) {
+								alert("Some files have been removed because they are not of the allowed types.");
+							}
+
+							// This might not work as expected in all browsers due to FileList being read-only.
+							document.getElementById("fileInput").files = new FileList(...validFiles);
+							const fileNames = validFiles.map(file => file.name).join(", ");
 							document.getElementById("fileNames").textContent = fileNames;
 						});
 
@@ -146,6 +167,7 @@ include 'core/header.php';
 							document.getElementById('fileNames').textContent = selectedFileNames;
 						});
 					</script>
+
 				</div>
 
 
