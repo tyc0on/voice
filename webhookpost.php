@@ -361,6 +361,7 @@ $con->close();
 header('Content-Type: application/json');
 $response = [
     "success" => true,
-    "execution_time" => $time
+    "execution_time" => $time_taken,
+    "execution_time2" => $time
 ];
 echo json_encode($response);
