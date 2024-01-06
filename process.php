@@ -196,7 +196,9 @@ foreach ($audioFiles as $audioFile) {
 	if ($result->num_rows > 0) {
 		$row = $result->fetch_assoc();
 
-		$url = "https://easyaivoice.com/" . $row['file_path'];
+
+		// $url = "https://easyaivoice.com/" . $row['file_path'];
+		$url = "https://voe.sfo3.cdn.digitaloceanspaces.com/" . $row['file_path'];
 		$name = $_POST['name'];
 		$pitch = $_POST['pitch'];
 		// timestamp for job submission

@@ -207,7 +207,7 @@ foreach ($audioFiles as $audioFile) {
 		$row = $result->fetch_assoc();
 
 		// url is the url of the audio file to process
-		$url = "https://easyaivoice.com/" . $row['file_path'];
+		$url = "https://voe.sfo3.cdn.digitaloceanspaces.com/" . $row['file_path'];
 		// $name = $row['name'];
 		//model url
 		$name = $_POST['name'];
