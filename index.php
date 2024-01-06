@@ -13,7 +13,7 @@ $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
 
 $loggedin = "false";
 if (!isset($_SESSION['loggedin'])) {
-    $_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
+    // $_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
     // header('Location: ' . $rdir);
 
     if (isset($_COOKIE['remember_token'])) {
@@ -64,7 +64,7 @@ if (!isset($_SESSION['loggedin'])) {
 
     // If the user is not logged in and the remember token doesn't exist, save the return URL
     if (!$loggedin) {
-        $_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
+        // $_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
         //if localhost fake login
         if ($_SERVER['HTTP_HOST'] == "localhost:5011") {
             $_SESSION['loggedin'] = true;
@@ -74,9 +74,12 @@ if (!isset($_SESSION['loggedin'])) {
             $_SESSION['id'] = 1;
             $loggedin = "true";
         }
+    } else {
     }
     // exit;
-} else {
+}
+
+if ($loggedin == true) {
     if (isset($_SESSION['return_url'])) {
         unset($_SESSION['return_url']);
         header('Location: ' . $_SESSION['return_url']);
