@@ -26,6 +26,24 @@ if ($con->connect_errno) {
 
 include 'auth.php';
 
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
+require 'vendor/autoload.php';
+
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+
+$s3Client = new S3Client([
+	'version' => 'latest',
+	'region'  => 'sfo3',
+	'endpoint' => 'https://voe.sfo3.digitaloceanspaces.com',
+	'credentials' => [
+		'key'    => $spaces_key,
+		'secret' => $spaces_secret,
+	],
+]);
+
 // if post existingFiles not empty
 if (!empty($_POST['existingFiles'])) {
 	// get existingFiles
@@ -48,7 +66,6 @@ if (!empty($_POST['existingFiles'])) {
 
 // if files not empty 
 if (!empty($_FILES['files']['name'][0])) {
-	// foreach  add to audio_files table with user_id, file_path, original_name, file_format
 	foreach ($_FILES['files']['name'] as $key => $name) {
 		$tmp_name = $_FILES['files']['tmp_name'][$key];
 		$error = $_FILES['files']['error'][$key];
@@ -57,7 +74,6 @@ if (!empty($_FILES['files']['name'][0])) {
 		$original_name = $name;
 		$file_format = pathinfo($name, PATHINFO_EXTENSION);
 		$file_path = 'audios/' . md5_file($tmp_name) . '.' . $file_format;
-		// if file_path already exists get id and add to audioFiles or insert into audio_files table and add to audioFiles
 		if (file_exists($file_path)) {
 			$sql = "SELECT * FROM audio_files WHERE file_path = ?";
 			$stmt = $con->prepare($sql);
@@ -77,15 +93,47 @@ if (!empty($_FILES['files']['name'][0])) {
 				$stmt->close();
 			}
 		} else {
-			// move file to audios folder
 			move_uploaded_file($tmp_name, $file_path);
-			// add to audio_files table with user_id, file_path, original_name, file_format
 			$sql = "INSERT INTO audio_files (user_id, file_path, original_name, file_format) VALUES (?, ?, ?, ?)";
 			$stmt = $con->prepare($sql);
 			$stmt->bind_param('isss', $_SESSION['id'], $file_path, $original_name, $file_format);
 			$stmt->execute();
-			$audioFiles[] = $con->insert_id;
+			$audioid = $con->insert_id;
+			$audioFiles[] = $audioid;
 			$stmt->close();
+		}
+
+		try {
+			// Upload the file to your Space
+			$result = $s3Client->putObject([
+				'Bucket' => 'voe',
+				'Key'    => $file_path,
+				'SourceFile' => $tmp_name,
+				'ACL'    => 'public-read'
+			]);
+
+			// After upload, you can get the file URL
+			$file_url = $result->get('ObjectURL');
+
+			// update audio_files table with file_url
+			$sql = "UPDATE audio_files SET file_url = ? WHERE id = ?";
+			$stmt = $con->prepare($sql);
+			$stmt->bind_param('si', $file_url, $audioid);
+			$stmt->execute();
+			$stmt->close();
+
+
+			// Insert into database with $file_url instead of $file_path
+			// $sql = "INSERT INTO audio_files (user_id, file_path, original_name, file_format) VALUES (?, ?, ?, ?)";
+			// $stmt = $con->prepare($sql);
+			// $stmt->bind_param('isss', $_SESSION['id'], $file_url, $original_name, $file_format);
+			// $stmt->execute();
+			// $audioFiles[] = $con->insert_id;
+			// $stmt->close();
+		} catch (AwsException $e) {
+			// Output error message if fails
+			echo $e->getMessage();
+			echo "\n";
 		}
 	}
 }
@@ -127,10 +175,7 @@ if ($result->num_rows > 0) {
 }
 
 
-use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 
-require 'vendor/autoload.php';
 
 $connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
 $channel = $connection->channel();
