@@ -37,18 +37,15 @@ use Aws\Exception\AwsException;
 $s3Client = new S3Client([
 	'version' => 'latest',
 	'region'  => 'sfo3',
-	'endpoint' => 'https://voe.sfo3.digitaloceanspaces.com',
+	'endpoint' => 'https://sfo3.digitaloceanspaces.com',
 	'credentials' => [
 		'key'    => $spaces_key,
 		'secret' => $spaces_secret,
 	],
 ]);
 
-// if post existingFiles not empty
 if (!empty($_POST['existingFiles'])) {
-	// get existingFiles
 	$existingFiles = $_POST['existingFiles'];
-	// foreach existingFiles check table audio_files that user_id == $_SESSION['id'] and get file_path
 	foreach ($existingFiles as $existingFile) {
 		$sql = "SELECT * FROM audio_files WHERE user_id = ? AND id = ?";
 		$stmt = $con->prepare($sql);
@@ -56,15 +53,12 @@ if (!empty($_POST['existingFiles'])) {
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$stmt->close();
-		// if file_path exists
 		if ($result->num_rows > 0) {
-			// add to audioFiles
 			$audioFiles[] = $existingFile;
 		}
 	}
 }
 
-// if files not empty 
 if (!empty($_FILES['files']['name'][0])) {
 	foreach ($_FILES['files']['name'] as $key => $name) {
 		$tmp_name = $_FILES['files']['tmp_name'][$key];
@@ -104,41 +98,38 @@ if (!empty($_FILES['files']['name'][0])) {
 		}
 
 		try {
-			// Upload the file to your Space
+
+			$fileContent = file_get_contents($file_path);
+
+			if ($fileContent === false) {
+				throw new Exception("Failed to read file content");
+			}
+
 			$result = $s3Client->putObject([
 				'Bucket' => 'voe',
 				'Key'    => $file_path,
-				'SourceFile' => $tmp_name,
+				'Body'   => $fileContent,
 				'ACL'    => 'public-read'
 			]);
 
-			// After upload, you can get the file URL
+
 			$file_url = $result->get('ObjectURL');
 
-			// update audio_files table with file_url
 			$sql = "UPDATE audio_files SET file_url = ? WHERE id = ?";
 			$stmt = $con->prepare($sql);
 			$stmt->bind_param('si', $file_url, $audioid);
 			$stmt->execute();
 			$stmt->close();
-
-
-			// Insert into database with $file_url instead of $file_path
-			// $sql = "INSERT INTO audio_files (user_id, file_path, original_name, file_format) VALUES (?, ?, ?, ?)";
-			// $stmt = $con->prepare($sql);
-			// $stmt->bind_param('isss', $_SESSION['id'], $file_url, $original_name, $file_format);
-			// $stmt->execute();
-			// $audioFiles[] = $con->insert_id;
-			// $stmt->close();
 		} catch (AwsException $e) {
-			// Output error message if fails
+			echo $e->getMessage();
+			echo "\n";
+		} catch (Exception $e) {
 			echo $e->getMessage();
 			echo "\n";
 		}
 	}
 }
 
-//remove duplicates from audioFiles
 $audioFiles = array_unique($audioFiles);
 
 if (empty($audioFiles)) {
