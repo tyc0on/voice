@@ -13,6 +13,11 @@ if ($con->connect_errno) {
     exit();
 }
 
+require 'vendor/autoload.php';
+
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+
 // if $_POST['type'] == discord
 if ($_POST['type'] == 'discord') {
 
@@ -240,7 +245,54 @@ if ($_POST['type'] == 'discord') {
         $job = $_POST['job'];
         $extension = pathinfo($_FILES['audioFile']['name'], PATHINFO_EXTENSION);
         $newFile = "paudios/" . $timestamp . ".j" . $job . $pitch . "." . $extension;
+
         move_uploaded_file($tempFile, $newFile);
+
+
+
+        $s3Client = new S3Client([
+            'version' => 'latest',
+            'region'  => 'sfo3',
+            'endpoint' => 'https://sfo3.digitaloceanspaces.com',
+            'credentials' => [
+                'key'    => $spaces_key,
+                'secret' => $spaces_secret,
+            ],
+        ]);
+
+        // $fileContent = file_get_contents($newFile);
+
+        // $result = $s3Client->putObject([
+        //     'Bucket' => 'voe',
+        //     'Key'    => $newFile,
+        //     'Body'   => $fileContent,
+        //     'ACL'    => 'public-read'
+        // ]);
+        try {
+
+            $fileContent = file_get_contents($newFile);
+
+            if ($fileContent === false) {
+                throw new Exception("Failed to read file content");
+            }
+
+            $result = $s3Client->putObject([
+                'Bucket' => 'voe',
+                'Key'    => $newFile,
+                'Body'   => $fileContent,
+                'ACL'    => 'public-read'
+            ]);
+
+
+            $file_url = $result->get('ObjectURL');
+        } catch (AwsException $e) {
+            echo $e->getMessage();
+            echo "\n";
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            echo "\n";
+        }
+
         // insert into paudio_files table with user_id, file_path, file_format, job_id
         $sql = "INSERT INTO paudio_files (user_id, file_path, file_format, job_id) VALUES (?, ?, ?, ?)";
         $stmt = $con->prepare($sql);

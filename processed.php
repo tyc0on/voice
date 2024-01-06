@@ -187,7 +187,7 @@ include 'core/header.php';
 													// $defaultFileName = "paudios/" . $row['name'] . ".mp3";
 													echo '<div style="float: left; margin-right: 10px;">'; // Float the audio player to the left
 													echo '<audio id="audioPlayer-' . $row['id'] . '" style="height:40px; margin-right: 10px;" controls>
-    <source src="' . $row['file_path'] . '" type="audio/mpeg">
+    <source src="https://voe.sfo3.cdn.digitaloceanspaces.com/' . $row['file_path'] . '" type="audio/mpeg">
     Your browser does not support the audio tag.
 </audio>';
 													echo ' <span class="fs-6 text-gray-800 text-hover-primary">' . $original_name . '</span></div><!--<br>' . $created_at . '--></td>'; // Close audio player div
