@@ -359,9 +359,10 @@ $time = $time_end - $time_start;
 
 $con->close();
 header('Content-Type: application/json');
+$time = round($time, 4);
 $response = [
     "success" => true,
     "execution_time" => $time_taken,
-    "execution_time2" => $time
+    "script" => $time
 ];
 echo json_encode($response);
