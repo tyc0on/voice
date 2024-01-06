@@ -322,6 +322,16 @@ if ($_POST['type'] == 'discord') {
         $stmt->bind_param('di', $audio_length, $paudio_id);
         $stmt->execute();
         $stmt->close();
+
+        // if $_POST['timestamp'] exists then use time() to calculate time difference and update jobs.time_taken = $time_taken where id = $_POST['job']
+        if (isset($_POST['timestamp'])) {
+            $time_taken = time() - $_POST['timestamp'];
+            $sql = "UPDATE jobs SET time_taken = ? WHERE id = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bind_param('ii', $time_taken, $_POST['job']);
+            $stmt->execute();
+            $stmt->close();
+        }
     } else {
         // save in samples folder with name of $_POST['name'].mp3
         $name = $_POST['name'];

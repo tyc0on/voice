@@ -163,6 +163,8 @@ foreach ($audioFiles as $audioFile) {
 		$url = "https://easyaivoice.com/" . $row['file_path'];
 		$name = $_POST['name'];
 		$pitch = $_POST['pitch'];
+		// timestamp for job submission
+		$timestamp = time();
 
 		$jobData = array(
 			'audio_url' => $url,
@@ -179,6 +181,7 @@ foreach ($audioFiles as $audioFile) {
 			'interaction_token' => 'None',
 			'interaction' => 1,
 			'application_id' => 1,
+			'timestamp' => $timestamp,
 			'metadata' => array(
 				'member' => array(
 					'user' => array(
