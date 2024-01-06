@@ -11,16 +11,16 @@ include('variables.php');
 $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
 
 include('auth.php');
-if ($loggedin == true) {
-    if (isset($_SESSION['return_url'])) {
-        unset($_SESSION['return_url']);
-        header('Location: ' . $_SESSION['return_url']);
-    } else {
-        header('Location: ' . $siteapp);
-    }
+// if ($loggedin == true) {
+//     if (isset($_SESSION['return_url'])) {
+//         unset($_SESSION['return_url']);
+//         header('Location: ' . $_SESSION['return_url']);
+//     } else {
+//         header('Location: ' . $siteapp);
+//     }
 
-    exit;
-}
+//     exit;
+// }
 // $loggedin = "false";
 // if (!isset($_SESSION['loggedin'])) {
 //     // $_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
