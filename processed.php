@@ -31,7 +31,64 @@ include 'core/header.php';
 		<!--begin::Content-->
 		<div id="kt_app_content" class="app-content flex-column-fluid" style="background: rgba(27, 27, 27, 0.5);">
 			<!--begin::Content container-->
-			<div id="kt_app_content_container" class="app-container container-xxl">
+			<div id="kt_app_content_container" class="app-container container-xxl pt-10">
+				<?php
+				$sql = "SELECT * FROM jobs LEFT JOIN files ON files.id = jobs.model_id WHERE jobs.user_id = ? AND jobs.batch_id = ? ORDER BY jobs.id DESC";
+				$stmt = $con->prepare($sql);
+				$stmt->bind_param('ii', $_SESSION['id'], $_GET['batch']);
+				$stmt->execute();
+				$result = $stmt->get_result();
+				$stmt->close();
+				if ($result->num_rows > 0) {
+					$row = $result->fetch_assoc();
+					$model_url = $row['url'];
+				} else {
+					$model_url = "";
+				}
+				?>
+
+				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+					<div class="col-md-4 text-center mt-5">
+						<div class="card" id="step1-card" style="cursor: pointer;">
+							<div class="card-body p-0 pt-4">
+								<h1 class="fw-bold">Step 1:</h1>
+								<p class="fs-4">Pick a Voice</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-center mt-5">
+						<div class="card" id="step2-card" style="cursor: pointer;">
+							<div class="card-body p-0 pt-4">
+								<h1 class="fw-bold">Step 2:</h1>
+								<p class="fs-4">Upload Audio Files</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-center mt-5">
+						<div class="card border-primary">
+							<div class="card-body p-0 pt-4">
+								<h1 class="fw-bold text-primary">Step 3:</h1>
+								<p class="fs-4">Download</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<script>
+					document.addEventListener("DOMContentLoaded", function() {
+						var step1Card = document.getElementById('step1-card');
+
+						step1Card.addEventListener('click', function() {
+							window.location.href = '/app';
+						});
+					});
+					document.addEventListener("DOMContentLoaded", function() {
+						var step1Card = document.getElementById('step2-card');
+
+						step1Card.addEventListener('click', function() {
+							window.location.href = '/run?url=<?php echo $model_url; ?>';
+						});
+					});
+				</script>
 				<!--begin::Row-->
 				<!-- <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
 			
@@ -247,18 +304,7 @@ include 'core/header.php';
 
 				<?php
 				// find model url at files.url using jobs.model_id
-				$sql = "SELECT * FROM jobs LEFT JOIN files ON files.id = jobs.model_id WHERE jobs.user_id = ? AND jobs.batch_id = ? ORDER BY jobs.id DESC";
-				$stmt = $con->prepare($sql);
-				$stmt->bind_param('ii', $_SESSION['id'], $_GET['batch']);
-				$stmt->execute();
-				$result = $stmt->get_result();
-				$stmt->close();
-				if ($result->num_rows > 0) {
-					$row = $result->fetch_assoc();
-					$model_url = $row['url'];
-				} else {
-					$model_url = "";
-				}
+
 
 				if ($model_url != "") {
 				?>
