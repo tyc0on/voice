@@ -44,11 +44,11 @@ if ($modelUrl == "") {
 	<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
 		<div class="d-flex flex-column flex-column-fluid" style="background: url('/assets/media/misc/dc5251e3-c26b-434b-a449-19e48d6874c1.webp') repeat-y center top; background-size: 100% auto;">
 			<div id="kt_app_content" class="app-content flex-column-fluid" style="background: rgba(27, 27, 27, 0.5);">
-				<div id="kt_app_content_container" class="app-container container-fluid">
+				<div id="kt_app_content_container" class="app-container container-xxl pt-10">
 
 					<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
 						<div class="col-md-4 text-center mt-5">
-							<div class="card" id="step1-card">
+							<div class="card" id="step1-card" style="cursor: pointer;">
 								<div class="card-body p-0 pt-4">
 									<h1 class="fw-bold">Step 1:</h1>
 									<p class="fs-4">Pick a Voice</p>
