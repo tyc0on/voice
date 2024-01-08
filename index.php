@@ -11,15 +11,13 @@ include('variables.php');
 $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
 
 include('auth.php');
-if (isset($_SESSION['loggedin'])) {
+if ($_SESSION['loggedin'] == "true") {
     if (isset($_SESSION['return_url'])) {
         unset($_SESSION['return_url']);
         header('Location: ' . $_SESSION['return_url']);
     } else {
         header('Location: ' . $siteapp);
     }
-
-    exit;
 }
 // $loggedin = "false";
 // if (!isset($_SESSION['loggedin'])) {
