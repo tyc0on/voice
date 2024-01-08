@@ -99,7 +99,7 @@ include 'core/header.php';
 
 
 						<!--begin::Table-->
-						<div class="card card-flush mt-6 mt-xl-9">
+						<div class="card card-flush">
 							<!--begin::Card header-->
 							<!-- <div class="card-header mt-5">
 								
