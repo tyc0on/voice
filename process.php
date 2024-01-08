@@ -8,6 +8,12 @@ if (@$_SESSION['id'] == 1) {
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 }
+
+// if (@$_SESSION['id'] == 617) {
+// 	ini_set('display_errors', 1);
+// 	ini_set('display_startup_errors', 1);
+// 	error_reporting(E_ALL);
+// }
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
 // error_reporting(E_ALL);
@@ -22,6 +28,12 @@ if ($con->connect_errno) {
 	printf("connection failed: %s\n", $con->connect_error());
 	exit();
 }
+
+// if session id = 617 print $_POST
+// if (@$_SESSION['id'] == 617) {
+// 	print_r($_POST);
+// }
+// die;
 
 
 include 'auth.php';
@@ -127,6 +139,9 @@ if (!empty($_FILES['files']['name'][0])) {
 			echo $e->getMessage();
 			echo "\n";
 		}
+
+		// remove file from server
+		unlink($file_path);
 	}
 }
 

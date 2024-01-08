@@ -35,151 +35,36 @@ include 'core/header.php';
 		<!--begin::Content-->
 		<div id="kt_app_content" class="app-content flex-column-fluid" style="background: rgba(27, 27, 27, 0.5);">
 			<!--begin::Content container-->
-			<div id="kt_app_content_container" class="app-container container-xxl">
+			<div id="kt_app_content_container" class="app-container container-xxl pt-10">
 				<!--begin::Row-->
 				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-					<!--begin::Form-->
-					<div style="text-align:center; margin-top:35px;">
-						<h1 style="font-size:60px;">Upload your voice file</h1>
-						<h2>MP3 or WAV</h2>
-					</div>
-					<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mt-0">
-						<!--begin::Title-->
-						<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-							Step 1:
-						</h1>
-						<!--end::Title-->
-
-					</div>
-
-
-
-				</div>
-				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-					<form class="form mt-5" action="processing" method="post" enctype="multipart/form-data" id="audios">
-						<div class="fv-row">
-							<input type="file" name="files[]" id="fileInput" multiple style="display: none;">
-							<div class="custom-file-upload" style="border: 1px dashed #9b00ff; background-color: #000000; padding: 10px; text-align: center; cursor: pointer;">
-								<i class="ki-duotone ki-file-up fs-3x text-primary"></i>
-								<div class="ms-4 pb-5">
-									<h3 class="fs-3 fw-bold text-gray-900 mb-1">Drop files here or click to upload.</h3>
-									<span class="fs-7 fw-semibold text-gray-400" id="fileNames">Upload your voice files here</span>
-								</div>
+					<div class="col-md-4 text-center mt-5">
+						<div class="card border-primary">
+							<div class="card-body p-0 pt-4">
+								<h1 class="fw-bold text-primary">Step 1:</h1>
+								<p class="fs-4">Pick a Voice</p>
 							</div>
-							<button type="button" id="pickExistingFiles" class="btn btn-primary mt-3">Pick from existing audio files</button>
-							<select multiple id="existingFilesDropdown" style="display:none;"><?php
-
-																								$sql = "SELECT * FROM audio_files WHERE user_id = ? ORDER BY id DESC";
-																								$stmt = $con->prepare($sql);
-																								$stmt->bind_param('i', $_SESSION['id']);
-																								$stmt->execute();
-																								$result = $stmt->get_result();
-
-																								while ($row = $result->fetch_assoc()) {
-																									$filepath = str_replace("audios/", "", $row['file_path']);
-																									$audioFiles[] = ['id' => $row['id'], 'file_name' => $row['original_name']];
-																								}
-
-																								$stmt->close();
-
-																								foreach ($audioFiles as $audioFile) {
-																									echo "<option value='{$audioFile['id']}'>{$audioFile['file_name']}</option>";
-																								}
-																								?></select>
 						</div>
-					</form>
-					<script>
-						// Function to check if the file type is valid
-						function isValidFileType(fileName) {
-							const validExtensions = ['.wav', '.mp3', '.ogg', '.flac', '.m4a', '.aac', '.wma', '.mov'];
-							return validExtensions.some(ext => fileName.endsWith(ext));
-						}
-
-						document.querySelector(".custom-file-upload").addEventListener("click", function() {
-							document.getElementById("fileInput").click();
-						});
-
-						// Modified 'change' event for file input with validation
-						document.getElementById("fileInput").addEventListener("change", function() {
-							const selectedFiles = Array.from(this.files);
-							const validFiles = selectedFiles.filter(file => isValidFileType(file.name));
-
-							if (validFiles.length !== selectedFiles.length) {
-								alert("Some files have been removed because they are not of the allowed types.");
-							}
-
-							const fileNames = validFiles.map(file => file.name).join(", ");
-							document.getElementById("fileNames").textContent = fileNames;
-						});
-
-						const dropzone = document.querySelector(".custom-file-upload");
-						dropzone.addEventListener("dragover", function(e) {
-							e.preventDefault();
-							this.style.backgroundColor = "#222222";
-						});
-
-						dropzone.addEventListener("dragleave", function(e) {
-							e.preventDefault();
-							this.style.backgroundColor = "#000000";
-						});
-
-						// Modified 'drop' event for dropzone with validation
-						dropzone.addEventListener("drop", function(e) {
-							e.preventDefault();
-							this.style.backgroundColor = "#000000";
-							const files = e.dataTransfer.files;
-							const validFiles = Array.from(files).filter(file => isValidFileType(file.name));
-
-							if (validFiles.length !== files.length) {
-								alert("Some files have been removed because they are not of the allowed types.");
-							}
-
-							// This might not work as expected in all browsers due to FileList being read-only.
-							document.getElementById("fileInput").files = new FileList(...validFiles);
-							const fileNames = validFiles.map(file => file.name).join(", ");
-							document.getElementById("fileNames").textContent = fileNames;
-						});
-
-						document.getElementById('pickExistingFiles').addEventListener('click', function() {
-							const dropdown = document.getElementById('existingFilesDropdown');
-							dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-						});
-
-						document.getElementById('existingFilesDropdown').addEventListener('change', function() {
-							const selectedOptions = Array.from(this.selectedOptions);
-							const form = document.getElementById('audios');
-
-							// Clear any previously appended inputs related to existing files
-							document.querySelectorAll('.existing-file-input').forEach(input => {
-								input.remove();
-							});
-
-							selectedOptions.forEach(option => {
-								const input = document.createElement('input');
-								input.type = 'hidden';
-								input.name = 'existingFiles[]';
-								input.value = option.value;
-								input.classList.add('existing-file-input');
-								form.appendChild(input);
-							});
-
-							const selectedFileNames = selectedOptions.map(opt => opt.textContent).join(', ');
-							document.getElementById('fileNames').textContent = selectedFileNames;
-						});
-					</script>
-
+					</div>
+					<div class="col-md-4 text-center mt-5">
+						<div class="card">
+							<div class="card-body p-0 pt-4 text-muted">
+								<h1 class="fw-bold text-muted">Step 2:</h1>
+								<p class="fs-4">Upload Audio Files</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-center mt-5">
+						<div class="card">
+							<div class="card-body p-0 pt-4 text-muted">
+								<h1 class="fw-bold text-muted">Step 3:</h1>
+								<p class="fs-4">Download</p>
+							</div>
+						</div>
+					</div>
 				</div>
 
 
-				<!--end::Row-->
-				<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
-					<!--begin::Title-->
-					<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0 mb-5">
-						Step 2:
-					</h1>
-					<!--end::Title-->
-
-				</div>
 
 
 
@@ -196,16 +81,16 @@ include 'core/header.php';
 							<div class="card-header mt-5">
 								<!--begin::Card title-->
 								<div class="card-title flex-column">
-									<h3 class="fw-bold mb-1">Pick a voice</h3>
-									<div class="fs-6 text-gray-400">Updated 37 minutes ago</div>
+									<h1 class="fw-bold mb-1">Pick a Voice: 🗣️👇</h1>
+									<!-- <div class="fs-6 text-gray-400">Updated 37 minutes ago</div> -->
 								</div>
 								<!--begin::Card title-->
 								<!--begin::Card toolbar-->
 								<div class="card-toolbar my-1 w-75 d-flex justify-content-end">
-									<div class="me-4 my-1"><span class="fw-bold fs-4 mt-1 me-2">Set Pitch</span>
+									<div class="me-4 my-1" style="display:none;"><span class="fw-bold fs-4 mt-1 me-2">Set Pitch</span>
 										<span class="fw-bold fs-3x" id="kt_modal_create_campaign_budget_label"></span>
 									</div>
-									<div class="me-4 my-1 ps-4 pe-4 w-25">
+									<div class="me-4 my-1 ps-4 pe-4 w-25" style="display:none;">
 										<div id="kt_modal_create_campaign_budget_slider" class="noUi-sm"></div>
 
 									</div>
@@ -226,38 +111,134 @@ include 'core/header.php';
 											<option value="In Transit">In Transit</option>
 										</select>
 									</div>
-									<div class="d-flex align-items-center position-relative my-1">
+									<!-- <div class="d-flex align-items-center position-relative my-1">
 										<i class="ki-duotone ki-magnifier fs-3 position-absolute ms-3">
 											<span class="path1"></span>
 											<span class="path2"></span>
 										</i>
 										<input type="text" id="kt_filter_search" class="form-control w-150px fs-7 ps-9" placeholder="Search Voices" />
-									</div>
+									</div> -->
 								</div>
 								<!--begin::Card toolbar-->
 							</div>
 							<!--end::Card header-->
 							<!--begin::Card body-->
+							<style>
+								.table {
+									table-layout: fixed;
+								}
+
+								.table th,
+								.table td {
+									word-break: break-word;
+									padding: 0.25rem !important;
+									/* padding-bottom: 0.75rem !important; */
+								}
+
+								.table th:nth-child(2),
+								.table td:nth-child(2) {
+									max-width: 50%;
+								}
+
+								.table th:nth-child(3),
+								.table td:nth-child(3) {
+									width: 450px;
+								}
+
+								.table th:nth-child(1),
+								.table td:nth-child(1) {
+									width: 300px;
+								}
+
+								@media (max-width: 768px) {
+
+									.table th:nth-child(2),
+									.table td:nth-child(2) {
+										max-width: 40%;
+									}
+								}
+
+
+								.search-container {
+									display: flex;
+									align-items: center;
+								}
+
+								#search {
+									border-radius: 12px;
+									background: linear-gradient(#131313, #131313) padding-box, linear-gradient(90deg, #ed6e61, #6359e1) border-box;
+									border: 4px solid transparent;
+									padding: 10px;
+									color: white;
+									margin-right: -4px;
+									flex-grow: 1;
+								}
+
+								#searchButton {
+									border-radius: 12px;
+									background: linear-gradient(90deg, #ed6e61, #6359e1);
+									color: white;
+									border: none;
+									padding: 10px 15px;
+									margin-left: 10px;
+									cursor: pointer;
+									font-weight: bold;
+									font-size: 18px;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									transition: background 0.3s ease, box-shadow 0.3s ease;
+									box-shadow: 2px 2px 6px #00000050;
+								}
+
+								#searchButton:hover {
+									background: linear-gradient(90deg, #f77f78, #7063ea);
+								}
+
+								#searchButton:active {
+									box-shadow: inset 1px 1px 3px #00000050;
+								}
+
+								#searchButton:focus {
+									outline: none;
+									box-shadow: 0 0 0 2px #6359e1;
+								}
+							</style>
+
 							<div class="card-body pt-0">
-								<!--begin::Table container-->
 								<div class="table-responsive">
-									<!--begin::Table-->
-									<table id="kt_profile_overview_table" class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
+									<form action="" method="get" class="search-container">
+										<input type="text" id="search" name="search" class="form-control" placeholder="Search..." <?php if (!empty($_GET['search'])) {
+																																		echo 'value="' . htmlspecialchars($_GET['search']) . '" ';
+																																	} ?>>
+										<button type="submit" id="searchButton">
+											Search
+										</button>
+									</form>
+									<table class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bold">
 										<thead class="fs-7 text-gray-400 text-uppercase">
 											<tr>
 												<th class="min-w-100px">Voice</th>
 												<th class="min-w-50px">Run</th>
-												<th class="min-w-90px">Sample</th>
-												<!-- <th class="min-w-90px">Rating</th> -->
+												<th class="min-w-150px">Sample</th>
 												<th class="text-end">Date</th>
 											</tr>
 										</thead>
 										<tbody class="fs-6">
 											<?php
 
-											//foreach SELECT * FROM markdown WHERE user_id = 1
-											$sql = "SELECT * FROM files WHERE active = 1 ORDER BY added_date DESC";
-											$result = $con->query($sql);
+											// $sql = "SELECT * FROM files WHERE active = 1 ORDER BY added_date DESC";
+											// $limit = 25;
+											// $sql = "SELECT * FROM files WHERE active = 1 ORDER BY added_date DESC LIMIT 50";
+											$search = isset($_GET['search']) ? $con->real_escape_string($_GET['search']) : '';
+
+											$query = "SELECT * FROM files WHERE active = 1";
+											if (!empty($search)) {
+												$query .= " AND (name LIKE '%$search%' OR original_name LIKE '%$search%')";
+											}
+											$query .= " ORDER BY added_date DESC LIMIT 50";
+
+											$result = $con->query($query);
 											function getColorFromLetter($letter)
 											{
 												$ascii = ord(strtoupper($letter));
@@ -332,7 +313,7 @@ include 'core/header.php';
 															</td>
 															<td class="">
 																<input type="hidden" id="name-' . $row['id'] . '" name="name-' . $row['id'] . '" value="' . $row['name'] . '">
-																<a href="#" class="btn btn-primary btn-active-light-primary">Select -></a> 
+																<a href="/run?url=' . urlencode($row['url']) . '&pitch=0" class="btn btn-primary btn-active-light-primary" id="selectButton-' . $row['id'] . '">Select -></a> 
 															</td>';
 
 													echo '<td class="fs-7" style="display: flex; align-items: center; gap: 10px;">';
@@ -346,7 +327,7 @@ include 'core/header.php';
 													<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
 												  </svg>
 </div>';
-													echo '<audio id="audioPlayer-' . $row['id'] . '" data-row-name="' . $row['name'] . '" style="height:40px; display:none;" controls>
+													echo '<audio id="audioPlayer-' . $row['id'] . '" data-row-name="' . $row['name'] . '" data-row-url="' . $row['url'] . '" style="height:40px; display:none;" controls>
 <source type="audio/mpeg">
 Your browser does not support the audio tag.
 </audio>';
@@ -379,8 +360,21 @@ Your browser does not support the audio tag.
 
 										</tbody>
 									</table>
+									<div id="loadingIndicator" style="display: none;">
+										<div class="spinner-border text-primary" role="status">
+											<span class="sr-only">Loading...</span>
+										</div>
+									</div>
+
 									<script>
 										var genderState = {};
+
+										function updateHref(pitch, rowId, url) {
+											var selectButtonId = "selectButton-" + rowId;
+											var selectButton = document.getElementById(selectButtonId);
+
+											selectButton.href = '/run?url=' + encodeURIComponent(url) + '&pitch=' + pitch;
+										}
 
 										function playAudio(rowId, rowName) {
 											const audioPlayer = document.getElementById("audioPlayer-" + rowId);
@@ -421,52 +415,94 @@ Your browser does not support the audio tag.
 
 											audioPlayer.querySelector("source").src = fileName;
 											audioPlayer.load();
+
+											const url = document.getElementById("audioPlayer-" + rowId).getAttribute("data-row-url");
+											updateHref(pitch, rowId, url);
+
 										}
 
-										document.addEventListener('DOMContentLoaded', function() {
-											const selectButtons = document.querySelectorAll('a.btn');
+										// document.addEventListener('DOMContentLoaded', function() {
+										// 	const selectButtons = document.querySelectorAll('a.btn');
 
-											selectButtons.forEach(button => {
-												button.addEventListener('click', function(event) {
-													event.preventDefault();
+										// 	selectButtons.forEach(button => {
+										// 		button.addEventListener('click', function(event) {
+										// 			event.preventDefault();
 
-													const files = document.getElementById('fileInput').files;
-													const existingFilesSelected = document.querySelectorAll('.existing-file-input').length > 0;
-													if (files.length === 0 && !existingFilesSelected) {
-														alert('Please select at least one file to upload or choose from existing files.');
+										// 			const files = document.getElementById('fileInput').files;
+										// 			const existingFilesSelected = document.querySelectorAll('.existing-file-input').length > 0;
+										// 			if (files.length === 0 && !existingFilesSelected) {
+										// 				alert('Please select at least one file to upload or choose from existing files.');
+										// 				return;
+										// 			}
+
+										// 			const row = this.closest('tr');
+										// 			const hiddenInput = row.querySelector('input[type="hidden"]');
+										// 			const nameValue = hiddenInput ? hiddenInput.value : null;
+
+										// 			const pitchElement = document.getElementById('kt_modal_create_campaign_budget_label');
+										// 			const pitchValue = pitchElement ? parseInt(pitchElement.textContent.trim()) : null;
+
+										// 			if (nameValue !== null && pitchValue !== null) {
+										// 				const nameInput = document.createElement('input');
+										// 				nameInput.type = 'hidden';
+										// 				nameInput.name = 'name';
+										// 				nameInput.value = nameValue;
+
+										// 				const pitchInput = document.createElement('input');
+										// 				pitchInput.type = 'hidden';
+										// 				pitchInput.name = 'pitch';
+										// 				pitchInput.value = pitchValue;
+
+										// 				const form = document.getElementById('audios');
+										// 				form.appendChild(nameInput);
+										// 				form.appendChild(pitchInput);
+
+										// 				form.submit();
+
+										// 				updateAudioSource(pitchValue, row.getAttribute('data-id'), nameValue);
+										// 			}
+										// 		});
+										// 	});
+										// });
+									</script>
+									<script>
+										let loadedRows = 50; // Tracks how many rows have been loaded
+										let loadingData = false; // Flag to prevent multiple loads
+										let allDataLoaded = false;
+
+										window.onscroll = function() {
+											if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+												loadMoreData();
+											}
+										};
+
+										function loadMoreData() {
+											if (loadingData) {
+												return;
+											}
+											loadingData = true;
+											document.getElementById('loadingIndicator').style.display = 'block'; // Show the spinner
+
+											const searchQuery = document.getElementById('search').value || '';
+											fetch('fetchdata.php?offset=' + loadedRows + '&search=' + encodeURIComponent(searchQuery))
+												.then(response => response.text())
+												.then(data => {
+													if (data.includes("No more records found")) {
+														allDataLoaded = true; // Set the flag to true when no more data is available
+														document.getElementById('loadingIndicator').style.display = 'none'; // Optionally, remove or hide the spinner permanently
 														return; // Stop further execution
 													}
-
-													const row = this.closest('tr');
-													const hiddenInput = row.querySelector('input[type="hidden"]');
-													const nameValue = hiddenInput ? hiddenInput.value : null;
-
-													const pitchElement = document.getElementById('kt_modal_create_campaign_budget_label');
-													const pitchValue = pitchElement ? parseInt(pitchElement.textContent.trim()) : null;
-
-													if (nameValue !== null && pitchValue !== null) {
-														const nameInput = document.createElement('input');
-														nameInput.type = 'hidden';
-														nameInput.name = 'name';
-														nameInput.value = nameValue;
-
-														const pitchInput = document.createElement('input');
-														pitchInput.type = 'hidden';
-														pitchInput.name = 'pitch';
-														pitchInput.value = pitchValue;
-
-														const form = document.getElementById('audios');
-														form.appendChild(nameInput);
-														form.appendChild(pitchInput);
-
-														form.submit();
-
-														updateAudioSource(pitchValue, row.getAttribute('data-id'), nameValue);
-													}
+													document.querySelector('tbody').innerHTML += data;
+													loadedRows += 50;
+													loadingData = false;
+													document.getElementById('loadingIndicator').style.display = 'none'; // Hide the spinner after loading
+												}).catch(() => {
+													loadingData = false;
+													document.getElementById('loadingIndicator').style.display = 'none'; // Hide the spinner if an error occurs
 												});
-											});
-										});
+										}
 									</script>
+
 
 									<!--end::Table-->
 								</div>

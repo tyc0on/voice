@@ -293,6 +293,9 @@ if ($_POST['type'] == 'discord') {
             echo "\n";
         }
 
+        // delete newfile
+        unlink($newFile);
+
         // insert into paudio_files table with user_id, file_path, file_format, job_id
         $sql = "INSERT INTO paudio_files (user_id, file_path, file_format, job_id) VALUES (?, ?, ?, ?)";
         $stmt = $con->prepare($sql);
@@ -401,6 +404,7 @@ if ($_POST['type'] == 'discord') {
         move_uploaded_file($tempFile, $newFile);
     }
     // return success json
+
 
 }
 
