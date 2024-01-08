@@ -89,36 +89,6 @@ include 'core/header.php';
 						});
 					});
 				</script>
-				<!--begin::Row-->
-				<!-- <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-			
-					<div style="text-align:center; margin-top:100px;">
-						<h1 style="font-size:60px;">Upload your voice file</h1>
-						<h2>MP3 or WAV</h2>
-					</div>
-					<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mt-0">
-					
-						<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-							Step 1:
-						</h1>
-
-					</div>
-
-
-
-				</div> -->
-
-
-				<!--end::Row-->
-				<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
-					<!--begin::Title-->
-					<!-- <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0 mb-5">
-						Batch:
-					</h1> -->
-					<!--end::Title-->
-
-				</div>
-
 
 
 
