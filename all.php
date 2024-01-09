@@ -47,48 +47,7 @@ include 'core/header.php';
 				}
 				?>
 
-				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-					<div class="col-md-4 text-center mt-5">
-						<div class="card" id="step1-card" style="cursor: pointer;">
-							<div class="card-body p-0 pt-4">
-								<h1 class="fw-bold">Step 1:</h1>
-								<p class="fs-4">Pick a Voice</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 text-center mt-5">
-						<div class="card" id="step2-card" style="cursor: pointer;">
-							<div class="card-body p-0 pt-4">
-								<h1 class="fw-bold">Step 2:</h1>
-								<p class="fs-4">Upload Audio Files</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 text-center mt-5">
-						<div class="card border-primary">
-							<div class="card-body p-0 pt-4">
-								<h1 class="fw-bold text-primary">Step 3:</h1>
-								<p class="fs-4">Download</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<script>
-					document.addEventListener("DOMContentLoaded", function() {
-						var step1Card = document.getElementById('step1-card');
 
-						step1Card.addEventListener('click', function() {
-							window.location.href = '/app';
-						});
-					});
-					document.addEventListener("DOMContentLoaded", function() {
-						var step1Card = document.getElementById('step2-card');
-
-						step1Card.addEventListener('click', function() {
-							window.location.href = '/run?url=<?php echo $model_url; ?>';
-						});
-					});
-				</script>
 
 
 
