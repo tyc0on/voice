@@ -305,7 +305,7 @@ include 'core/header.php';
 							<span class="visually-hidden">Loading...</span>
 						</div>
 						<div>
-							<span id="queue-status" style="font-size:24px; margin-top:20px;"></span>
+							<span id="queue-status" style="font-size:24px; margin-top:20px; padding-right:30px;"></span>
 							<span id="online-status" style="font-size:24px; margin-top:20px;"></span>
 						</div>
 						<div id="countdown-timer" style="font-size:30px; margin-top:20px;">
@@ -397,13 +397,13 @@ include 'core/header.php';
 										} else {
 											// Update queue status
 											if (response.queue !== undefined) {
-												document.getElementById('queue-status').textContent = 'Jobs in queue: ' + response.queue;
+												document.getElementById('queue-status').textContent = 'Jobs in Queue: ' + response.queue;
 											}
 
 											// Update online status
 											if (response.online !== undefined) {
 												var onlineStatus = response.online > 0 ? '🟢' : '🔴';
-												document.getElementById('online-status').textContent = 'Status: ' + onlineStatus;
+												document.getElementById('online-status').textContent = 'Server Status: ' + onlineStatus;
 											}
 
 											adjustDelay();
