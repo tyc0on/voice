@@ -236,7 +236,7 @@ include 'core/header.php';
 											if (!empty($search)) {
 												$query .= " AND (name LIKE '%$search%' OR original_name LIKE '%$search%')";
 											}
-											$query .= " ORDER BY added_date DESC LIMIT 50";
+											$query .= " ORDER BY added_date DESC LIMIT 150";
 
 											$result = $con->query($query);
 											function getColorFromLetter($letter)
@@ -466,7 +466,7 @@ Your browser does not support the audio tag.
 										// });
 									</script>
 									<script>
-										let loadedRows = 50;
+										let loadedRows = 150;
 										let loadingData = false;
 										let allDataLoaded = false;
 
