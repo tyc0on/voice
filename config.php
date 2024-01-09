@@ -114,12 +114,13 @@ $menu2 = <<<EOD
                             <span class="path4"></span>
                         </i>
                     </span>
-                    <span class="menu-title">History - <a href="/all">Show All</a></span>
+                    <span class="menu-title">History</span>
                     <span class="menu-arrow"></span>
                 </span>
                 <!--end:Menu link-->
                 <!--begin:Menu sub-->
                 <div class="menu-sub menu-sub-accordion">
+                <div><a href="/all">Show All</a></div>
 EOD;
 
 $sql = "SELECT * FROM batch WHERE user_id = ? ORDER BY id DESC";
@@ -179,7 +180,7 @@ while ($row = $result->fetch_assoc()) {
   }
 
   $menu2 .=  '<div class="menu-item">';
-  $menu2 .=  '<a class="menu-link" href="/processed?batch=' . $row['id'] . '">';
+  $menu2 .=  '<a class="menu-link ps-0 pb-0" href="/processed?batch=' . $row['id'] . '">';
   $menu2 .=  '<span class="menu-bullet">';
   $menu2 .=  '<span class="bullet bullet-dot"></span>';
   $menu2 .=  '</span>';
