@@ -8,10 +8,7 @@ error_reporting(E_ALL);
 include 'include.php';
 include 'variables.php';
 
-// use PhpAmqpLib\Connection\AMQPStreamConnection;
-// use PhpAmqpLib\Message\AMQPMessage;
 
-// require 'vendor/autoload.php';
 
 $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
 
@@ -20,7 +17,10 @@ if ($con->connect_errno) {
     exit();
 }
 
+// use PhpAmqpLib\Connection\AMQPStreamConnection;
+// use PhpAmqpLib\Message\AMQPMessage;
 
+// require 'vendor/autoload.php';
 
 // $connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
 // $channel = $connection->channel();
@@ -32,6 +32,15 @@ if ($con->connect_errno) {
 //     $connection->close();
 //     exit();
 // }
+
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
+require 'vendor/autoload.php';
+
+$connection = new AMQPStreamConnection($sqlh, 5672, 'admintycoon', $rabbitp, 'voice');
+$channel = $connection->channel();
+list($queue, $messageCount, $consumerCount) = $channel->queue_declare('job_queue', true);
 
 if (!isset($_SESSION['id'], $_GET['batch'])) {
     echo json_encode(['error' => 'Access denied: user not logged in or batch ID missing']);
@@ -48,10 +57,9 @@ if ($result) {
     if ($result->num_rows > 0) {
         $batch = $result->fetch_assoc();
         if ($batch['status'] == 'failed') {
-            // show error and status
             echo json_encode(['status' => $batch['status'], 'error' => $batch['error']]);
         } else {
-            echo json_encode(['status' => $batch['status']]);
+            echo json_encode(['status' => $batch['status'], 'queue' => $messageCount, 'online' => $consumerCount]);
         }
     } else {
         echo json_encode(['error' => 'Batch not found or does not belong to the current user']);
@@ -60,6 +68,6 @@ if ($result) {
     echo json_encode(['error' => 'Error querying the database']);
 }
 
-// $channel->close();
-// $connection->close();
+$channel->close();
+$connection->close();
 $con->close();

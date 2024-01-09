@@ -304,6 +304,10 @@ include 'core/header.php';
 						<div id="hero-load" class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
 							<span class="visually-hidden">Loading...</span>
 						</div>
+						<div>
+							<span id="queue-status" style="font-size:24px; margin-top:20px;"></span>
+							<span id="online-status" style="font-size:24px; margin-top:20px;"></span>
+						</div>
 						<div id="countdown-timer" style="font-size:30px; margin-top:20px;">
 							Next check in <span id="countdown-value">10</span> seconds.
 						</div>
@@ -388,10 +392,20 @@ include 'core/header.php';
 										var response = JSON.parse(xhr.responseText);
 										if (response.status === 'complete') {
 											window.location.href = '/processed?batch=' + batchId;
-
 										} else if (response.error) {
 											displayError(response.error);
 										} else {
+											// Update queue status
+											if (response.queue !== undefined) {
+												document.getElementById('queue-status').textContent = 'Jobs in queue: ' + response.queue;
+											}
+
+											// Update online status
+											if (response.online !== undefined) {
+												var onlineStatus = response.online > 0 ? '🟢' : '🔴';
+												document.getElementById('online-status').textContent = 'Status: ' + onlineStatus;
+											}
+
 											adjustDelay();
 											resetCountdown();
 											setTimeout(checkBatchStatus, delay);
