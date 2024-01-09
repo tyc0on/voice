@@ -300,32 +300,30 @@ include 'core/header.php';
 				<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
 					<div style="text-align:center; margin-top:15px;">
 						<img id="hero-image" src="/assets/media/misc/loading.webp" alt="loading" style="width: 480px; height: 480px;">
-						<h1 id="hero-h" style="font-size:60px;">Processing your audio files....</h1>
-						<div id="hero-load" class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
-							<span class="visually-hidden">Loading...</span>
-						</div>
+						<h1 id="hero-h" style="font-size:48px;">Processing your audio files.... <span id="hero-load" class="spinner-border text-primary" style="width: 48px; height: 48px; margin-left:10px;" role="status"></span></h1>
+
 						<div>
-							<span id="queue-status" style="font-size:24px; margin-top:20px; padding-right:30px;"></span>
-							<span id="online-status" style="font-size:24px; margin-top:20px;"></span>
+							<span id="queue-status" style="font-size:24px; margin-top:10px; padding-right:30px;"></span>
+							<span id="online-status" style="font-size:24px; margin-top:10px;"></span>
 						</div>
-						<div id="countdown-timer" style="font-size:30px; margin-top:20px;">
-							Next check in <span id="countdown-value">10</span> seconds.
+						<div id="countdown-timer" style="font-size:30px; margin-top:10px;">
+							Next check in <span id="countdown-value">10</span> seconds. <button id="manual-check" style="margin-left:30px; font-size:24px">Check Now</button>
 						</div>
 
-						<button id="manual-check" style="margin-top:20px;">Check Now</button>
+
 						<div id="error-message" style="display:none;">
 							<p style="color:red; font-size:48px; font-weight:bold;">An error occurred while processing your files.
 							<div style="color:red; font-size:36px; font-weight:bold;" id="msg"></div>
 							</p>
 							<button onclick="location.href='<?php echo $_SESSION['return_url']; ?>'">Try Again</button> <span style="font-size:24px; ">or look for a new voice model <a href="https://voice-models.com">here</a></span>.
 						</div>
-						<h2 id="hero-sub"><?php
-											$messages = array(
-												"Hang tight! We're currently convincing a pack of sleepy electrons to move a little faster, negotiating a peace treaty between rival bandwidth tribes, and looking for the 'speed up' button we lost last week.", "Just a sec! Your request is jumping through hoops of fire, dodging lazy zeros and ones, and teaching an old computer new tricks. It's a tough job, but someone's gotta do it!", "Processing... Our code wizards are currently in a heated debate with a stubborn server gnome who loves taking long breaks. We've promised him an extra vacation day, so we should be back on track shortly!", "Brace yourself! We're wrangling the digital hamsters, negotiating with time-traveling tourists, and bribing the internet gremlins to speed things up. Hold on tight; your request is surfing through the cosmic internet waves!"
-											);
-											$message = $messages[array_rand($messages)];
-											echo $message;
-											?></h2>
+						<h2 id="hero-sub" style="margin-top:10px;"><?php
+																	$messages = array(
+																		"Hang tight! We're currently convincing a pack of sleepy electrons to move a little faster, negotiating a peace treaty between rival bandwidth tribes, and looking for the 'speed up' button we lost last week.", "Just a sec! Your request is jumping through hoops of fire, dodging lazy zeros and ones, and teaching an old computer new tricks. It's a tough job, but someone's gotta do it!", "Processing... Our code wizards are currently in a heated debate with a stubborn server gnome who loves taking long breaks. We've promised him an extra vacation day, so we should be back on track shortly!", "Brace yourself! We're wrangling the digital hamsters, negotiating with time-traveling tourists, and bribing the internet gremlins to speed things up. Hold on tight; your request is surfing through the cosmic internet waves!"
+																	);
+																	$message = $messages[array_rand($messages)];
+																	echo $message;
+																	?></h2>
 					</div>
 					<script type="text/javascript">
 						(function() {

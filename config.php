@@ -5,6 +5,7 @@ $bodysettings = 'data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="tru
 //data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-minimize="on" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
 
 $head = <<<'EOD'
+
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
     // Monitor page view
@@ -56,6 +57,10 @@ function sendEvent(eventType, page, elementId, monitorData) {
         }),
     });
 }
+</script>
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_JlYngwf9jrzunCsA8AJEqNph7Hxg7xqQpqgWwLKaElf',{api_host:'https://app.posthog.com'})
 </script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-N3K52G7P0P"></script>
@@ -123,73 +128,125 @@ $menu2 = <<<EOD
                 <div><a href="/all">Show All</a></div>
 EOD;
 
-$sql = "SELECT * FROM batch WHERE user_id = ? ORDER BY id DESC";
+// $sql = "SELECT * FROM batch WHERE user_id = ? ORDER BY id DESC";
+// $stmt = $con->prepare($sql);
+// $stmt->bind_param('i', $_SESSION['id']);
+// $stmt->execute();
+// $result = $stmt->get_result();
+
+// while ($row = $result->fetch_assoc()) {
+//   $sql2 = "SELECT * FROM jobs LEFT JOIN files ON files.id = jobs.model_id  WHERE jobs.batch_id = ?";
+//   $stmt2 = $con->prepare($sql2);
+//   $stmt2->bind_param('i', $row['id']);
+//   $stmt2->execute();
+//   $result2 = $stmt2->get_result();
+//   $job = $result2->fetch_assoc();
+//   $sql3 = "SELECT COUNT(*) FROM jobs WHERE batch_id = ?";
+//   $stmt3 = $con->prepare($sql3);
+//   $stmt3->bind_param('i', $row['id']);
+//   $stmt3->execute();
+//   $result3 = $stmt3->get_result();
+//   $count = $result3->fetch_assoc();
+
+//   $sql4 = "SELECT * FROM audio_files WHERE id = ?";
+//   $stmt4 = $con->prepare($sql4);
+//   $stmt4->bind_param('i', $job['audio_id']);
+//   $stmt4->execute();
+//   $result4 = $stmt4->get_result();
+//   $audio_file = $result4->fetch_assoc();
+//   $batch_name = $audio_file['original_name'];
+//   if (strlen($batch_name) > 20) {
+//     $batch_name = substr($batch_name, 0, 20) . '...';
+//   }
+//   $jobname = $job['original_name'];
+//   if (strlen($jobname) > 10) {
+//     $jobname = substr($jobname, 0, 10) . '...';
+//   }
+//   if ($job['pitch'] != 0) {
+//     $jobname .= ' ' . $job['pitch'];
+//   }
+//   if ($count['COUNT(*)'] > 1) {
+//     $batch_name .= ' (' . ($count['COUNT(*)'] - 1) . ' more)';
+//   }
+
+//   $menucolor = ' style="color: #FFC107;"';
+//   if ($row['status'] == 'complete') {
+//     $menucolor = ' style="color: #28C76F;"';
+//   }
+
+//   $menu2 .=  '<div class="menu-item">';
+//   $menu2 .=  '<a class="menu-link ps-0 pb-0" href="/processed?batch=' . $row['id'] . '">';
+//   $menu2 .=  '<span class="menu-bullet">';
+//   $menu2 .=  '<span class="bullet bullet-dot"></span>';
+//   $menu2 .=  '</span>';
+//   $menu2 .=  '<span class="menu-title"' . $menucolor . '>' . htmlspecialchars($batch_name) . ' ' . $jobname . '</span>';
+//   $menu2 .=  '</a>';
+//   $menu2 .=  '</div>';
+// }
+
+// $stmt->close();
+
+$sql = "SELECT 
+batch.id, 
+batch.status,
+jobs.pitch, 
+audio_files.original_name,
+files.original_name as file_original_name,
+COUNT(jobs.id) OVER (PARTITION BY batch.id) AS job_count
+FROM 
+batch
+LEFT JOIN 
+jobs ON batch.id = jobs.batch_id
+LEFT JOIN 
+files ON files.id = jobs.model_id
+LEFT JOIN 
+audio_files ON audio_files.id = jobs.audio_id
+WHERE 
+batch.user_id = ?
+ORDER BY 
+batch.id DESC;";
+
 $stmt = $con->prepare($sql);
 $stmt->bind_param('i', $_SESSION['id']);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Assuming there's a field 'name' in the 'batch' table to display as the menu title.
-// If the field name is different, replace 'name' with the appropriate field name.
 while ($row = $result->fetch_assoc()) {
-  // use audio_files table original_names to create nice batch names
-  // first get jobs in batch as they contain audio_files.id
-  $sql2 = "SELECT * FROM jobs LEFT JOIN files ON files.id = jobs.model_id  WHERE jobs.batch_id = ?";
-  $stmt2 = $con->prepare($sql2);
-  $stmt2->bind_param('i', $row['id']);
-  $stmt2->execute();
-  $result2 = $stmt2->get_result();
-  $job = $result2->fetch_assoc();
-  // count how many other files are in the batch
-  $sql3 = "SELECT COUNT(*) FROM jobs WHERE batch_id = ?";
-  $stmt3 = $con->prepare($sql3);
-  $stmt3->bind_param('i', $row['id']);
-  $stmt3->execute();
-  $result3 = $stmt3->get_result();
-  $count = $result3->fetch_assoc();
-
-  // now get audio_files.original_name and create batch name
-  $sql4 = "SELECT * FROM audio_files WHERE id = ?";
-  $stmt4 = $con->prepare($sql4);
-  $stmt4->bind_param('i', $job['audio_id']);
-  $stmt4->execute();
-  $result4 = $stmt4->get_result();
-  $audio_file = $result4->fetch_assoc();
-  $batch_name = $audio_file['original_name'];
-  // shorten batch name if longer than 20 characters
+  $batch_name = $row['original_name'];
   if (strlen($batch_name) > 20) {
     $batch_name = substr($batch_name, 0, 20) . '...';
   }
-  // shorten jon['name'] if longer than 10 characters
-  $jobname = $job['original_name'];
-  if (strlen($jobname) > 10) {
-    $jobname = substr($jobname, 0, 10) . '...';
+
+  $jobname = $row['file_original_name'];
+  if (strlen($jobname) > 19) {
+    $jobname = substr($jobname, 0, 19) . '...';
   }
-  // add pitch to jobname if not 0
-  if ($job['pitch'] != 0) {
-    $jobname .= ' ' . $job['pitch'];
+  if ($row['pitch'] != 0) {
+    $jobname .= ' p' . $row['pitch'];
   }
-  if ($count['COUNT(*)'] > 1) {
-    $batch_name .= ' (' . ($count['COUNT(*)'] - 1) . ' more)';
+  if ($row['job_count'] > 1) {
+    $batch_name =  $batch_name . ' +' . ($row['job_count'] - 1);
   }
 
-  // if $row['status'] == "complete" $menucolor = green else yellow
   $menucolor = ' style="color: #FFC107;"';
   if ($row['status'] == 'complete') {
     $menucolor = ' style="color: #28C76F;"';
   }
+
+  $file_original_name = $row['file_original_name'];
 
   $menu2 .=  '<div class="menu-item">';
   $menu2 .=  '<a class="menu-link ps-0 pb-0" href="/processed?batch=' . $row['id'] . '">';
   $menu2 .=  '<span class="menu-bullet">';
   $menu2 .=  '<span class="bullet bullet-dot"></span>';
   $menu2 .=  '</span>';
-  $menu2 .=  '<span class="menu-title"' . $menucolor . '>' . htmlspecialchars($batch_name) . ' ' . $jobname . '</span>';
+  $menu2 .=  '<span class="menu-title"' . $menucolor . '>' . htmlspecialchars($batch_name) . '<br>' . htmlspecialchars($jobname) . '</span>';
   $menu2 .=  '</a>';
   $menu2 .=  '</div>';
 }
 
 $stmt->close();
+
 
 $menu2 .= <<<EOD
 </div>
