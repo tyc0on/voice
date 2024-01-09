@@ -114,7 +114,7 @@ $menu2 = <<<EOD
                             <span class="path4"></span>
                         </i>
                     </span>
-                    <span class="menu-title">History</span>
+                    <span class="menu-title">History - <a href="/all">Show All</a></span>
                     <span class="menu-arrow"></span>
                 </span>
                 <!--end:Menu link-->

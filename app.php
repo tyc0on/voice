@@ -466,8 +466,8 @@ Your browser does not support the audio tag.
 										// });
 									</script>
 									<script>
-										let loadedRows = 50; // Tracks how many rows have been loaded
-										let loadingData = false; // Flag to prevent multiple loads
+										let loadedRows = 50;
+										let loadingData = false;
 										let allDataLoaded = false;
 
 										window.onscroll = function() {
@@ -477,31 +477,35 @@ Your browser does not support the audio tag.
 										};
 
 										function loadMoreData() {
-											if (loadingData) {
+											if (loadingData || allDataLoaded) {
 												return;
 											}
 											loadingData = true;
-											document.getElementById('loadingIndicator').style.display = 'block'; // Show the spinner
+											document.getElementById('loadingIndicator').style.display = 'block';
 
 											const searchQuery = document.getElementById('search').value || '';
 											fetch('fetchdata.php?offset=' + loadedRows + '&search=' + encodeURIComponent(searchQuery))
 												.then(response => response.text())
 												.then(data => {
 													if (data.includes("No more records found")) {
-														allDataLoaded = true; // Set the flag to true when no more data is available
-														document.getElementById('loadingIndicator').style.display = 'none'; // Optionally, remove or hide the spinner permanently
-														return; // Stop further execution
+														allDataLoaded = true;
+														document.getElementById('loadingIndicator').style.display = 'none';
+														document.querySelector('tbody').innerHTML += `
+						<tr><td colspan="4">No more records found. Find more voice models at <a href='https://voice-models.com' target='_blank'>voice-models.com</a></td></tr>
+					`;
+														return;
 													}
 													document.querySelector('tbody').innerHTML += data;
 													loadedRows += 50;
 													loadingData = false;
-													document.getElementById('loadingIndicator').style.display = 'none'; // Hide the spinner after loading
+													document.getElementById('loadingIndicator').style.display = 'none';
 												}).catch(() => {
 													loadingData = false;
-													document.getElementById('loadingIndicator').style.display = 'none'; // Hide the spinner if an error occurs
+													document.getElementById('loadingIndicator').style.display = 'none';
 												});
 										}
 									</script>
+
 
 
 									<!--end::Table-->
