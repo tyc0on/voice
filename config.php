@@ -213,12 +213,12 @@ $result = $stmt->get_result();
 
 while ($row = $result->fetch_assoc()) {
   $batch_name = $row['original_name'];
-  if (strlen($batch_name) > 20) {
+  if (@strlen($batch_name) > 20) {
     $batch_name = substr($batch_name, 0, 20) . '...';
   }
 
   $jobname = $row['file_original_name'];
-  if (strlen($jobname) > 19) {
+  if (@strlen($jobname) > 19) {
     $jobname = substr($jobname, 0, 19) . '...';
   }
   if ($row['pitch'] != 0) {
@@ -240,7 +240,7 @@ while ($row = $result->fetch_assoc()) {
   $menu2 .=  '<span class="menu-bullet">';
   $menu2 .=  '<span class="bullet bullet-dot"></span>';
   $menu2 .=  '</span>';
-  $menu2 .=  '<span class="menu-title"' . $menucolor . '>' . htmlspecialchars($batch_name) . '<br>' . htmlspecialchars($jobname) . '</span>';
+  $menu2 .=  '<span class="menu-title"' . $menucolor . '>' . @htmlspecialchars($batch_name) . '<br>' . @htmlspecialchars($jobname) . '</span>';
   $menu2 .=  '</a>';
   $menu2 .=  '</div>';
 }
