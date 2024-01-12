@@ -38,13 +38,22 @@ function getLetterStyle($letter, $letterStyles)
 $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 $search = isset($_GET['search']) ? $con->real_escape_string($_GET['search']) : '';
 
-$query = "SELECT * FROM files WHERE active = 1";
+// $query = "SELECT * FROM files WHERE active = 1";
+// if (!empty($search)) {
+//     $query .= " AND (name LIKE '%$search%' OR original_name LIKE '%$search%')";
+// }
+// $query .= " ORDER BY added_date DESC LIMIT 25 OFFSET $offset";
+
+// $result = $con->query($query);
+
+$query = "SELECT files.*, weights.title FROM files LEFT JOIN weights ON files.url = weights.url WHERE files.active = 1";
 if (!empty($search)) {
-    $query .= " AND (name LIKE '%$search%' OR original_name LIKE '%$search%')";
+    $query .= " AND (files.name LIKE '%$search%' OR files.original_name LIKE '%$search%' OR weights.title LIKE '%$search%')";
 }
-$query .= " ORDER BY added_date DESC LIMIT 25 OFFSET $offset";
+$query .= " ORDER BY files.added_date DESC LIMIT 25 OFFSET $offset";
 
 $result = $con->query($query);
+
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {

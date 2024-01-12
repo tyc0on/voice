@@ -233,13 +233,22 @@ include 'core/header.php';
 											// $sql = "SELECT * FROM files WHERE active = 1 ORDER BY added_date DESC LIMIT 50";
 											$search = isset($_GET['search']) ? $con->real_escape_string($_GET['search']) : '';
 
-											$query = "SELECT * FROM files WHERE active = 1";
+											// $query = "SELECT * FROM files WHERE active = 1";
+											// if (!empty($search)) {
+											// 	$query .= " AND (name LIKE '%$search%' OR original_name LIKE '%$search%')";
+											// }
+											// $query .= " ORDER BY added_date DESC LIMIT 150";
+
+											// $result = $con->query($query);
+
+											$query = "SELECT files.*, weights.title FROM files LEFT JOIN weights ON files.url = weights.url WHERE files.active = 1";
 											if (!empty($search)) {
-												$query .= " AND (name LIKE '%$search%' OR original_name LIKE '%$search%')";
+												$query .= " AND (files.name LIKE '%$search%' OR files.original_name LIKE '%$search%' OR weights.title LIKE '%$search%')";
 											}
-											$query .= " ORDER BY added_date DESC LIMIT 150";
+											$query .= " ORDER BY files.added_date DESC LIMIT 150";
 
 											$result = $con->query($query);
+
 											function getColorFromLetter($letter)
 											{
 												$ascii = ord(strtoupper($letter));
