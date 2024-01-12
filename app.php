@@ -138,6 +138,7 @@ include 'core/header.php';
 								.table th:nth-child(2),
 								.table td:nth-child(2) {
 									max-width: 50%;
+									min-width: 50px;
 								}
 
 								.table th:nth-child(3),

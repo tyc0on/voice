@@ -84,67 +84,85 @@ if ($modelUrl == "") {
 					<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
 						<form class="form mt-15" action="/process" method="post" enctype="multipart/form-data" id="audios">
 							<h1>Upload Audio File</h1>
-							<h2>Selected Voice Model: <?php echo $modelUrl; ?></h2>
-							<div class="fv-row">
-								<input type="file" name="files[]" id="fileInput" multiple style="display: none;">
-								<div class="custom-file-upload rounded-3" style="border: 1px dashed #9b00ff; background-color: #000000; padding: 10px; text-align: center; cursor: pointer;">
-									<i class="ki-duotone ki-file-up fs-3x text-primary"></i>
-									<div class="ms-4 pb-5">
-										<h3 class="fs-1 fw-bold text-gray-900 mb-1">Drop files here or click to upload.</h3>
-										<span class="fs-2 fw-semibold text-gray-600" id="fileNames">Upload your voice files here</span>
+
+							<?php
+
+							// check in files table that url has not been set to 0
+							$sql = "SELECT * FROM files WHERE url = ? AND active = 0 LIMIT 1";
+							$stmt = $con->prepare($sql);
+							$stmt->bind_param('s', $modelUrl);
+							$stmt->execute();
+							$result = $stmt->get_result();
+							$stmt->close();
+
+							if ($result->num_rows === 0) {
+
+							?>
+								<h2>Selected Voice Model: <?php echo $modelUrl; ?></h2>
+								<div class="fv-row">
+									<input type="file" name="files[]" id="fileInput" multiple style="display: none;">
+									<div class="custom-file-upload rounded-3" style="border: 1px dashed #9b00ff; background-color: #000000; padding: 10px; text-align: center; cursor: pointer;">
+										<i class="ki-duotone ki-file-up fs-3x text-primary"></i>
+										<div class="ms-4 pb-5">
+											<h3 class="fs-1 fw-bold text-gray-900 mb-1">Drop files here or click to upload.</h3>
+											<span class="fs-2 fw-semibold text-gray-600" id="fileNames">Upload your voice files here</span>
+										</div>
+									</div>
+									<button type="button" id="pickExistingFiles" class="btn btn-success mt-3">Pick from existing audio files</button>
+									<div id="existingFilesDropdown2" style="display:none;" class="pt-3">
+										<select id="existingFilesDropdown" class="form-select form-select-lg form-select-solid border rounded-3 border-primary" data-control="select2" data-close-on-select="true" data-placeholder="Click to select your audio files" data-allow-clear="true" multiple="multiple"><?php
+																																																																													$sql = "SELECT * FROM audio_files WHERE user_id = ? ORDER BY id DESC";
+																																																																													$stmt = $con->prepare($sql);
+																																																																													$stmt->bind_param('i', $_SESSION['id']);
+																																																																													$stmt->execute();
+																																																																													$result = $stmt->get_result();
+
+																																																																													while ($row = $result->fetch_assoc()) {
+																																																																														$filepath = str_replace("audios/", "", $row['file_path']);
+																																																																														$audioFiles[] = ['id' => $row['id'], 'file_name' => $row['original_name']];
+																																																																													}
+
+																																																																													$stmt->close();
+
+																																																																													foreach ($audioFiles as $audioFile) {
+																																																																														echo "<option value='{$audioFile['id']}'>{$audioFile['file_name']}</option>";
+																																																																													}
+																																																																													?></select>
 									</div>
 								</div>
-								<button type="button" id="pickExistingFiles" class="btn btn-success mt-3">Pick from existing audio files</button>
-								<div id="existingFilesDropdown2" style="display:none;" class="pt-3">
-									<select id="existingFilesDropdown" class="form-select form-select-lg form-select-solid border rounded-3 border-primary" data-control="select2" data-close-on-select="false" data-placeholder="Click to select your audio files" data-allow-clear="true" multiple="multiple"><?php
-																																																																												$sql = "SELECT * FROM audio_files WHERE user_id = ? ORDER BY id DESC";
-																																																																												$stmt = $con->prepare($sql);
-																																																																												$stmt->bind_param('i', $_SESSION['id']);
-																																																																												$stmt->execute();
-																																																																												$result = $stmt->get_result();
+								<input type="hidden" name="name" value="<?php echo htmlspecialchars($modelUrl); ?>">
+								<button class="btn btn-primary mt-3" type="submit" name="submit">Submit -></button>
+								<div class="fv-row">
+									<button type="button" id="toggleAdvancedSettings" class="btn btn-secondary mt-3">Advanced Settings</button>
+									<div id="advancedSettings" class="pt-3">
 
-																																																																												while ($row = $result->fetch_assoc()) {
-																																																																													$filepath = str_replace("audios/", "", $row['file_path']);
-																																																																													$audioFiles[] = ['id' => $row['id'], 'file_name' => $row['original_name']];
-																																																																												}
+										<div class="fv-row mb-3" style="width:100px">
+											<label for="pitch" class="form-label">Pitch:</label>
+											<?php
+											$pitch = 0;
 
-																																																																												$stmt->close();
+											if (isset($_GET['pitch'])) {
+												$pitchValue = filter_var($_GET['pitch'], FILTER_VALIDATE_INT, [
+													"options" => ["min_range" => -100, "max_range" => 100]
+												]);
 
-																																																																												foreach ($audioFiles as $audioFile) {
-																																																																													echo "<option value='{$audioFile['id']}'>{$audioFile['file_name']}</option>";
-																																																																												}
-																																																																												?></select>
-								</div>
-							</div>
-							<input type="hidden" name="name" value="<?php echo htmlspecialchars($modelUrl); ?>">
-							<button class="btn btn-primary mt-3" type="submit" name="submit">Submit -></button>
-							<div class="fv-row">
-								<button type="button" id="toggleAdvancedSettings" class="btn btn-secondary mt-3">Advanced Settings</button>
-								<div id="advancedSettings" class="pt-3">
-
-									<div class="fv-row mb-3" style="width:100px">
-										<label for="pitch" class="form-label">Pitch:</label>
-										<?php
-										$pitch = 0;
-
-										if (isset($_GET['pitch'])) {
-											$pitchValue = filter_var($_GET['pitch'], FILTER_VALIDATE_INT, [
-												"options" => ["min_range" => -100, "max_range" => 100]
-											]);
-
-											if ($pitchValue !== false) {
-												$pitch = $pitchValue;
+												if ($pitchValue !== false) {
+													$pitch = $pitchValue;
+												}
 											}
-										}
-										?>
-										<input type="number" id="pitch" name="pitch" value="<?php echo $pitch; ?>" min="-100" max="100" class="form-control">
-									</div>
-									<!-- <div class="fv-row">
+											?>
+											<input type="number" id="pitch" name="pitch" value="<?php echo $pitch; ?>" min="-100" max="100" class="form-control">
+										</div>
+										<!-- <div class="fv-row">
 										<label for="removeAccent" class="form-check-label text-dark">Remove Model's Accent:</label>
 										<input type="checkbox" id="removeAccent" name="removeAccent" class="form-check-input">
 									</div> -->
+									</div>
 								</div>
-							</div>
+							<?php
+							} else {
+								echo '<h2 class="text-warning">Selected Voice Model has been removed</h2>';
+							} ?>
 						</form>
 
 						<script>
@@ -232,17 +250,22 @@ if ($modelUrl == "") {
 										document.getElementById('audios').appendChild(input);
 									});
 								}
-							});
-
-							document.getElementById('audios').addEventListener('submit', function(e) {
-								const fileInput = document.getElementById('fileInput');
-								const existingFilesDropdown = document.getElementById('existingFilesDropdown');
 
 								if (fileInput.files.length === 0 && existingFilesDropdown.selectedOptions.length === 0) {
 									e.preventDefault();
 									alert('Please select at least one file to upload.');
 								}
 							});
+
+							// document.getElementById('audios').addEventListener('submit', function(e) {
+							// 	const fileInput = document.getElementById('fileInput');
+							// 	const existingFilesDropdown = document.getElementById('existingFilesDropdown');
+
+							// 	if (fileInput.files.length === 0 && existingFilesDropdown.selectedOptions.length === 0) {
+							// 		e.preventDefault();
+							// 		alert('Please select at least one file to upload.');
+							// 	}
+							// });
 						</script>
 
 					</div>
