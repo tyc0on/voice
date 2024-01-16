@@ -12,7 +12,7 @@ $folder = "/var/www/easyaivoice.com/public_html/samples";
 $files = glob($folder . '/*.lock');
 foreach ($files as $file) {
     if (is_file($file)) {
-        // unlink($file);
+        unlink($file);
         echo "Removed $file\n";
     }
 }
@@ -21,7 +21,7 @@ $folder = "/var/www/easyaivoice.com/public_html/samples2";
 $files = glob($folder . '/*.lock');
 foreach ($files as $file) {
     if (is_file($file)) {
-        // unlink($file);
+        unlink($file);
         echo "Removed $file\n";
     }
 }
