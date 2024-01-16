@@ -37,7 +37,7 @@ while ($row = $result->fetch_assoc()) {
     $name = $row['url'];
 
     // Retrieve the model name from the database
-    $sql = "SELECT * FROM files WHERE url = ?";
+    $sql = "SELECT * FROM files WHERE url = ? AND active = 1";
     $stmt = $con->prepare($sql);
     $stmt->bind_param('s', $name);
     $stmt->execute();
