@@ -56,6 +56,16 @@ while ($row = $result->fetch_assoc()) {
             $existing = $folder . "/" . $model_name . ".p" . $pitch . ".mp3";
         }
         if (!file_exists($existing)) {
+            $lockfile = $folder . "/" . $model_name . ".lock";
+            if (file_exists($lockfile)) {
+                continue;
+            }
+
+            if (!file_exists($lockfile)) {
+                $fp = fopen($lockfile, "w");
+                fwrite($fp, "1");
+                fclose($fp);
+            }
             echo $existing . "<br>\n";
 
             $jobData = array(

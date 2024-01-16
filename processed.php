@@ -165,6 +165,7 @@ include 'core/header.php';
 												// output data of each row
 												$i = 0;
 												while ($row = $result->fetch_assoc()) {
+													$pitch = $row['pitch'];
 													// $i++;
 													// // if ($i == 5) $i = 1;
 													// // make $row['created_ad'] look nice
@@ -284,7 +285,7 @@ include 'core/header.php';
 
 								<div class="card-body pt-2 pb-2"> -->
 
-					<a class="btn btn-primary btn-active-light-primary" href="/run?url=<?php echo $model_url; ?>">Use voice model again -></a>
+					<a class="btn btn-primary btn-active-light-primary" href="/run?url=<?php echo $model_url; ?>&pitch=<?php echo $pitch; ?>">Use voice model again -></a>
 
 					<!-- </div>
 							</div>

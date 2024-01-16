@@ -166,9 +166,9 @@ if ($modelUrl == "") {
 						</form>
 
 						<script>
-							$(document).ready(function() {
-								$('#existingFilesDropdown').select2();
-							});
+							// $(document).ready(function() {
+							// 	$('#existingFilesDropdown').select2();
+							// });
 
 							document.getElementById('toggleAdvancedSettings').addEventListener('click', function() {
 								var advSettings = document.getElementById('advancedSettings');
@@ -224,9 +224,15 @@ if ($modelUrl == "") {
 									alert("Some files have been removed because they are not of the allowed types.");
 								}
 
-								document.getElementById("fileInput").files = new FileList(...validFiles);
-								const fileNames = validFiles.map(file => file.name).join(", ");
-								document.getElementById("fileNames").textContent = fileNames;
+								// Create a new DataTransfer object
+								let dataTransfer = new DataTransfer();
+								for (let file of validFiles) {
+									dataTransfer.items.add(file);
+								}
+
+								// Assign files to the file input and trigger change event
+								document.getElementById("fileInput").files = dataTransfer.files;
+								document.getElementById("fileInput").dispatchEvent(new Event('change'));
 							});
 
 							document.getElementById('pickExistingFiles').addEventListener('click', function() {
@@ -256,16 +262,6 @@ if ($modelUrl == "") {
 									alert('Please select at least one file to upload.');
 								}
 							});
-
-							// document.getElementById('audios').addEventListener('submit', function(e) {
-							// 	const fileInput = document.getElementById('fileInput');
-							// 	const existingFilesDropdown = document.getElementById('existingFilesDropdown');
-
-							// 	if (fileInput.files.length === 0 && existingFilesDropdown.selectedOptions.length === 0) {
-							// 		e.preventDefault();
-							// 		alert('Please select at least one file to upload.');
-							// 	}
-							// });
 						</script>
 
 					</div>
