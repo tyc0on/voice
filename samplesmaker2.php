@@ -52,11 +52,13 @@ while ($row = $result->fetch_assoc()) {
     foreach ($pitches as $pitch) {
         if ($pitch == 0) {
             $existing = $folder . "/" . $model_name . ".mp3";
+            $lockfile = $folder . "/" . $model_name . ".lock";
         } else {
             $existing = $folder . "/" . $model_name . ".p" . $pitch . ".mp3";
+            $lockfile = $folder . "/" . $model_name . ".p" . $pitch . ".lock";
         }
         if (!file_exists($existing)) {
-            $lockfile = $folder . "/" . $model_name . ".lock";
+
             if (file_exists($lockfile)) {
                 continue;
             }
