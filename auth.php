@@ -1,5 +1,4 @@
 <?php
-
 $loggedin = "false";
 if (!isset($_SESSION['loggedin'])) {
 
@@ -45,17 +44,17 @@ if (!isset($_SESSION['loggedin'])) {
             $_SESSION['picture'] = $picture;
             $loggedin = "true";
         }
+    }
 
-        if ($loggedin == "false") {
-            // $_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
-            if ($_SERVER['HTTP_HOST'] == "localhost:5014") {
-                $_SESSION['loggedin'] = true;
-                $_SESSION['email'] = "mikem1@gmail.com";
-                $_SESSION['accounttype'] = "Trial";
-                $_SESSION['name'] = "Penis Vagina";
-                $_SESSION['id'] = 1;
-                $loggedin = "true";
-            }
+    if ($loggedin == "false") {
+        // $_SESSION['return_url'] = $_SERVER['REQUEST_URI'];
+        if ($_SERVER['HTTP_HOST'] == "localhost:5014") {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['email'] = "mikem1@gmail.com";
+            $_SESSION['accounttype'] = "Trial";
+            $_SESSION['name'] = "Penis Vagina";
+            $_SESSION['id'] = 1;
+            $loggedin = "true";
         }
     }
 } else {

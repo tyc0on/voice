@@ -246,7 +246,7 @@ include 'core/header.php';
 												$query .= " AND (files.name LIKE '%$search%' OR files.original_name LIKE '%$search%' OR weights.title LIKE '%$search%')";
 											}
 											$query .= " ORDER BY files.added_date DESC LIMIT 150";
-
+											// echo $query;
 											$result = $con->query($query);
 
 											function getColorFromLetter($letter)
@@ -430,50 +430,6 @@ Your browser does not support the audio tag.
 											updateHref(pitch, rowId, url);
 
 										}
-
-										// document.addEventListener('DOMContentLoaded', function() {
-										// 	const selectButtons = document.querySelectorAll('a.btn');
-
-										// 	selectButtons.forEach(button => {
-										// 		button.addEventListener('click', function(event) {
-										// 			event.preventDefault();
-
-										// 			const files = document.getElementById('fileInput').files;
-										// 			const existingFilesSelected = document.querySelectorAll('.existing-file-input').length > 0;
-										// 			if (files.length === 0 && !existingFilesSelected) {
-										// 				alert('Please select at least one file to upload or choose from existing files.');
-										// 				return;
-										// 			}
-
-										// 			const row = this.closest('tr');
-										// 			const hiddenInput = row.querySelector('input[type="hidden"]');
-										// 			const nameValue = hiddenInput ? hiddenInput.value : null;
-
-										// 			const pitchElement = document.getElementById('kt_modal_create_campaign_budget_label');
-										// 			const pitchValue = pitchElement ? parseInt(pitchElement.textContent.trim()) : null;
-
-										// 			if (nameValue !== null && pitchValue !== null) {
-										// 				const nameInput = document.createElement('input');
-										// 				nameInput.type = 'hidden';
-										// 				nameInput.name = 'name';
-										// 				nameInput.value = nameValue;
-
-										// 				const pitchInput = document.createElement('input');
-										// 				pitchInput.type = 'hidden';
-										// 				pitchInput.name = 'pitch';
-										// 				pitchInput.value = pitchValue;
-
-										// 				const form = document.getElementById('audios');
-										// 				form.appendChild(nameInput);
-										// 				form.appendChild(pitchInput);
-
-										// 				form.submit();
-
-										// 				updateAudioSource(pitchValue, row.getAttribute('data-id'), nameValue);
-										// 			}
-										// 		});
-										// 	});
-										// });
 									</script>
 									<script>
 										let loadedRows = 150;

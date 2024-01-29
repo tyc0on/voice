@@ -82,8 +82,8 @@ if ($modelUrl == "") {
 						});
 					</script>
 					<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-						<form class="form mt-15" action="/process" method="post" enctype="multipart/form-data" id="audios">
-							<h1>Upload Audio File</h1>
+						<form class="form mt-5" action="/process" method="post" enctype="multipart/form-data" id="audios">
+							<h1 style="font-weight:bold;">Upload Audio File</h1>
 
 							<?php
 
@@ -98,7 +98,7 @@ if ($modelUrl == "") {
 							if ($result->num_rows === 0) {
 
 							?>
-								<h2>Selected Voice Model: <?php echo $modelUrl; ?></h2>
+								<h2 style="font-weight:normal;">Selected Voice Model: <?php echo $modelUrl; ?></h2>
 								<div class="fv-row">
 									<input type="file" name="files[]" id="fileInput" multiple style="display: none;">
 									<div class="custom-file-upload rounded-3" style="border: 1px dashed #9b00ff; background-color: #000000; padding: 10px; text-align: center; cursor: pointer;">
@@ -224,13 +224,11 @@ if ($modelUrl == "") {
 									alert("Some files have been removed because they are not of the allowed types.");
 								}
 
-								// Create a new DataTransfer object
 								let dataTransfer = new DataTransfer();
 								for (let file of validFiles) {
 									dataTransfer.items.add(file);
 								}
 
-								// Assign files to the file input and trigger change event
 								document.getElementById("fileInput").files = dataTransfer.files;
 								document.getElementById("fileInput").dispatchEvent(new Event('change'));
 							});
