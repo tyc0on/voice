@@ -413,6 +413,11 @@ $time_end = microtime(true);
 $time = $time_end - $time_start;
 // $response['execution_time'] = $time;
 
+// if $time_taken no exist then $time_taken = 0
+if (!isset($time_taken)) {
+    $time_taken = 0;
+}
+
 $con->close();
 header('Content-Type: application/json');
 $time = round($time, 4);

@@ -325,7 +325,9 @@ include 'core/header.php';
 																<input type="hidden" id="name-' . $row['id'] . '" name="name-' . $row['id'] . '" value="' . $row['name'] . '">
 																<a href="/run?url=' . urlencode($row['url']) . '&pitch=0" class="btn btn-primary btn-active-light-primary" id="selectButton-' . $row['id'] . '">Select -></a> 
 															</td>';
-
+													$playicon2 = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+</svg>';
 													echo '<td class="fs-7" style="display: flex; align-items: center; gap: 10px;">';
 													$pitches = [-16, -12, -8, -4, 0, 4, 8, 12, 16];
 
@@ -333,9 +335,7 @@ include 'core/header.php';
 													echo '<div style="float: left; margin-right: 10px;">';
 
 													echo '<div id="playIcon-' . $row['id'] . '" onclick="playAudio(' . $row['id'] . ', \'' . $row['name'] . '\');" style="cursor: pointer; float: left; margin-right: 10px;">
-													<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-													<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-												  </svg>
+													' . $playicon2 . '
 </div>';
 													echo '<audio id="audioPlayer-' . $row['id'] . '" data-row-name="' . $row['name'] . '" data-row-url="' . $row['url'] . '" style="height:40px; display:none;" controls>
 <source type="audio/mpeg">
@@ -356,8 +356,8 @@ Your browser does not support the audio tag.
 													echo '<div>Gender:<br><button id="genderToggle-' . $row['id'] . '" onclick="toggleGender(' . $row['id'] . ');">Male</button></div>';
 
 
-													echo '</td>
-															<!--<td>
+													echo '</td>';
+													echo '		<!--<td>
 																' . $tags . '
 															</td>-->
 															
