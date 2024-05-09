@@ -189,15 +189,14 @@ EOD;
 // if $_SESSION['id'] set to number
 if (is_numeric($_SESSION['id'])) {
 
-
+  //,COUNT(jobs.id) OVER (PARTITION BY batch.id) AS job_count
 
   $sql = "SELECT 
 batch.id, 
 batch.status,
 jobs.pitch, 
 audio_files.original_name,
-files.original_name as file_original_name,
-COUNT(jobs.id) OVER (PARTITION BY batch.id) AS job_count
+files.original_name as file_original_name
 FROM 
 batch
 LEFT JOIN 
@@ -229,9 +228,9 @@ batch.id DESC;";
     if ($row['pitch'] != 0) {
       $jobname .= ' p' . $row['pitch'];
     }
-    if ($row['job_count'] > 1) {
-      $batch_name =  $batch_name . ' +' . ($row['job_count'] - 1);
-    }
+    // if ($row['job_count'] > 1) {
+    //   $batch_name =  $batch_name . ' +' . ($row['job_count'] - 1);
+    // }
 
     $menucolor = ' style="color: #FFC107;"';
     if ($row['status'] == 'complete') {
