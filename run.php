@@ -111,21 +111,23 @@ if ($modelUrl == "") {
 									<button type="button" id="pickExistingFiles" class="btn btn-success mt-3">Pick from existing audio files</button>
 									<div id="existingFilesDropdown2" style="display:none;" class="pt-3">
 										<select id="existingFilesDropdown" class="form-select form-select-lg form-select-solid border rounded-3 border-primary" data-control="select2" data-close-on-select="true" data-placeholder="Click to select your audio files" data-allow-clear="true" multiple="multiple"><?php
-																																																																													$sql = "SELECT * FROM audio_files WHERE user_id = ? ORDER BY id DESC";
-																																																																													$stmt = $con->prepare($sql);
-																																																																													$stmt->bind_param('i', $_SESSION['id']);
-																																																																													$stmt->execute();
-																																																																													$result = $stmt->get_result();
+																																																																													if (is_numeric($_SESSION['id'])) {
+																																																																														$sql = "SELECT * FROM audio_files WHERE user_id = ? ORDER BY id DESC";
+																																																																														$stmt = $con->prepare($sql);
+																																																																														$stmt->bind_param('i', $_SESSION['id']);
+																																																																														$stmt->execute();
+																																																																														$result = $stmt->get_result();
 
-																																																																													while ($row = $result->fetch_assoc()) {
-																																																																														$filepath = str_replace("audios/", "", $row['file_path']);
-																																																																														$audioFiles[] = ['id' => $row['id'], 'file_name' => $row['original_name']];
-																																																																													}
+																																																																														while ($row = $result->fetch_assoc()) {
+																																																																															$filepath = str_replace("audios/", "", $row['file_path']);
+																																																																															$audioFiles[] = ['id' => $row['id'], 'file_name' => $row['original_name']];
+																																																																														}
 
-																																																																													$stmt->close();
+																																																																														$stmt->close();
 
-																																																																													foreach ($audioFiles as $audioFile) {
-																																																																														echo "<option value='{$audioFile['id']}'>{$audioFile['file_name']}</option>";
+																																																																														foreach ($audioFiles as $audioFile) {
+																																																																															echo "<option value='{$audioFile['id']}'>{$audioFile['file_name']}</option>";
+																																																																														}
 																																																																													}
 																																																																													?></select>
 									</div>

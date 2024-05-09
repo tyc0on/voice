@@ -59,14 +59,16 @@ $s3Client = new S3Client([
 if (!empty($_POST['existingFiles'])) {
 	$existingFiles = $_POST['existingFiles'];
 	foreach ($existingFiles as $existingFile) {
-		$sql = "SELECT * FROM audio_files WHERE user_id = ? AND id = ?";
-		$stmt = $con->prepare($sql);
-		$stmt->bind_param('is', $_SESSION['id'], $existingFile);
-		$stmt->execute();
-		$result = $stmt->get_result();
-		$stmt->close();
-		if ($result->num_rows > 0) {
-			$audioFiles[] = $existingFile;
+		if (is_numeric($_SESSION['id'])) {
+			$sql = "SELECT * FROM audio_files WHERE user_id = ? AND id = ?";
+			$stmt = $con->prepare($sql);
+			$stmt->bind_param('is', $_SESSION['id'], $existingFile);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$stmt->close();
+			if ($result->num_rows > 0) {
+				$audioFiles[] = $existingFile;
+			}
 		}
 	}
 }
