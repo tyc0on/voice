@@ -186,7 +186,12 @@ EOD;
 
 // $stmt->close();
 
-$sql = "SELECT 
+// if $_SESSION['id'] set to number
+if (is_numeric($_SESSION['id'])) {
+
+
+
+  $sql = "SELECT 
 batch.id, 
 batch.status,
 jobs.pitch, 
@@ -206,47 +211,47 @@ batch.user_id = ?
 ORDER BY 
 batch.id DESC;";
 
-$stmt = $con->prepare($sql);
-$stmt->bind_param('i', $_SESSION['id']);
-$stmt->execute();
-$result = $stmt->get_result();
+  $stmt = $con->prepare($sql);
+  $stmt->bind_param('i', $_SESSION['id']);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
-while ($row = $result->fetch_assoc()) {
-  $batch_name = $row['original_name'];
-  if (@strlen($batch_name) > 20) {
-    $batch_name = substr($batch_name, 0, 20) . '...';
+  while ($row = $result->fetch_assoc()) {
+    $batch_name = $row['original_name'];
+    if (@strlen($batch_name) > 20) {
+      $batch_name = substr($batch_name, 0, 20) . '...';
+    }
+
+    $jobname = $row['file_original_name'];
+    if (@strlen($jobname) > 19) {
+      $jobname = substr($jobname, 0, 19) . '...';
+    }
+    if ($row['pitch'] != 0) {
+      $jobname .= ' p' . $row['pitch'];
+    }
+    if ($row['job_count'] > 1) {
+      $batch_name =  $batch_name . ' +' . ($row['job_count'] - 1);
+    }
+
+    $menucolor = ' style="color: #FFC107;"';
+    if ($row['status'] == 'complete') {
+      $menucolor = ' style="color: #28C76F;"';
+    }
+
+    $file_original_name = $row['file_original_name'];
+
+    $menu2 .=  '<div class="menu-item">';
+    $menu2 .=  '<a class="menu-link ps-0 pb-0" href="/processed?batch=' . $row['id'] . '">';
+    $menu2 .=  '<span class="menu-bullet">';
+    $menu2 .=  '<span class="bullet bullet-dot"></span>';
+    $menu2 .=  '</span>';
+    $menu2 .=  '<span class="menu-title"' . $menucolor . '>' . @htmlspecialchars($batch_name) . '<br>' . @htmlspecialchars($jobname) . '</span>';
+    $menu2 .=  '</a>';
+    $menu2 .=  '</div>';
   }
 
-  $jobname = $row['file_original_name'];
-  if (@strlen($jobname) > 19) {
-    $jobname = substr($jobname, 0, 19) . '...';
-  }
-  if ($row['pitch'] != 0) {
-    $jobname .= ' p' . $row['pitch'];
-  }
-  if ($row['job_count'] > 1) {
-    $batch_name =  $batch_name . ' +' . ($row['job_count'] - 1);
-  }
-
-  $menucolor = ' style="color: #FFC107;"';
-  if ($row['status'] == 'complete') {
-    $menucolor = ' style="color: #28C76F;"';
-  }
-
-  $file_original_name = $row['file_original_name'];
-
-  $menu2 .=  '<div class="menu-item">';
-  $menu2 .=  '<a class="menu-link ps-0 pb-0" href="/processed?batch=' . $row['id'] . '">';
-  $menu2 .=  '<span class="menu-bullet">';
-  $menu2 .=  '<span class="bullet bullet-dot"></span>';
-  $menu2 .=  '</span>';
-  $menu2 .=  '<span class="menu-title"' . $menucolor . '>' . @htmlspecialchars($batch_name) . '<br>' . @htmlspecialchars($jobname) . '</span>';
-  $menu2 .=  '</a>';
-  $menu2 .=  '</div>';
+  $stmt->close();
 }
-
-$stmt->close();
-
 
 $menu2 .= <<<EOD
 </div>
