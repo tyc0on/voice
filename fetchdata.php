@@ -2,8 +2,8 @@
 session_start();
 
 //errors on
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 
 
@@ -48,6 +48,22 @@ include 'config.php';
 
 // $result = $con->query($query);
 
+function getColorFromLetter($letter) {
+    $ascii = ord(strtoupper($letter));
+    $red   = ($ascii * 23) % 256;
+    $green = ($ascii * 47) % 256;
+    $blue  = ($ascii * 67) % 256;
+    return "rgb($red, $green, $blue)";
+}
+
+$letterStyles = [];
+foreach (range('A', 'Z') as $letter) {
+    $letterStyles[$letter] = getColorFromLetter($letter);
+}
+
+function getLetterStyle($letter, $letterStyles) {
+    return $letterStyles[strtoupper($letter[0])] ?? null;
+}
 
 if ($con->connect_errno) { printf("Connection failed: %s\n", $con->connect_error); exit(); }
 
