@@ -1,58 +1,125 @@
 <?php
 session_start();
 
-//error on
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
-
 
 include 'include.php';
 $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
 include 'config.php';
 
-if ($con->connect_errno) {
-    printf("Connection failed: %s\n", $con->connect_error);
-    exit();
-}
-function getColorFromLetter($letter)
-{
-    $ascii = ord(strtoupper($letter));
-
-    $red = ($ascii * 23) % 256;
-    $green = ($ascii * 47) % 256;
-    $blue = ($ascii * 67) % 256;
-
-    return "rgb($red, $green, $blue)";
-}
-
-$letterStyles = [];
-foreach (range('A', 'Z') as $letter) {
-    $letterStyles[$letter] = getColorFromLetter($letter);
-}
-function getLetterStyle($letter, $letterStyles)
-{
-    return $letterStyles[strtoupper($letter[0])] ?? null;
-}
-
-$offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
-$search = isset($_GET['search']) ? $con->real_escape_string($_GET['search']) : '';
-
-// $query = "SELECT * FROM files WHERE active = 1";
-// if (!empty($search)) {
-//     $query .= " AND (name LIKE '%$search%' OR original_name LIKE '%$search%')";
+// if ($con->connect_errno) {
+//     printf("Connection failed: %s\n", $con->connect_error);
+//     exit();
 // }
-// $query .= " ORDER BY added_date DESC LIMIT 25 OFFSET $offset";
+// function getColorFromLetter($letter)
+// {
+//     $ascii = ord(strtoupper($letter));
+
+//     $red = ($ascii * 23) % 256;
+//     $green = ($ascii * 47) % 256;
+//     $blue = ($ascii * 67) % 256;
+
+//     return "rgb($red, $green, $blue)";
+// }
+
+// $letterStyles = [];
+// foreach (range('A', 'Z') as $letter) {
+//     $letterStyles[$letter] = getColorFromLetter($letter);
+// }
+// function getLetterStyle($letter, $letterStyles)
+// {
+//     return $letterStyles[strtoupper($letter[0])] ?? null;
+// }
+
+// $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
+// $search = isset($_GET['search']) ? $con->real_escape_string($_GET['search']) : '';
+
+
+// $query = "SELECT files.*, weights.title FROM files LEFT JOIN weights ON files.url = weights.url WHERE files.active = 1";
+// if (!empty($search)) {
+//     $query .= " AND (files.name LIKE '%$search%' OR files.original_name LIKE '%$search%' OR weights.title LIKE '%$search%')";
+// }
+// $query .= " ORDER BY files.added_date DESC LIMIT 25 OFFSET $offset";
 
 // $result = $con->query($query);
 
-$query = "SELECT files.*, weights.title FROM files LEFT JOIN weights ON files.url = weights.url WHERE files.active = 1";
-if (!empty($search)) {
-    $query .= " AND (files.name LIKE '%$search%' OR files.original_name LIKE '%$search%' OR weights.title LIKE '%$search%')";
-}
-$query .= " ORDER BY files.added_date DESC LIMIT 25 OFFSET $offset";
 
-$result = $con->query($query);
+if ($con->connect_errno) { printf("Connection failed: %s\n", $con->connect_error); exit(); }
+
+/** Build a BOOLEAN MODE query: "+word* +another*" */
+function buildBooleanQuery(string $raw): string {
+    $raw = trim($raw);
+    if ($raw === '') return '';
+    // Split on whitespace; keep tokens >= 3 chars (Innodb default min token size is 3)
+    $parts = preg_split('/\s+/', $raw);
+    $tokens = [];
+    foreach ($parts as $p) {
+        // Strip boolean special chars that would change meaning
+        $p = preg_replace('/[+\-~<>()"@*]+/', '', $p);
+        if (mb_strlen($p) >= 3) {
+            // require each token and allow prefix match
+            $tokens[] = '+' . $p . '*';
+        }
+    }
+    return implode(' ', $tokens);
+}
+
+$offset = isset($_GET['offset']) ? max(0, intval($_GET['offset'])) : 0;
+$rawSearch = isset($_GET['search']) ? $_GET['search'] : '';
+$boolean = buildBooleanQuery($rawSearch);
+
+/**
+ * When there is a search string, use FULLTEXT.
+ * Otherwise, keep the simple query (no MATCH).
+ */
+if ($boolean !== '') {
+    $sql = "
+        SELECT
+            files.*,
+            weights.title,
+            /* relevance from both tables */
+            (  MATCH(files.name, files.original_name) AGAINST (? IN BOOLEAN MODE)
+             + MATCH(weights.title, weights.url)     AGAINST (? IN BOOLEAN MODE)
+            ) AS score
+        FROM files
+        LEFT JOIN weights ON files.url = weights.url
+        WHERE files.active = 1
+          AND (
+                MATCH(files.name, files.original_name) AGAINST (? IN BOOLEAN MODE)
+             OR MATCH(weights.title, weights.url)     AGAINST (? IN BOOLEAN MODE)
+          )
+        ORDER BY score DESC, files.added_date DESC
+        LIMIT 25 OFFSET ?
+    ";
+    $stmt = $con->prepare($sql);
+    if (!$stmt) { die("Prepare failed: " . $con->error); }
+    // bind: score(files), score(weights), where(files), where(weights), offset
+    $stmt->bind_param('sss si', $boolean, $boolean, $boolean, $boolean, $offset);
+    // mysqli doesn’t accept spaces in types; fix:
+    $stmt->bind_param('ssss i', $boolean, $boolean, $boolean, $boolean, $offset); // <-- if your PHP errors, use the next block instead
+
+    // Correct binding (no spaces in type string):
+    $stmt->close();
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param('ssssi', $boolean, $boolean, $boolean, $boolean, $offset);
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    // No search: keep it simple and use index on (active, added_date)
+    $sql = "
+        SELECT files.*, weights.title
+        FROM files
+        LEFT JOIN weights ON files.url = weights.url
+        WHERE files.active = 1
+        ORDER BY files.added_date DESC
+        LIMIT 25 OFFSET ?
+    ";
+    $stmt = $con->prepare($sql);
+    if (!$stmt) { die("Prepare failed: " . $con->error); }
+    $stmt->bind_param('i', $offset);
+    $stmt->execute();
+    $result = $stmt->get_result();
+}
 
 
 if ($result && $result->num_rows > 0) {
