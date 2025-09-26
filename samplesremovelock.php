@@ -56,21 +56,10 @@ foreach ($prefixes as $prefix) {
         }
     } while (!empty($params['ContinuationToken']));
     
-    // Display what would be deleted (DRY RUN)
+    // Batch delete lock files (up to 1000 at a time)
     if (!empty($lockFiles)) {
-        echo "\n--- DRY RUN: Would delete the following {$prefix} lock files ---\n";
-        foreach ($lockFiles as $file) {
-            echo "WOULD DELETE: {$file['Key']}\n";
-        }
-        echo "--- End of {$prefix} files that would be deleted ---\n\n";
-        
         $chunks = array_chunk($lockFiles, 1000); // S3 deleteObjects limit is 1000
-        $wouldDelete = count($lockFiles);
-        $totalRemoved += $wouldDelete;
         
-        echo "DRY RUN: Would batch delete {$wouldDelete} lock files from {$prefix} in " . count($chunks) . " batch(es)\n";
-        
-        /* COMMENTED OUT FOR DRY RUN - UNCOMMENT TO ACTUALLY DELETE
         foreach ($chunks as $chunk) {
             try {
                 $result = $s3->deleteObjects([
@@ -97,13 +86,10 @@ foreach ($prefixes as $prefix) {
                 echo "Error batch deleting from {$prefix}: " . $e->getMessage() . "\n";
             }
         }
-        */
     } else {
         echo "No lock files found in {$prefix}\n";
     }
 }
 
-echo "\n=== DRY RUN COMPLETED ===\n";
-echo "Total lock files that WOULD BE removed: {$totalRemoved}\n";
-echo "No files were actually deleted. To perform actual deletion, uncomment the deletion code block.\n";
+echo "\nCompleted! Total lock files removed: {$totalRemoved}\n";
 $con->close();
