@@ -25,6 +25,13 @@ function s3_client(string $key, string $secret): S3Client {
     ]);
 }
 function clamp_sample_dir(?string $dir): string {
+    if (!$dir) return 'samples';
+    
+    // Handle S3 URLs like "s3://voe/samples2" - extract just the directory name
+    if (preg_match('#s3://[^/]+/(.+)#', $dir, $matches)) {
+        $dir = $matches[1];
+    }
+    
     return in_array($dir, ['samples','samples2'], true) ? $dir : 'samples';
 }
 
