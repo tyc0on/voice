@@ -10,8 +10,8 @@ use Aws\S3\S3Client;
 use Aws\Exception\AwsException;
 
 /* ---------- Tunables ---------- */
-$DAYS_BACK   = (int)($_ENV['SAMPLES_DAYS_BACK'] ?? 7);   // only models added in last N days
-$MAX_MODELS  = (int)($_ENV['SAMPLES_MAX_MODELS'] ?? 500); // guardrail per run
+$DAYS_BACK   = (int)($_ENV['SAMPLES_DAYS_BACK'] ?? 1);   // only models added in last N days
+$MAX_MODELS  = (int)($_ENV['SAMPLES_MAX_MODELS'] ?? 100); // guardrail per run
 
 /* ---------- DB ---------- */
 $con = new mysqli($sqlh, $sqlu, $sqlp, $sqld);
