@@ -274,11 +274,7 @@ include 'core/header.php';
 												while ($row = $result->fetch_assoc()) {
 													$i++;
 
-													$defaultFileName = "samples/" . $row['name'] . ".mp3";
-
-													if (!file_exists($defaultFileName)) {
-														continue;
-													}
+													// Samples are now hosted on DigitalOcean Spaces; don't check local disk
 
 													$created_at = date('F j, Y', strtotime($row['added_date']));
 
@@ -331,7 +327,7 @@ include 'core/header.php';
 													echo '<td class="fs-7" style="display: flex; align-items: center; gap: 10px;">';
 													$pitches = [-16, -12, -8, -4, 0, 4, 8, 12, 16];
 
-													$defaultFileName = "samples/" . $row['name'] . ".mp3";
+													// Samples hosted on Spaces; local filename not needed
 													echo '<div style="float: left; margin-right: 10px;">';
 
 													echo '<div id="playIcon-' . $row['id'] . '" onclick="playAudio(' . $row['id'] . ', \'' . $row['name'] . '\');" style="cursor: pointer; float: left; margin-right: 10px;">
@@ -421,9 +417,11 @@ Your browser does not support the audio tag.
 											var audioPlayer = document.getElementById(audioElementId);
 
 											var folder = genderState[rowId] ? "samples2" : "samples";
+											var baseUrl = "https://voe.sfo3.digitaloceanspaces.com/";
 											var fileName = folder + "/" + rowName + (pitch == 0 ? ".mp3" : ".p" + pitch + ".mp3");
+											var fullUrl = baseUrl + fileName;
 
-											audioPlayer.querySelector("source").src = fileName;
+											audioPlayer.querySelector("source").src = fullUrl;
 											audioPlayer.load();
 
 											const url = document.getElementById("audioPlayer-" + rowId).getAttribute("data-row-url");
