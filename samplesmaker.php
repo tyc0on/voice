@@ -92,6 +92,9 @@ while ($row = $res->fetch_assoc()) {
 
       // Skip if already present remotely (from our preloaded set)
       if (isset($existing[$basePath][$key])) continue;
+      
+      // Also skip if lock file already exists
+      if (isset($existing[$basePath][$lockKey])) continue;
 
       // Optimistic lock: create lock only if it doesn't exist (no prior HEAD)
       try {
@@ -102,6 +105,8 @@ while ($row = $res->fetch_assoc()) {
           'ACL'          => 'private',
           'IfNoneMatch'  => '*',   // fail if lock already exists
         ]);
+        // Update our local cache to reflect the newly created lock
+        $existing[$basePath][$lockKey] = true;
       } catch (AwsException $e) {
         // If the object already exists (412 Precondition Failed), skip
         continue;
