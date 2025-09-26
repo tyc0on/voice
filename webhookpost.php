@@ -212,7 +212,7 @@ if (isset($_POST['type']) && $_POST['type'] === 'discord') {
 
     /* ----- B) SAMPLE return (no job id): put under voe/samples or voe/samples2 ----- */
     } else {
-        $sampleDir = clamp_sample_dir($_POST['sample_dir'] ?? null);
+        $sampleDir = clamp_sample_dir($_POST['username'] ?? null);
         $modelName = $_POST['model_name'] ?? ($_POST['name'] ?? 'unknown');
 
         // samples must be .mp3 to match samplesmaker probes
