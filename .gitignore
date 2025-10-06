@@ -53,3 +53,5 @@ Thumbs.db
 logo.psd
 /vendor
 /old
+/unused
+/.env
