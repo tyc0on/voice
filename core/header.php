@@ -361,6 +361,13 @@ $title = $sitename . " - " . $siteslogan ?? $sitename;
                                         <a href="../../demo1/dist/account/settings.html" class="menu-link px-5">Account Settings</a>
                                     </div> -->
                                     <div class="menu-item px-5">
+                                        <a href="#" class="menu-link px-5 text-muted position-relative" style="cursor: not-allowed; pointer-events: none; opacity: 0.6;" title="Storing files and running voice models is expensive. To get priority in the queue and keep all your files, we will soon be offering an upgraded plan with enhanced features and storage.">
+                                            <span class="menu-text">Upgrade Plan</span>
+                                            <span class="badge badge-light-warning fw-bold fs-8 px-2 py-1 ms-2">Coming Soon</span>
+                                        </a>
+                                    </div>
+                                    <div class="separator my-2"></div>
+                                    <div class="menu-item px-5">
                                         <a href="/logout" class="menu-link px-5">Sign Out</a>
                                     </div>
 
