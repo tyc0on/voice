@@ -150,7 +150,7 @@ $title = $sitename . ' - Thank You';
                         </span>
                     </div>
                     <h1 class="fw-bold text-white mb-5 fs-2x">Thank you for subscribing!</h1>
-                    <p class="fs-4 text-gray-300 mb-5 lh-lg">
+                    <p class="fs-4 text-gray-700 mb-5 lh-lg">
                         Your payment was successful and your access to <?php echo htmlspecialchars($sitename); ?> has been upgraded to
                         <span class="fw-semibold text-white"><?php echo htmlspecialchars($planName); ?></span>.
                     </p>
@@ -166,7 +166,7 @@ $title = $sitename . ' - Thank You';
                     <?php endif; ?>
 
                     <?php if ($customerEmail !== null): ?>
-                        <p class="fs-6 text-muted mb-7">A receipt has been sent to <span class="fw-semibold text-gray-900"><?php echo htmlspecialchars($customerEmail); ?></span>.</p>
+                        <p class="fs-6 text-gray-700 mb-7">A receipt has been sent to <span class="fw-semibold text-gray-900"><?php echo htmlspecialchars($customerEmail); ?></span>.</p>
                     <?php endif; ?>
 
                     <?php if ($errorMessage !== null): ?>
