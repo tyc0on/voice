@@ -115,7 +115,19 @@ include __DIR__ . '/core/header.php';
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header border-0 pt-6">
-                                <h2 class="card-title">Subscription Overview</h2>
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <h2 class="card-title mb-0">Subscription Overview</h2>
+                                    <a href="https://billing.stripe.com/p/login/test_4gM4gs0iOeToa1J3oz2cg00" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer"
+                                       class="btn btn-sm btn-light-primary">
+                                        <i class="ki-duotone ki-credit-cart fs-2 me-2">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                        Manage Billing
+                                    </a>
+                                </div>
                             </div>
                             <div class="card-body pt-0">
                                 <div class="mb-5">
