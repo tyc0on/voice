@@ -112,7 +112,7 @@ include __DIR__ . '/core/header.php';
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl py-10">
                 <div class="row g-5 g-xl-10">
-                    <div class="col-12 col-xl-8">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-header border-0 pt-6">
                                 <h2 class="card-title">Subscription Overview</h2>
@@ -194,14 +194,16 @@ include __DIR__ . '/core/header.php';
                                 <p class="text-muted">Update your plan using the secure Stripe checkout. Changes take effect immediately and your account access will update automatically.</p>
                                 <?php if ($publishableKey !== ''): ?>
                                     <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
-                                    <stripe-pricing-table
-                                        pricing-table-id="<?php echo htmlspecialchars($pricingTableId); ?>"
-                                        publishable-key="<?php echo htmlspecialchars($publishableKey); ?>"
-                                        customer-id="<?php echo htmlspecialchars($customerId ?? ''); ?>"
-                                        client-reference-id="<?php echo htmlspecialchars($clientReferenceId); ?>"
-                                        customer-email="<?php echo htmlspecialchars($account['email'] ?? ''); ?>"
-                                    >
-                                    </stripe-pricing-table>
+                                    <div class="pricing-table-container" style="min-height: 600px; width: 100%;">
+                                        <stripe-pricing-table
+                                            pricing-table-id="<?php echo htmlspecialchars($pricingTableId); ?>"
+                                            publishable-key="<?php echo htmlspecialchars($publishableKey); ?>"
+                                            customer-id="<?php echo htmlspecialchars($customerId ?? ''); ?>"
+                                            client-reference-id="<?php echo htmlspecialchars($clientReferenceId); ?>"
+                                            customer-email="<?php echo htmlspecialchars($account['email'] ?? ''); ?>"
+                                        >
+                                        </stripe-pricing-table>
+                                    </div>
                                 <?php endif; ?>
                                 <form action="/stripe/portal.php" method="post" class="mt-6">
                                     <button type="submit" class="btn btn-light-primary" <?php echo $customerId ? '' : 'disabled'; ?>>
@@ -211,7 +213,9 @@ include __DIR__ . '/core/header.php';
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-xl-4">
+                </div>
+                <div class="row g-5 mt-5">
+                    <div class="col-12 col-lg-6 offset-lg-3">
                         <div class="card border-dashed h-100">
                             <div class="card-header border-0 pt-6">
                                 <h3 class="card-title">Need a hand?</h3>
