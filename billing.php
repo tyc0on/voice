@@ -117,16 +117,15 @@ include __DIR__ . '/core/header.php';
                             <div class="card-header border-0 pt-6">
                                 <div class="d-flex justify-content-between align-items-center w-100">
                                     <h2 class="card-title mb-0">Subscription Overview</h2>
-                                    <a href="https://billing.stripe.com/p/login/test_4gM4gs0iOeToa1J3oz2cg00" 
-                                       target="_blank" 
-                                       rel="noopener noreferrer"
-                                       class="btn btn-sm btn-light-primary">
-                                        <i class="ki-duotone ki-credit-cart fs-2 me-2">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                        Manage Billing
-                                    </a>
+                                    <form action="/stripe/portal.php" method="post" class="mb-0">
+                                        <button type="submit" class="btn btn-sm btn-light-primary" <?php echo $customerId ? '' : 'disabled'; ?>>
+                                            <i class="ki-duotone ki-credit-cart fs-2 me-2">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                            Manage Billing Details
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="card-body pt-0">
@@ -217,11 +216,6 @@ include __DIR__ . '/core/header.php';
                                         </stripe-pricing-table>
                                     </div>
                                 <?php endif; ?>
-                                <form action="/stripe/portal.php" method="post" class="mt-6">
-                                    <button type="submit" class="btn btn-light-primary" <?php echo $customerId ? '' : 'disabled'; ?>>
-                                        Manage Billing Details
-                                    </button>
-                                </form>
                             </div>
                         </div>
                     </div>
