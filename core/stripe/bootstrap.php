@@ -4,20 +4,24 @@ declare(strict_types=1);
 use Stripe\StripeClient;
 
 require_once dirname(__DIR__, 2) . '/vendor/autoload.php';
+require_once dirname(__DIR__, 2) . '/include.php';
 
 if (!function_exists('stripe_secret_key')) {
     /**
-     * Fetch the Stripe secret key from the environment.
+     * Fetch the Stripe secret key from include.php variables.
      */
     function stripe_secret_key(): string
     {
-        $key = getenv('STRIPE_SECRET_KEY') ?: '';
+        global $stripe_sk;
+        
+        // Fallback to environment variables if global not available
+        $key = $stripe_sk ?? getenv('STRIPE_SECRET_KEY') ?: '';
         if ($key === '' && defined('STRIPE_SECRET_KEY')) {
             $key = (string) constant('STRIPE_SECRET_KEY');
         }
 
         if ($key === '') {
-            throw new RuntimeException('Stripe secret key is not configured. Set STRIPE_SECRET_KEY in the environment.');
+            throw new RuntimeException('Stripe secret key is not configured. Set $stripe_sk in include.php or STRIPE_SECRET_KEY in the environment.');
         }
 
         return $key;
@@ -26,11 +30,14 @@ if (!function_exists('stripe_secret_key')) {
 
 if (!function_exists('stripe_publishable_key')) {
     /**
-     * Fetch the Stripe publishable key.
+     * Fetch the Stripe publishable key from include.php variables.
      */
     function stripe_publishable_key(): string
     {
-        $key = getenv('STRIPE_PUBLISHABLE_KEY') ?: '';
+        global $stripe_pk;
+        
+        // Fallback to environment variables if global not available
+        $key = $stripe_pk ?? getenv('STRIPE_PUBLISHABLE_KEY') ?: '';
         if ($key === '' && defined('STRIPE_PUBLISHABLE_KEY')) {
             $key = (string) constant('STRIPE_PUBLISHABLE_KEY');
         }
