@@ -67,20 +67,65 @@ try {
         $subscriptionStmt->close();
     }
 
+    $subscriptionStatus = $subscription['status'] ?? null;
+    $subscriptionPriceId = $subscription['price_id'] ?? null;
+    $cancelAtPeriodEnd = !empty($subscription['cancel_at_period_end'] ?? 0);
+    $renewalDate = null;
+
+    if ($subscription && !empty($subscription['current_period_end'])) {
+        $renewalDate = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $subscription['current_period_end'], new DateTimeZone('UTC')) ?: null;
+    }
+
+    if (
+        $stripeReady
+        && $customerRecord
+        && !empty($customerRecord['stripe_customer_id'])
+        && ($subscription === null || $renewalDate === null)
+    ) {
+        try {
+            $remoteSubscriptions = stripe_client()->subscriptions->all([
+                'customer' => $customerRecord['stripe_customer_id'],
+                'limit' => 1,
+            ]);
+
+            if (!empty($remoteSubscriptions->data)) {
+                $latestSubscription = $remoteSubscriptions->data[0];
+                $subscriptionArray = $latestSubscription->toArray();
+
+                stripe_save_subscription($con, $subscriptionArray, $accountId);
+
+                $subscriptionStatus = $latestSubscription->status ?? $subscriptionStatus;
+                $subscriptionPriceId = $latestSubscription->items->data[0]->price->id ?? $subscriptionPriceId;
+                $cancelAtPeriodEnd = !empty($subscriptionArray['cancel_at_period_end']);
+
+                if (!empty($latestSubscription->current_period_end)) {
+                    $renewalDate = (new DateTimeImmutable('@' . (int) $latestSubscription->current_period_end))
+                        ->setTimezone(new DateTimeZone('UTC'));
+                }
+
+                $subscription = array_merge($subscription ?? [], [
+                    'status' => $subscriptionStatus,
+                    'price_id' => $subscriptionPriceId,
+                    'cancel_at_period_end' => $cancelAtPeriodEnd ? 1 : 0,
+                ]);
+            }
+        } catch (Throwable $e) {
+            error_log('Unable to refresh subscription for account ' . $accountId . ': ' . $e->getMessage());
+        }
+    }
+
     $_SESSION['accounttype'] = strtoupper($account['accounttype'] ?? 'TRIAL');
 
     $currentPlan = 'Trial';
     $currentStatus = 'Not Subscribed';
-    $renewalDate = null;
     $accountType = $_SESSION['accounttype'];
 
     if ($subscription) {
-        $plan = stripe_lookup_plan($subscription['price_id'] ?? '');
+        $plan = stripe_lookup_plan($subscriptionPriceId ?? '');
         $currentPlan = $plan['plan_name'];
-        $currentStatus = ucfirst(str_replace('_', ' ', strtolower($subscription['status'] ?? 'unknown')));
-        if (!empty($subscription['current_period_end'])) {
-            $renewalDate = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $subscription['current_period_end'], new DateTimeZone('UTC')) ?: null;
-        }
+        $currentStatus = $subscriptionStatus
+            ? ucfirst(str_replace('_', ' ', strtolower($subscriptionStatus)))
+            : 'Not Subscribed';
     }
 
     $publishableKey = stripe_publishable_key();
