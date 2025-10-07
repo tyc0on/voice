@@ -60,3 +60,15 @@ if (!isset($_SESSION['loggedin'])) {
 } else {
     $loggedin = "true";
 }
+
+if ($loggedin === "true" && isset($_SESSION['id']) && is_numeric($_SESSION['id'])) {
+    if ($stmt = $con->prepare('SELECT accounttype FROM accounts WHERE id = ? LIMIT 1')) {
+        $stmt->bind_param('i', $_SESSION['id']);
+        $stmt->execute();
+        $stmt->bind_result($accountTypeDb);
+        if ($stmt->fetch() && !empty($accountTypeDb)) {
+            $_SESSION['accounttype'] = strtoupper($accountTypeDb);
+        }
+        $stmt->close();
+    }
+}

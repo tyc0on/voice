@@ -360,10 +360,16 @@ $title = $sitename . " - " . $siteslogan ?? $sitename;
                                     <div class="menu-item px-5 my-1">
                                         <a href="../../demo1/dist/account/settings.html" class="menu-link px-5">Account Settings</a>
                                     </div> -->
+                                    <?php
+                                    $accountTypeSession = strtoupper($_SESSION['accounttype'] ?? 'TRIAL');
+                                    $isTrialAccount = $accountTypeSession === 'TRIAL';
+                                    ?>
                                     <div class="menu-item px-5">
-                                        <a href="#" class="menu-link px-5 text-muted position-relative" style="cursor: not-allowed; pointer-events: none; opacity: 0.6;" title="Storing files and running voice models is expensive. To get priority in the queue and keep all your files, we will soon be offering an upgraded plan with enhanced features and storage.">
-                                            <span class="menu-text">Upgrade Plan</span>
-                                            <span class="badge badge-light-warning fw-bold fs-8 px-2 py-1 ms-2">Coming Soon</span>
+                                        <a href="/billing.php" class="menu-link px-5" title="Manage your Easy AI Voice subscription.">
+                                            <span class="menu-text"><?php echo $isTrialAccount ? 'Upgrade Plan' : 'Manage Subscription'; ?></span>
+                                            <?php if ($isTrialAccount): ?>
+                                                <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">New</span>
+                                            <?php endif; ?>
                                         </a>
                                     </div>
                                     <div class="separator my-2"></div>
