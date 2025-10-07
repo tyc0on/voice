@@ -173,7 +173,18 @@ function stripe_save_subscription(mysqli $db, array $subscription, int $accountI
     $currentPeriodEnd = isset($subscription['current_period_end']) ? gmdate('Y-m-d H:i:s', (int) $subscription['current_period_end']) : null;
     $cancelAt = isset($subscription['cancel_at']) && $subscription['cancel_at'] ? gmdate('Y-m-d H:i:s', (int) $subscription['cancel_at']) : null;
     $cancelAtPeriodEnd = !empty($subscription['cancel_at_period_end']) ? 1 : 0;
-    $metadata = !empty($subscription['metadata']) ? json_encode($subscription['metadata'], JSON_THROW_ON_ERROR) : null;
+    $metadata = null;
+    if (!empty($subscription['metadata'])) {
+        try {
+            $metadata = json_encode($subscription['metadata'], JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            $metadata = json_encode($subscription['metadata']);
+            if (!is_string($metadata)) {
+                $metadata = null;
+            }
+            error_log('Failed to encode Stripe subscription metadata for ' . ($subscription['id'] ?? 'unknown') . ': ' . $e->getMessage());
+        }
+    }
 
     $stmt = $db->prepare('INSERT INTO stripe_subscriptions (stripe_subscription_id, stripe_customer_id, account_id, price_id, product_id, status, current_period_start, current_period_end, cancel_at, cancel_at_period_end, metadata) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE price_id = VALUES(price_id), product_id = VALUES(product_id), status = VALUES(status), current_period_start = VALUES(current_period_start), current_period_end = VALUES(current_period_end), cancel_at = VALUES(cancel_at), cancel_at_period_end = VALUES(cancel_at_period_end), metadata = VALUES(metadata), updated_at = NOW()');
     if ($stmt === false) {

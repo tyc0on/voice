@@ -33,6 +33,36 @@ if (!isset($loggedin) || $loggedin !== 'true') {
 
 require_once __DIR__ . '/core/stripe/service.php';
 
+function billing_fetch_latest_subscription(mysqli $db, int $accountId): ?array
+{
+    $stmt = $db->prepare('SELECT * FROM stripe_subscriptions WHERE account_id = ? ORDER BY updated_at DESC LIMIT 1');
+    if ($stmt === false) {
+        return null;
+    }
+
+    $stmt->bind_param('i', $accountId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $subscription = $result->fetch_assoc() ?: null;
+    $stmt->close();
+
+    return $subscription;
+}
+
+function billing_parse_utc_datetime(?string $value): ?DateTimeImmutable
+{
+    if ($value === null || $value === '') {
+        return null;
+    }
+
+    $date = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $value, new DateTimeZone('UTC'));
+    if ($date instanceof DateTimeImmutable) {
+        return $date;
+    }
+
+    return null;
+}
+
 $accountId = (int) ($_SESSION['id'] ?? 0);
 if ($accountId <= 0) {
     header('Location: /sign-in.php');
@@ -52,35 +82,95 @@ try {
         $stripeReady = false;
     }
 
+    $subscription = billing_fetch_latest_subscription($con, $accountId);
+    $subscriptionStatus = $subscription['status'] ?? null;
+    $subscriptionPriceId = $subscription['price_id'] ?? null;
+    $cancelAtPeriodEnd = !empty($subscription['cancel_at_period_end'] ?? 0);
+    $renewalDate = billing_parse_utc_datetime($subscription['current_period_end'] ?? null);
+
     if ($stripeReady) {
-        $customerRecord = stripe_ensure_customer($con, $accountId, $account);
+        $customerRecord = stripe_fetch_customer_by_account($con, $accountId);
+
+        if ($customerRecord === null && !empty($subscription['stripe_customer_id'] ?? null)) {
+            try {
+                $remoteCustomer = stripe_client()->customers->retrieve($subscription['stripe_customer_id']);
+                stripe_save_customer(
+                    $con,
+                    $accountId,
+                    $subscription['stripe_customer_id'],
+                    $remoteCustomer->email ?? ($account['email'] ?? null),
+                    $remoteCustomer->invoice_settings->default_payment_method ?? null
+                );
+                $customerRecord = stripe_fetch_customer_by_account($con, $accountId);
+            } catch (Throwable $e) {
+                error_log('Unable to backfill Stripe customer ' . $subscription['stripe_customer_id'] . ' for account ' . $accountId . ': ' . $e->getMessage());
+            }
+        }
+
+        if ($customerRecord === null) {
+            try {
+                $customerRecord = stripe_ensure_customer($con, $accountId, $account);
+            } catch (Throwable $e) {
+                error_log('Unable to ensure Stripe customer for account ' . $accountId . ': ' . $e->getMessage());
+                $customerRecord = null;
+            }
+        }
     } else {
         $customerRecord = stripe_fetch_customer_by_account($con, $accountId);
     }
-    $subscriptionStmt = $con->prepare('SELECT * FROM stripe_subscriptions WHERE account_id = ? ORDER BY updated_at DESC LIMIT 1');
-    $subscription = null;
-    if ($subscriptionStmt) {
-        $subscriptionStmt->bind_param('i', $accountId);
-        $subscriptionStmt->execute();
-        $result = $subscriptionStmt->get_result();
-        $subscription = $result->fetch_assoc() ?: null;
-        $subscriptionStmt->close();
+
+    if (
+        $stripeReady
+        && ($subscription === null || $renewalDate === null)
+    ) {
+        try {
+            $latestSubscription = null;
+
+            if (!empty($subscription['stripe_subscription_id'] ?? null)) {
+                $latestSubscription = stripe_client()->subscriptions->retrieve(
+                    $subscription['stripe_subscription_id'],
+                    ['expand' => ['items.data.price']]
+                );
+            } elseif (!empty($customerRecord['stripe_customer_id'] ?? null)) {
+                $remoteSubscriptions = stripe_client()->subscriptions->all([
+                    'customer' => $customerRecord['stripe_customer_id'],
+                    'limit' => 1,
+                    'expand' => ['data.items.data.price'],
+                ]);
+
+                if (!empty($remoteSubscriptions->data)) {
+                    $latestSubscription = $remoteSubscriptions->data[0];
+                }
+            }
+
+            if ($latestSubscription !== null) {
+                $subscriptionArray = $latestSubscription->toArray();
+
+                stripe_save_subscription($con, $subscriptionArray, $accountId);
+
+                $subscription = billing_fetch_latest_subscription($con, $accountId);
+                $subscriptionStatus = $subscription['status'] ?? $subscriptionStatus;
+                $subscriptionPriceId = $subscription['price_id'] ?? $subscriptionPriceId;
+                $cancelAtPeriodEnd = !empty($subscription['cancel_at_period_end'] ?? 0);
+                $renewalDate = billing_parse_utc_datetime($subscription['current_period_end'] ?? null);
+            }
+        } catch (Throwable $e) {
+            error_log('Unable to refresh subscription for account ' . $accountId . ': ' . $e->getMessage());
+        }
     }
 
     $_SESSION['accounttype'] = strtoupper($account['accounttype'] ?? 'TRIAL');
 
     $currentPlan = 'Trial';
     $currentStatus = 'Not Subscribed';
-    $renewalDate = null;
     $accountType = $_SESSION['accounttype'];
 
     if ($subscription) {
-        $plan = stripe_lookup_plan($subscription['price_id'] ?? '');
+        $plan = stripe_lookup_plan($subscriptionPriceId ?? '');
         $currentPlan = $plan['plan_name'];
-        $currentStatus = ucfirst(str_replace('_', ' ', strtolower($subscription['status'] ?? 'unknown')));
-        if (!empty($subscription['current_period_end'])) {
-            $renewalDate = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $subscription['current_period_end'], new DateTimeZone('UTC')) ?: null;
-        }
+        $currentStatus = $subscriptionStatus
+            ? ucfirst(str_replace('_', ' ', strtolower($subscriptionStatus)))
+            : 'Not Subscribed';
     }
 
     $publishableKey = stripe_publishable_key();
