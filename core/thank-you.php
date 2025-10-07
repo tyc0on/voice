@@ -134,16 +134,15 @@ $title = $sitename . ' - Thank You';
     <div class="d-flex flex-column flex-root">
         <div class="d-flex flex-column flex-center p-10 min-vh-100">
             <a href="/" class="mb-8">
-                <img alt="<?php echo htmlspecialchars($sitename); ?> logo" src="assets/media/logos/default.svg" class="theme-light-show h-45px" />
-                <img alt="<?php echo htmlspecialchars($sitename); ?> logo" src="assets/media/logos/default-dark.svg" class="theme-dark-show h-45px" />
+                <img alt="<?php echo htmlspecialchars($sitename); ?> logo" src="assets/media/logos/logo-dark.png" class="h-45px" />
             </a>
 
             <div class="card card-flush w-lg-650px shadow-sm">
                 <div class="card-body p-10 p-lg-20 text-center">
                     <div class="mb-6">
-                        <span class="symbol symbol-70px symbol-circle bg-light-success">
+                        <span class="symbol symbol-70px symbol-circle bg-success">
                             <span class="symbol-label">
-                                <i class="ki-duotone ki-badge text-success fs-1"></i>
+                                <i class="ki-duotone ki-badge text-white fs-1"></i>
                             </span>
                         </span>
                     </div>
