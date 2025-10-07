@@ -142,14 +142,17 @@ $title = $sitename . ' - Thank You';
                     <div class="mb-6">
                         <span class="symbol symbol-70px symbol-circle bg-success">
                             <span class="symbol-label">
-                                <i class="ki-duotone ki-badge text-white fs-1"></i>
+                                <i class="ki-duotone ki-check text-white fs-2x">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
                             </span>
                         </span>
                     </div>
-                    <h1 class="fw-bold text-gray-900 mb-5">Thank you for subscribing!</h1>
-                    <p class="fs-5 text-muted mb-5">
+                    <h1 class="fw-bold text-white mb-5 fs-2x">Thank you for subscribing!</h1>
+                    <p class="fs-4 text-gray-300 mb-5 lh-lg">
                         Your payment was successful and your access to <?php echo htmlspecialchars($sitename); ?> has been upgraded to
-                        <span class="fw-semibold text-gray-900"><?php echo htmlspecialchars($planName); ?></span>.
+                        <span class="fw-semibold text-white"><?php echo htmlspecialchars($planName); ?></span>.
                     </p>
 
                     <?php if ($nextBillingDateFormatted !== null): ?>
