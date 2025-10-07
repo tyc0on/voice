@@ -48,11 +48,14 @@ if (!function_exists('stripe_publishable_key')) {
 
 if (!function_exists('stripe_webhook_secret')) {
     /**
-     * Fetch the Stripe webhook signing secret.
+     * Fetch the Stripe webhook signing secret from include.php variables.
      */
     function stripe_webhook_secret(): string
     {
-        $secret = getenv('STRIPE_WEBHOOK_SECRET') ?: '';
+        global $stripe_webhook_secret_snapshot;
+        
+        // Use the main webhook secret (snapshot) as default
+        $secret = $stripe_webhook_secret_snapshot ?? getenv('STRIPE_WEBHOOK_SECRET') ?: '';
         if ($secret === '' && defined('STRIPE_WEBHOOK_SECRET')) {
             $secret = (string) constant('STRIPE_WEBHOOK_SECRET');
         }
@@ -61,19 +64,57 @@ if (!function_exists('stripe_webhook_secret')) {
     }
 }
 
+if (!function_exists('stripe_webhook_secret_thin')) {
+    /**
+     * Fetch the thin webhook secret from include.php variables.
+     */
+    function stripe_webhook_secret_thin(): string
+    {
+        global $stripe_webhook_secret_thin;
+        
+        return $stripe_webhook_secret_thin ?? '';
+    }
+}
+
+if (!function_exists('stripe_pricing_table_id_light')) {
+    /**
+     * Fetch the light mode pricing table ID.
+     */
+    function stripe_pricing_table_id_light(): string
+    {
+        global $stripe_pricing_table_id_light;
+        
+        return $stripe_pricing_table_id_light ?? stripe_pricing_table_id();
+    }
+}
+
+if (!function_exists('stripe_pricing_table_id_dark')) {
+    /**
+     * Fetch the dark mode pricing table ID.
+     */
+    function stripe_pricing_table_id_dark(): string
+    {
+        global $stripe_pricing_table_id_dark;
+        
+        return $stripe_pricing_table_id_dark ?? stripe_pricing_table_id();
+    }
+}
+
 if (!function_exists('stripe_pricing_table_id')) {
     /**
-     * Fetch the pricing table identifier used for the hosted pricing table embed.
+     * Fetch the pricing table identifier from include.php variables.
      */
     function stripe_pricing_table_id(): string
     {
-        $tableId = getenv('STRIPE_PRICING_TABLE_ID') ?: '';
+        global $stripe_pricing_table_id;
+        
+        $tableId = $stripe_pricing_table_id ?? getenv('STRIPE_PRICING_TABLE_ID') ?: '';
         if ($tableId === '' && defined('STRIPE_PRICING_TABLE_ID')) {
             $tableId = (string) constant('STRIPE_PRICING_TABLE_ID');
         }
 
         if ($tableId === '') {
-            // Default to the sandbox table provided during development so the UI can render.
+            // Default fallback
             $tableId = 'prctbl_1SFQSf3ojSJuqvpDBMsDTQAh';
         }
 
@@ -90,9 +131,11 @@ if (!function_exists('stripe_client')) {
         static $client = null;
 
         if ($client === null) {
+            global $stripe_api_version;
+            
             $client = new StripeClient([
                 'api_key' => stripe_secret_key(),
-                'stripe_version' => getenv('STRIPE_API_VERSION') ?: null,
+                'stripe_version' => $stripe_api_version ?? getenv('STRIPE_API_VERSION') ?: null,
             ]);
         }
 
